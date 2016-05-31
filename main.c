@@ -1,7 +1,8 @@
 #include "includes.h"
+#define MAX_BRICKS_PER_LEVEL 150
 
 void run(game_state_t game_state);
-void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state);
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state);
@@ -15,14 +16,17 @@ int main(void) {
     run(game_state);    
 }
 
-
+/*
+ * Run one game tick, call corresponding function depending on the game_state
+ */ 
 void run(game_state_t game_state) {
     bar_t bar;
     ball_t ball;
+    int32_t bricks[MAX_BRICKS_PER_LEVEL];
     while(1) {
         switch(game_state) {
             case START_GAME:
-                start_game(&bar, &ball, &game_state);
+                start_game(&bar, &ball, &game_state, bricks);
                 break;
             case START_MENU:
                 start_menu(&bar, &ball, &game_state);
@@ -52,8 +56,14 @@ void run(game_state_t game_state) {
     }
 }
 
-void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
-    
+void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
+    init_bar(bar);
+    init_ball(ball);
+    bricks = bricks_level1;
+    *game_state = PLAY_GAME;     
+
+    draw_background(rand() % sizeof(background_palette));
+    draw_game(bar, ball, bricks);
 }
 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state) {
@@ -61,7 +71,7 @@ void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 }
 
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
-
+    
 }
 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state) {

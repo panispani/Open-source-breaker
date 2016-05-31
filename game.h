@@ -19,10 +19,8 @@ typedef struct {
     int32_t old_y;
 } bar_t;
 
-
-
-
-
+void init_bar(bar_t *bar);
+void init_ball(ball_t * ball);
 
 
 

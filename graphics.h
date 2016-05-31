@@ -1,7 +1,7 @@
 #ifndef __GRAPHICS_H
 #define __GRAPHICS_H
 
-void draw(bar_t *bar, ball_t *ball, game_state_t *game_state, brick_list *brick_list);
-
+void draw_background(int32_t color);
+void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks);
 
 #endif //__GRAPHICS_H
