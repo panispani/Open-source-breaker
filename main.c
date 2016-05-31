@@ -1,14 +1,14 @@
 #include "includes.h"
 
 void run(game_state_t game_state);
-void start_game();
-void start_menu();
-void play_game();
-void pause_screen();
-void lose_game();
-void game_over();
-void win_level();
-void win_game();
+void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
 
 int main(void) {
     game_state_t game_state = START_GAME;
@@ -17,8 +17,8 @@ int main(void) {
 
 
 void run(game_state_t game_state) {
-    ball_t ball;
     bar_t bar;
+    ball_t ball;
     while(1) {
         switch(game_state) {
             case START_GAME:
@@ -52,34 +52,34 @@ void run(game_state_t game_state) {
     }
 }
 
-void start_game() {
+void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void start_menu() {
+void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void play_game() {
+void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void pause_screen() {
+void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void lose_game() {
+void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void game_over() {
+void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void win_level() {
+void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void win_game() {
+void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
