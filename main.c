@@ -17,31 +17,33 @@ int main(void) {
 
 
 void run(game_state_t game_state) {
+    ball_t ball;
+    bar_t bar;
     while(1) {
         switch(game_state) {
             case START_GAME:
-                start_game();
+                start_game(&bar, &ball, &game_state);
                 break;
             case START_MENU:
-                start_menu();
+                start_menu(&bar, &ball, &game_state);
                 break;
             case PLAY_GAME:
-                play_game();
+                play_game(&bar, &ball, &game_state);
                 break;
             case PAUSE_SCREEN:
-                pause_screen();
+                pause_screen(&bar, &ball, &game_state);
                 break;
             case LOSE_GAME:
-                lose_game();
+                lose_game(&bar, &ball, &game_state);
                 break;
             case GAME_OVER:
-                game_over();
+                game_over(&bar, &ball, &game_state);
                 break;
             case WIN_LEVEL:
-                win_level();
+                win_level(&bar, &ball, &game_state);
                 break;
             case WIN_GAME:
-                win_game();
+                win_game(&bar, &ball, &game_state);
                 break;
             default:
                 perror("Error game state not found");

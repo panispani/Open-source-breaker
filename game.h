@@ -12,7 +12,12 @@ typedef struct {
     int32_t old_y;
 } ball_t;
 
-
+typedef struct {
+    int32_t x;
+    int32_t y;
+    int32_t old_x;
+    int32_t old_y;
+} bar_t;
 
 
 
