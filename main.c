@@ -10,6 +10,8 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
+void restart_on_keypress(game_state_t *game_state);
+void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 
 int main(void) {
     game_state_t game_state = START_GAME;
@@ -59,10 +61,7 @@ void run(game_state_t game_state) {
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     init_bar(bar);
     init_ball(ball);
-    bricks = bricks_level[bar->level];
-    *game_state = PLAY_GAME;     
-    draw_background(rand() % sizeof(background_palette));
-    draw_game(bar, ball, bricks);
+    load_level(bar, ball, game_state, bricks);
 }
 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
@@ -88,22 +87,42 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     reset_bar(bar);
     reset_ball(ball);
+    load_level(bar, ball, game_state, bricks);
+}
+
+void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     bricks = bricks_level[bar->level];
     *game_state = PLAY_GAME;     
     draw_background(rand() % sizeof(background_palette));
     draw_game(bar, ball, bricks);
-
 }
 
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    // maybe say game over and restart on keypress
-    start_game(bar, ball, game_state, bricks);   
+    draw_gameover_screen();
+    restart_on_keypress(game_state);
+    int8_t controller_state = 0;
+    while(!controller_state) {
+        check_keys(&controller_state);    
+    }
+    game_state = START_GAME;
 }
 
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-
+    bar->level = bar->level + 1;
+    reset_bar(bar);
+    reset_ball(ball);
+    load_level(bar, ball, game_state, bricks);
 }
 
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
+    draw_win_screen();
+    restart_on_keypress(game_state);
+}
 
+void restart_on_keypress(game_state_t *game_state) {
+    int8_t controller_state = 0;
+    while(!controller_state) {
+        check_keys(&controller_state);    
+    }
+    *game_state = START_GAME;
 }
