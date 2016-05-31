@@ -18,8 +18,8 @@
 #include "palette.h"
 #include "controller.h"
 #include "game.h"
-#include "brick_list.h"
 #include "graphics.h"
 #include "levels.h"
+#include "main.h"
 
 #endif //__INCLUDES_H
