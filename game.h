@@ -17,12 +17,12 @@ typedef struct {
     int32_t y;
     int32_t old_x;
     int32_t old_y;
+    int8_t level; //will also hold the level you are at
 } bar_t;
 
 void init_bar(bar_t *bar);
 void init_ball(ball_t * ball);
-
-
-
+void update_bar(bar_t *bar, int8_t controller_state);
+void update_ball_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state);
 
 #endif // __GAME_H

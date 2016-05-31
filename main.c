@@ -4,7 +4,7 @@
 void run(game_state_t game_state);
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state);
-void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
+void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state);
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state);
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state);
@@ -32,7 +32,7 @@ void run(game_state_t game_state) {
                 start_menu(&bar, &ball, &game_state);
                 break;
             case PLAY_GAME:
-                play_game(&bar, &ball, &game_state);
+                play_game(&bar, &ball, &game_state, bricks);
                 break;
             case PAUSE_SCREEN:
                 pause_screen(&bar, &ball, &game_state);
@@ -59,9 +59,8 @@ void run(game_state_t game_state) {
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     init_bar(bar);
     init_ball(ball);
-    bricks = bricks_level1;
+    bricks = bricks_level[bar->level];
     *game_state = PLAY_GAME;     
-
     draw_background(rand() % sizeof(background_palette));
     draw_game(bar, ball, bricks);
 }
@@ -70,8 +69,16 @@ void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state) {
 
 }
 
-void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state) {
-    
+void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
+    int8_t controller_state = 0;
+    check_keys(&controller_state);
+    update_bar(bar, controller_state);
+    update_ball_bricks(ball, bricks, game_state);
+    if(*game_state == LOSE_GAME) {
+        return;
+    }
+    draw_background(background_palette[3]);
+    draw_game(bar, ball, bricks);
 }
 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state) {
