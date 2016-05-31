@@ -16,7 +16,8 @@
  * Header files
  */
 #include "controller.h"
-#include "graphics.h"
 #include "game.h"
+#include "brick_list.h"
+#include "graphics.h"
 
 #endif //__INCLUDES_H
