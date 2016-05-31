@@ -13,8 +13,6 @@ main: $(main_objects)
 
 $(main_objects): includes.h
 
-includes.h: controller.h game.h graphics.h levels.h palette.h
-
 clean:
 	rm -f $(wildcard *.o)
 	rm -f main
