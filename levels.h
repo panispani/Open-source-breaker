@@ -1,10 +1,11 @@
 #ifndef __LEVELS_H
 #define __LEVELS_H
 #define MAX_BRICKS_PER_LEVEL 150
+#define LEVELS 10
 
 //hard code level
-int32_t bricks_level[][MAX_BRICKS_PER_LEVEL] = {
-    {0.0}
-};
+extern int32_t bricks_level[LEVELS][MAX_BRICKS_PER_LEVEL];
+
+
 
 #endif //__LEVELS_H
