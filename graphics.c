@@ -2,11 +2,11 @@
 #define OFFSET(x, y)\
     x * screenwidth + y
 
-uint32_t *framebuffer;
-uint32_t screenwidth;
-uint32_t screenheight;
-uint32_t gamewidth;
-uint32_t gameheight;
+int32_t *framebuffer;
+int32_t screenwidth;
+int32_t screenheight;
+int32_t gamewidth;
+int32_t gameheight;
 struct fb_var_screeninfo vinfo;
 
 void initialise_graphics() {
