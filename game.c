@@ -1,7 +1,13 @@
 #include "includes.h"
 #define START_LIVES 3
-#define DISPLACEMENT 1
-#define MAX_BAR_SPEED 5
+#define DISPLACEMENT 5
+#define MAX_BAR_SPEED 15
+#define DEF_BAR_WIDTH 50
+#define DEF_BALL_RADIUS 4
+#define DEF_BALL_HEIGHT (2 * gameheight / 3)
+#define DEF_BAR_HEIGHT (15 * gameheight / 16);
+#define DEF_BALL_DX 1
+#define DEF_BALL_DY 1
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -18,8 +24,9 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
 
 void reset_bar(bar_t *bar) {
     bar->x = gamewidth / 2;
-    bar->y = 15 * gameheight / 16;
+    bar->y = DEF_BAR_HEIGHT;
     bar->dx = 0;
+    bar->width = DEF_BAR_WIDTH;
 }
 
 void init_ball(ball_t *ball) {
@@ -28,9 +35,10 @@ void init_ball(ball_t *ball) {
 
 void reset_ball(ball_t * ball) {
     ball->x = gamewidth / 2;
-    ball->y = 2 * gameheight / 3;
-    ball->dx = 0;
-    ball->dy = 0;
+    ball->y = DEF_BALL_HEIGHT;
+    ball->dx = DEF_BALL_DX;
+    ball->dy = DEF_BALL_DY;
+    ball->radius = DEF_BALL_RADIUS;
 }
 
 /*
@@ -42,13 +50,17 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     bar->x = cram(bar->x + bar->dx, 0 + bar->width, gamewidth - bar->width);
 }
 
-double cram(double x, double mn, double mx) {
-    if (mn > mx) {
-        double temp = mn;
-        mx = mn;
-        mn = temp;
+/*
+ * Given left and right limits make sure x is not out of bounds,
+ * if this is the case place it on the nearest bound
+ */ 
+double cram(double x, double left, double right) {
+    if (left > right) {
+        double temp = left;
+        right = left;
+        left = temp;
     }
-    return x < mn ? mn : (x > mx ? mx : x);
+    return x < left ? left : (x > right ? right : x);
 }
 
 double min(double a, double b) {
