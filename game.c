@@ -2,9 +2,10 @@
 #define START_LIVES 3
 #define MAX_BAR_SPEED 15
 #define DEF_BAR_WIDTH 50
+#define DEF_BAR_HEIGHT 5
 #define DEF_BALL_RADIUS 4
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
-#define DEF_BAR_HEIGHT (15 * gameheight / 16);
+#define DEF_BAR_Y (15 * gameheight / 16);
 #define DEF_BALL_DX 1
 #define DEF_BALL_DY 1
 #define BAR_SPEED_UP 3
@@ -24,9 +25,10 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
 
 void reset_bar(bar_t *bar) {
     bar->position.x = gamewidth / 2;
-    bar->position.y = DEF_BAR_HEIGHT;
+    bar->position.y = DEF_BAR_Y;
     bar->direction.x = 0;
     bar->width = DEF_BAR_WIDTH;
+    bar->height = DEF_BAR_HEIGHT;
 }
 
 void init_ball(ball_t *ball) {
@@ -72,15 +74,15 @@ double min(double a, double b) {
     return a > b ? b : a;
 }
 
-bool collision(ball_t *ball, double center, double width, double height) {
+//TODO: peter pliz :)
+bool collision(ball_t *ball, vector2D_t center, double width, double height) {
     return false;
 }
 
-double center_of_brick(int n) {
-    int row = n / BRICKS_PER_ROW;
-    int col = n % BRICKS_PER_ROW;
-    double center =
-        row * gamewidth + col + BRICK_WIDTH / 2 + BRICK_HEIGHT / 2;
+vector2D_t center_of_brick(int n) {
+    vector2D_t center;
+    center.y = n / BRICKS_PER_ROW + BRICK_WIDTH / 2 ;
+    center.x = n % BRICKS_PER_ROW + BRICK_HEIGHT / 2;
     return center;
 }
 
@@ -95,6 +97,9 @@ void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
         return;
     }
     //check for collisions with the bar
+    if(collision(ball, bar->position, bar->width, bar->height)) {
+        //TODO: peter change ball direction        
+    }
 }
 
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
@@ -103,7 +108,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
         if(bricks[i]) {
             if(collision(ball, center_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
                 bricks[i] = 0x0;
-
+                //TODO: peter change ball direction 
             }
         }
     }
