@@ -1,6 +1,7 @@
 #include "includes.h"
 #define START_LIVES 3
 #define DISPLACEMENT 1
+#define MAX_BAR_SPEED 5
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -38,8 +39,8 @@ void reset_ball(ball_t * ball) {
  * TODO: fire from the bar
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
-    int dx = (controller_state & 0x1) - (controller_state & 0x2);
-    bar->x += dx * DISPLACEMENT;
+    bar->dx = cram((controller_state & 0x1) - (controller_state & 0x2) + bar->dx, -MAX_BAR_SPEED, MAX_BAR_SPEED);
+    bar->x = cram(bar->x + bar->dx, 0 + bar->width, gamewidth - bar->width);
 }
 
 double cram(double x, double mn, double mx) {
@@ -72,8 +73,8 @@ void update_ball_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state)
     //update ball
     ball->x += ball->dx;
     ball->y += ball->dy;
-    ball->x = cram(ball->x, 0, gamewidth);
-    ball->y = cram(ball->y, 0, gameheight);
+    ball->x = cram(ball->x, 0 + ball->radius, gamewidth  - ball->radius);
+    ball->y = cram(ball->y, 0 + ball->radius, gameheight - ball->radius);
 
     //check if lost
     if(ball->y < 0) { //or bar->y
