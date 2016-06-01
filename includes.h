@@ -15,6 +15,8 @@
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
+#include <unistd.h>
+
 
 /*
  * Header files
