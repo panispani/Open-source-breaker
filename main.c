@@ -76,7 +76,10 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     reset_bar(bar);
     reset_ball(ball);
-    load_level(bar, ball, game_state, bricks);
+    lose_life(bar, game_state);
+    if(*game_state != GAME_OVER) {
+        load_level(bar, ball, game_state, bricks);
+    }
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
