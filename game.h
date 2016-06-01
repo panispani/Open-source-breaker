@@ -8,15 +8,17 @@ typedef enum game_state {
 typedef struct {
     double x;
     double y;
-    double old_x;
-    double old_y;
+    double dx;
+    double dy;
+    double radius;
 } ball_t;
 
 typedef struct {
     double x;
     double y;
-    double old_x;
-    double old_y;
+    double dx;
+    double dy;
+    double width;
     int8_t level; //will also hold the level you are at
     int8_t lives;
 } bar_t;
