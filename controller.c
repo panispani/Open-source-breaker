@@ -13,8 +13,8 @@ int keyboard_buffer;
 char buffer[MAX_BUTTONS];
 
 void initialise_controller() {
-    if ((keyboard_buffer = open("/dev/port", O_RDWR)) < 0) {
-        fprintf(stderr, "Cannot open /dev/port");
+    if ((keyboard_buffer = open("/dev/tty", O_NONBLOCK | O_RDWR)) < 0) {
+        fprintf(stderr, "Cannot open /dev/tty");
         exit(EXIT_FAILURE);
     }
 }
@@ -29,10 +29,10 @@ void initialise_controller() {
 void check_keys(int8_t *controller_state) {
     CLEAR_BOTTOM_BITS(*controller_state); 
     int bytes = read(keyboard_buffer, buffer, MAX_BUTTONS);
-    if(bytes == -1) {
+    /*if(bytes == -1) {
         fprintf(stderr, "Error reading from keyboard buffer");
         exit(EXIT_FAILURE);
-    }
+    }*/
     for(int i = 0; i < bytes; i++) {
         if(IS_LEFT(buffer[i])) {
             *controller_state |= 0x1;
