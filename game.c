@@ -68,7 +68,7 @@ double center_of_brick(int n) {
 }
 
 //TODO: USE DIR NOT OLD/NEW
-void update_ball_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
+void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //update ball
     ball->x += ball->dx;
     ball->y += ball->dy;
@@ -80,6 +80,10 @@ void update_ball_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state)
         *game_state = LOSE_GAME;
         return;
     }
+    //check for collisions with the bar
+}
+
+void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
@@ -89,7 +93,6 @@ void update_ball_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state)
             }
         }
     }
-    //check for collisions with the bar
+
+
 }
-
-
