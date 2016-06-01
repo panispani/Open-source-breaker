@@ -11,6 +11,10 @@
 #include <stdint.h>
 #include <math.h>
 #include <time.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <linux/fb.h>
+#include <sys/mman.h>
 
 /*
  * Header files
