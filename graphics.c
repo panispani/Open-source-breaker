@@ -26,6 +26,7 @@ typedef enum {
     WHITE        = 15  /* 255, 255, 255 */
 } COLOR_INDEX_T;
 
+/*
 static unsigned short def_r[] =
     { 0,   0,   0,   0, 172, 172, 172, 168,
      84,  84,  84,  84, 255, 255, 255, 255};
@@ -35,7 +36,7 @@ static unsigned short def_g[] =
 static unsigned short def_b[] =
     { 0, 172,   0, 168,   0, 172,   0, 168,
      84, 255,  84, 255,  84, 255,  84, 255};
-
+*/
 
 // 'global' variables to store screen info
 char *fbp = 0;
@@ -43,14 +44,44 @@ struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 
 // helper function to 'plot' a pixel in given color
+//TODO: TAKE IN ACCOUNT GAMEWIDTH
+
 void put_pixel(int x, int y, int c)
 {
     // calculate the pixel's byte offset inside the buffer
     unsigned int pix_offset = x + y * finfo.line_length;
-
     // now this is about the same as 'fbp[pix_offset] = value'
     *((char*)(fbp + pix_offset)) = c;
+}
 
+/*
+ * x and y are the center coordinates of the rectangle
+ */ 
+void draw_rect(int center_x, int center_y, int width, int height, int32_t colour) {
+    int x = center_x - gamewidth / 2;
+    int y = center_y - gameheight / 2; 
+    for(int i = 0; i < width; i++) {
+        for(int j = 0; j < height; j++) {
+            put_pixel(i + x, y + j, colour);
+        }
+    }
+}
+
+void draw_cirle() {
+
+}
+
+void draw_background(int32_t colour) {
+    draw_rect(gamewidth / 2, gameheight / 2, gamewidth, gameheight, colour);
+}
+
+void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
+    draw_rect(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); //bar
+    for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
+        vector2D_t center = center_of_brick(i);
+        draw_rect(center.x, center.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
+    }
+    draw_cirle(); // ball
 }
 
 void draw_line(int x0, int y0, int x1, int y1, int colour) {
@@ -62,7 +93,8 @@ void draw_line(int x0, int y0, int x1, int y1, int colour) {
     if (dy < 0) {
         dy = -dy;
     }
-    int sx, sy;
+    int sx = 0;
+    int sy = 0;
     if(x0 < x1) {
         sx = 1;
     } else {
@@ -128,7 +160,6 @@ void draw() {
             }
         }
     }
-
 }
 
 
@@ -208,7 +239,7 @@ int main(int argc, char* argv[])
               fbfd,
               0);
 
-    if ((int)fbp == -1) {
+    if ((int)*fbp == -1) {
         printf("Failed to mmap.\n");
     }
     else {
