@@ -7,6 +7,11 @@ typedef enum game_state {
 } game_state_t;
 
 typedef struct {
+    double x;
+    double y;
+} vector2D_t;
+
+typedef struct {
     vector2D_t position;
     vector2D_t direction;
     double radius;
@@ -16,14 +21,10 @@ typedef struct {
     vector2D_t position;
     vector2D_t direction;
     double width;
+    double height;
     int8_t level;
     int8_t lives;
 } bar_t;
-
-typedef struct {
-    double x;
-    double y;
-} vector2D_t;
 
 void init_bar(bar_t *bar);
 void reset_bar(bar_t *bar);

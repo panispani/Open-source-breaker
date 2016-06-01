@@ -23,9 +23,9 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
 }
 
 void reset_bar(bar_t *bar) {
-    bar->x = gamewidth / 2;
-    bar->y = DEF_BAR_HEIGHT;
-    bar->dx = 0;
+    bar->position.x = gamewidth / 2;
+    bar->position.y = DEF_BAR_HEIGHT;
+    bar->direction.x = 0;
     bar->width = DEF_BAR_WIDTH;
 }
 
@@ -34,10 +34,10 @@ void init_ball(ball_t *ball) {
 }
 
 void reset_ball(ball_t * ball) {
-    ball->x = gamewidth / 2;
-    ball->y = DEF_BALL_HEIGHT;
-    ball->dx = DEF_BALL_DX;
-    ball->dy = DEF_BALL_DY;
+    ball->position.x = gamewidth / 2;
+    ball->position.y = DEF_BALL_HEIGHT;
+    ball->direction.x = DEF_BALL_DX;
+    ball->direction.y = DEF_BALL_DY;
     ball->radius = DEF_BALL_RADIUS;
 }
 
@@ -48,10 +48,10 @@ void reset_ball(ball_t * ball) {
 void update_bar(bar_t *bar, int8_t controller_state) {
     int input = (controller_state & 0x1) - (controller_state & 0x2);
     if (!input) {
-        bar->direction->x /= 1.15;
+        bar->direction.x /= 1.15;
     } else {
-        bar->direction->x = cram(input * BAR_SPEED_UP + bar->direction->x, -MAX_BAR_SPEED, MAX_BAR_SPEED);
-        bar->position->x = cram(bar->position->x + bar->direction->x, 0 + bar->width, gamewidth - bar->width);
+        bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -MAX_BAR_SPEED, MAX_BAR_SPEED);
+        bar->position.x = cram(bar->position.x + bar->direction.x, 0 + bar->width, gamewidth - bar->width);
     }
 }
 
@@ -86,11 +86,11 @@ double center_of_brick(int n) {
 
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //update ball
-    ball->x = cram(ball->position->x + ball->direction->x, 0 + ball->radius, gamewidth  - ball->radius);
-    ball->y = cram(ball->position->y + ball->direction->y, 0 + ball->radius, gameheight - ball->radius);
+    ball->position.x = cram(ball->position.x + ball->direction.x, 0 + ball->radius, gamewidth  - ball->radius);
+    ball->position.y = cram(ball->position.y + ball->direction.y, 0 + ball->radius, gameheight - ball->radius);
 
     //check if lost
-    if(ball->position->y - ball->radius < bar->position->y + bar->height / 2) {
+    if(ball->position.y - ball->radius < bar->position.y + bar->height / 2) {
         *game_state = LOSE_GAME;
         return;
     }
