@@ -17,7 +17,6 @@ typedef struct {
     double x;
     double y;
     double dx;
-    double dy;
     double width;
     int8_t level; //will also hold the level you are at
     int8_t lives;
