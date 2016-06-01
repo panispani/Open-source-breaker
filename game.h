@@ -30,5 +30,6 @@ void update_bar(bar_t *bar, int8_t controller_state);
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state);
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state);
 void lose_life(bar_t *bar, game_state_t *game_state);
+double cram(double x, double mn, double mx);
 
 #endif // __GAME_H

@@ -20,7 +20,6 @@ void reset_bar(bar_t *bar) {
     bar->x = gamewidth / 2;
     bar->y = 15 * gameheight / 16;
     bar->dx = 0;
-    bar->dy = 0;
 }
 
 void init_ball(ball_t *ball) {
