@@ -4,12 +4,9 @@ main_objects = main.o controller.o game.o graphics.o levels.o palette.o
 
 .SUFFIXES: .c .o
 
-.PHONY: all clean
-
-all: main
+.PHONY: clean
 
 main: $(main_objects)
-	$(CC) -o main $(CFLAGS) $(main_objects)
 
 $(main_objects): includes.h
 
