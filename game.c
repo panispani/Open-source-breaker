@@ -1,6 +1,5 @@
 #include "includes.h"
 #define START_LIVES 3
-#define DISPLACEMENT 5
 #define MAX_BAR_SPEED 15
 #define DEF_BAR_WIDTH 50
 #define DEF_BALL_RADIUS 4
@@ -8,6 +7,7 @@
 #define DEF_BAR_HEIGHT (15 * gameheight / 16);
 #define DEF_BALL_DX 1
 #define DEF_BALL_DY 1
+#define BAR_SPEED_UP 3
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -46,14 +46,19 @@ void reset_ball(ball_t * ball) {
  * TODO: fire from the bar
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
-    bar->dx = cram((controller_state & 0x1) - (controller_state & 0x2) + bar->dx, -MAX_BAR_SPEED, MAX_BAR_SPEED);
-    bar->x = cram(bar->x + bar->dx, 0 + bar->width, gamewidth - bar->width);
+    int input = (controller_state & 0x1) - (controller_state & 0x2);
+    if (!input) {
+        bar->direction->x /= 1.15;
+    } else {
+        bar->direction->x = cram(input * BAR_SPEED_UP + bar->direction->x, -MAX_BAR_SPEED, MAX_BAR_SPEED);
+        bar->position->x = cram(bar->position->x + bar->direction->x, 0 + bar->width, gamewidth - bar->width);
+    }
 }
 
 /*
  * Given left and right limits make sure x is not out of bounds,
  * if this is the case place it on the nearest bound
- */ 
+ */
 double cram(double x, double left, double right) {
     if (left > right) {
         double temp = left;
@@ -79,16 +84,13 @@ double center_of_brick(int n) {
     return center;
 }
 
-//TODO: USE DIR NOT OLD/NEW
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //update ball
-    ball->x += ball->dx;
-    ball->y += ball->dy;
-    ball->x = cram(ball->x, 0 + ball->radius, gamewidth  - ball->radius);
-    ball->y = cram(ball->y, 0 + ball->radius, gameheight - ball->radius);
+    ball->x = cram(ball->position->x + ball->direction->x, 0 + ball->radius, gamewidth  - ball->radius);
+    ball->y = cram(ball->position->y + ball->direction->y, 0 + ball->radius, gameheight - ball->radius);
 
     //check if lost
-    if(ball->y < 0) { //or bar->y
+    if(ball->position->y - ball->radius < bar->position->y + bar->height / 2) {
         *game_state = LOSE_GAME;
         return;
     }
@@ -99,7 +101,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            if(collision(ball, center_of_brick(i) ,BRICK_WIDTH, BRICK_HEIGHT)) {
+            if(collision(ball, center_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
                 bricks[i] = 0x0;
 
             }

@@ -2,26 +2,28 @@
 #define __GAME_H
 
 typedef enum game_state {
-    START_GAME, START_MENU, PLAY_GAME, PAUSE_SCREEN, 
+    START_GAME, START_MENU, PLAY_GAME, PAUSE_SCREEN,
     LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME
 } game_state_t;
 
 typedef struct {
-    double x;
-    double y;
-    double dx;
-    double dy;
+    vector2D_t position;
+    vector2D_t direction;
     double radius;
 } ball_t;
 
 typedef struct {
-    double x;
-    double y;
-    double dx;
+    vector2D_t position;
+    vector2D_t direction;
     double width;
-    int8_t level; 
+    int8_t level;
     int8_t lives;
 } bar_t;
+
+typedef struct {
+    double x;
+    double y;
+} vector2D_t;
 
 void init_bar(bar_t *bar);
 void reset_bar(bar_t *bar);
