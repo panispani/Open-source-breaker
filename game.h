@@ -2,23 +2,27 @@
 #define __GAME_H
 
 typedef enum game_state {
-    START_GAME, START_MENU, PLAY_GAME, PAUSE_SCREEN, LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME
+    START_GAME, START_MENU, PLAY_GAME, PAUSE_SCREEN,
+    LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME
 } game_state_t;
 
 typedef struct {
     double x;
     double y;
-    double dx;
-    double dy;
+} vector2D_t;
+
+typedef struct {
+    vector2D_t position;
+    vector2D_t direction;
     double radius;
 } ball_t;
 
 typedef struct {
-    double x;
-    double y;
-    double dx;
+    vector2D_t position;
+    vector2D_t direction;
     double width;
-    int8_t level; //will also hold the level you are at
+    double height;
+    int8_t level;
     int8_t lives;
 } bar_t;
 
@@ -30,6 +34,6 @@ void update_bar(bar_t *bar, int8_t controller_state);
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state);
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state);
 void lose_life(bar_t *bar, game_state_t *game_state);
-double cram(double x, double mn, double mx);
+double cram(double x, double left, double right);
 
 #endif // __GAME_H
