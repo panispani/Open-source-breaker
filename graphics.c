@@ -6,7 +6,6 @@
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include "includes.h"
-
 // default framebuffer palette
 typedef enum {
     BLACK        =  0, /*   0,   0,   0 */

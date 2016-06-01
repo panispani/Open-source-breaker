@@ -1,5 +1,4 @@
 #include "includes.h"
-#define MAX_BRICKS_PER_LEVEL 150
 
 int main(void) {
     game_state_t game_state = START_GAME;
@@ -61,7 +60,8 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     int8_t controller_state = 0;
     check_keys(&controller_state);
     update_bar(bar, controller_state);
-    update_ball_bricks(ball, bricks, game_state);
+    update_ball(ball, bar, game_state);
+    update_bricks(ball, bricks, game_state);
     if(*game_state == LOSE_GAME) {
         return;
     }
@@ -76,7 +76,10 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     reset_bar(bar);
     reset_ball(ball);
-    load_level(bar, ball, game_state, bricks);
+    lose_life(bar, game_state);
+    if(*game_state != GAME_OVER) {
+        load_level(bar, ball, game_state, bricks);
+    }
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {

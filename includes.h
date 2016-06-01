@@ -17,7 +17,6 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-
 /*
  * Header files
  */
@@ -27,5 +26,13 @@
 #include "graphics.h"
 #include "levels.h"
 #include "main.h"
+
+/*
+ * Useful Macros and defines
+ */ 
+#define MAX_BRICKS_PER_LEVEL 150
+#define BRICK_WIDTH 30.0
+#define BRICK_HEIGHT 10.0
+#define BRICKS_PER_ROW 10
 
 #endif //__INCLUDES_H
