@@ -45,15 +45,16 @@ struct fb_fix_screeninfo finfo;
 
 // helper function to 'plot' a pixel in given color
 //TODO: TAKE IN ACCOUNT GAMEWIDTH
-
 void put_pixel(int x, int y, int c)
 {
-    // calculate the pixel's byte offset inside the buffer
-    unsigned int pix_offset = x + y * finfo.line_length;
+    int game_offset = (finfo.line_length - gamewidth) / 2;
+    // calculate the pixel's byte offset inside the buffe
+    unsigned int pixel_offset = game_offset + x + y * finfo.line_length;
     // now this is about the same as 'fbp[pix_offset] = value'
-    *((char*)(fbp + pix_offset)) = c;
+    *(fbp + pixel_offset) = c;
 }
 
+/*********************************************************/
 /*
  * x and y are the center coordinates of the rectangle
  */ 
@@ -67,8 +68,33 @@ void draw_rect(int center_x, int center_y, int width, int height, int32_t colour
     }
 }
 
-void draw_cirle() {
-
+/*
+ * Draw a filled circle using the 
+ * Midpoint circle algorithm
+ */ 
+void draw_cirle(int x0, int y0, int radius) {
+    int32_t colour = BALL_COLOUR;
+    int x = 0, y = radius;
+    int error = 1 - radius;
+    while(x < y) {
+        if(error < 0) {
+            x++;
+            error += 2 * x + 3;
+        } else {
+            x++;
+            y--;
+            error += 2 * x - 2 * y + 5;
+        }
+        //45 degree quadrants
+        put_pixel(x0 + x, y0 + y, colour);
+        put_pixel(x0 - x, y0 + y, colour);
+        put_pixel(x0 + x, y0 - y, colour);
+        put_pixel(x0 - x, y0 - y, colour);
+        put_pixel(x0 + y, y0 + x, colour);
+        put_pixel(x0 - y, y0 + x, colour);
+        put_pixel(x0 + y, y0 - x, colour);
+        put_pixel(x0 - y, y0 - x, colour);
+    }
 }
 
 void draw_background(int32_t colour) {
@@ -81,8 +107,10 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
         vector2D_t center = center_of_brick(i);
         draw_rect(center.x, center.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
     }
-    draw_cirle(); // ball
+    draw_cirle(ball->position.x, ball->position.y, ball->radius); // ball
 }
+
+/*******************************/
 
 void draw_line(int x0, int y0, int x1, int y1, int colour) {
     int dx = x1 - x0;
