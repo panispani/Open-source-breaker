@@ -1,5 +1,4 @@
 #include "includes.h"
-#define MAX_BRICKS_PER_LEVEL 150
 
 int main(void) {
     game_state_t game_state = START_GAME;

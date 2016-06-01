@@ -1,5 +1,6 @@
 #include "includes.h"
 #define START_LIVES 3
+#define DISPLACEMENT 1
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -32,11 +33,55 @@ void reset_ball(ball_t * ball) {
     ball->old_y = rand() % gameheight;
 }
 
+/*
+ * Update the bar position according to the buttons pressed
+ * TODO: fire from the bar
+ */ 
 void update_bar(bar_t *bar, int8_t controller_state) {
-
+    int dx = (controller_state & 0x1) - (controller_state & 0x2);
+    bar->x += dx * DISPLACEMENT;
 }
 
+double min(double a, double b) {
+    return a > b ? b : a;
+}
+
+bool collision(ball_t *ball, double center, double width, double height) {
+    return false;
+}
+
+double center_of_brick(int n) {
+    int row = n / BRICKS_PER_ROW;
+    int col = n % BRICKS_PER_ROW;
+    double center = 
+        row * gamewidth + col + BRICK_WIDTH / 2 + BRICK_HEIGHT / 2;
+    return center;
+}
+
+//TODO: USE DIR NOT OLD/NEW
 void update_ball_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
-
+    //update ball
+    double dx = ball->x - ball->old_x;
+    double dy = ball->y - ball->old_y;
+    ball->old_x = ball->x;
+    ball->old_y = ball->y;
+    ball->x = min(ball->x + dx, gamewidth);
+    ball->y = min(ball->y + dy, gameheight);
+    //check if lost
+    if(ball->y < 0) { //or bar->y
+        *game_state = LOSE_GAME;
+        return;
+    }
+    //check for collisions with bricks
+    for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
+        if(bricks[i]) {
+            if(collision(ball, center_of_brick(i) ,BRICK_WIDTH, BRICK_HEIGHT)) {
+                bricks[i] = 0x0;
+                
+            } 
+        }
+    } 
+    //check for collisions with the bar
 }
+
 
