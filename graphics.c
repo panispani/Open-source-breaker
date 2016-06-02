@@ -273,9 +273,9 @@ int main(int argc, char* argv[])
     unsigned short r[256];
     unsigned short g[256];
     unsigned short b[256];
-    memset(&r, 0, 256); // initialise with zeros
-    memset(&g, 0, 256);
-    memset(&b, 0, 256);
+    memset(r, 0, 256); // initialise with zeros
+    memset(g, 0, 256);
+    memset(b, 0, 256);
     int i;
     for(i = 0; i < 16; i++) {
         // red-yellow gradient
