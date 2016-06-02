@@ -6,8 +6,6 @@
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include "includes.h"
-#include <stdlib.h>
-#include <SDL2/SDL.h>
 
 // 'global' variables to store screen info
 char *fbp = NULL;
@@ -23,34 +21,6 @@ int gameheight;
  */
 void initialise_graphics()
 
-    int fd = open("/dev/fb0", O_RDWR);
-    if(!fd) {
-        fprintf(stderr, "Error cannot open framebuffer");
-        exit(EXIT_FAILURE);
-    }
-    if(ioctl(fd, FBIOGET_FSCREENINFO, &finfo)) {
-        printf("Error reading screen information");
-        exit(EXIT_FAILURE);
-    }
-    if (ioctl(fd, FBIOGET_VSCREENINFO, &vinfo)) {
-        printf("Error reading variable information.\n");
-        exit(EXIT_FAILURE);
-    }
-    long int screensize = finfo.smem_len; //vinfo.xres * vinfo.yres;
-    fbp = (char*)mmap(0,
-              screensize,
-              PROT_READ | PROT_WRITE,
-              MAP_SHARED,
-              fd,
-              0);
-    if ((int) *fbp == -1) {
-        fprintf(stderr, "Failed to mmap.\n");
-        exit(EXIT_FAILURE);
-    }
-    screenwidth = vinfo.xres;
-    screenheight = vinfo.yres;
-    gamewidth = screenwidth / 2;
-    gameheight = screenheight;
 }
 
 /*
@@ -113,7 +83,7 @@ void draw_rect(int center_x, int center_y, int width, int height, int32_t colour
     int y = center_y - height / 2;
     for(int i = 0; i < width; i++) {
         for(int j = 0; j < height; j++) {
-            put_pixel(i + x, y + j, colour);
+            //put_pixel(i + x, y + j, colour);
         }
     }
 }
@@ -122,6 +92,7 @@ void draw_rect(int center_x, int center_y, int width, int height, int32_t colour
  * Draw a filled circle using the
  * Midpoint circle algorithm
  */
+
 void draw_cirle(int x0, int y0, int radius) {
     int32_t colour = BALL_COLOUR;
     int x = 0, y = radius;
@@ -136,16 +107,17 @@ void draw_cirle(int x0, int y0, int radius) {
             error += 2 * x - 2 * y + 5;
         }
         //45 degree quadrants
-        put_pixel(x0 + x, y0 + y, colour);
-        put_pixel(x0 - x, y0 + y, colour);
-        put_pixel(x0 + x, y0 - y, colour);
-        put_pixel(x0 - x, y0 - y, colour);
-        put_pixel(x0 + y, y0 + x, colour);
-        put_pixel(x0 - y, y0 + x, colour);
-        put_pixel(x0 + y, y0 - x, colour);
-        put_pixel(x0 - y, y0 - x, colour);
+        //put_pixel(x0 + x, y0 + y, colour);
+        //put_pixel(x0 - x, y0 + y, colour);
+        //put_pixel(x0 + x, y0 - y, colour);
+        //put_pixel(x0 - x, y0 - y, colour);
+        //put_pixel(x0 + y, y0 + x, colour);
+        //put_pixel(x0 - y, y0 + x, colour);
+        //put_pixel(x0 + y, y0 - x, colour);
+        //put_pixel(x0 - y, y0 - x, colour);
     }
 }
+
 
 void draw_background(int32_t colour) {
     draw_rect(screenwidth / 2, screenheight / 2, screenwidth, screenheight, colour);
