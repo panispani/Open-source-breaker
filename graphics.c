@@ -93,31 +93,66 @@ void draw_rect(int center_x, int center_y, int width, int height, int32_t colour
  * Midpoint circle algorithm
  */
 
-void draw_cirle(int x0, int y0, int radius) {
-    int32_t colour = BALL_COLOUR;
-    int x = 0, y = radius;
-    int error = 1 - radius;
-    while(x < y) {
-        if(error < 0) {
-            x++;
-            error += 2 * x + 3;
-        } else {
-            x++;
-            y--;
-            error += 2 * x - 2 * y + 5;
-        }
-        //45 degree quadrants
-        //put_pixel(x0 + x, y0 + y, colour);
-        //put_pixel(x0 - x, y0 + y, colour);
-        //put_pixel(x0 + x, y0 - y, colour);
-        //put_pixel(x0 - x, y0 - y, colour);
-        //put_pixel(x0 + y, y0 + x, colour);
-        //put_pixel(x0 - y, y0 + x, colour);
-        //put_pixel(x0 + y, y0 - x, colour);
-        //put_pixel(x0 - y, y0 - x, colour);
-    }
+ void draw_circle(SDL_Renderer* renderer, int x0, int y0, int radius, int colour) {
+     int red = ((EIGHTBIT_MASK << 16) && colour) >> 16;
+     int green = ((EIGHTBIT_MASK << 8) && colour) >> 8;
+     int blue = EIGHTBIT_MASK && colour;
+     SDL_SetRenderDrawColor(renderer, red, green, blue, 0);
+     int x = 0, y = radius;
+     int dp = 1 - radius;
+     do {
+         if (dp < 0) {
+             dp = dp + 2 * (++x) + 3;
+         } else {
+             dp = dp + 2 * (++x) - 2 * (--y) + 5;
+         }
+         draw_pixel(renderer, x0 + x, y0 + y);
+         draw_pixel(renderer, x0 - x, y0 + y);
+         draw_pixel(renderer, x0 + x, y0 - y);
+         draw_pixel(renderer, x0 - x, y0 - y);
+         draw_pixel(renderer, x0 + y, y0 + x);
+         draw_pixel(renderer, x0 - y, y0 + x);
+         draw_pixel(renderer, x0 + y, y0 - x);
+         draw_pixel(renderer, x0 - y, y0 - x);
+     } while (x < y);
+ }
+
+ //NEED TO FIX COLOURS
+void draw_filled_circle(SDL_Renderer* renderer, int x0, int y0, int radius, int colour) {
+     int red = ((EIGHTBIT_MASK << 16) && colour) >> 16;
+     int green = ((EIGHTBIT_MASK << 8) && colour) >> 8;
+     int blue = EIGHTBIT_MASK && colour;
+     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+     int x = 0, y = radius;
+     int dp = 1 - radius;
+     do {
+         if (dp < 0) {
+             dp = dp + 2 * (++x) + 3;
+         } else {
+             dp = dp + 2 * (++x) - 2 * (--y) + 5;
+         }
+         for(int y=-radius; y<=radius; y++) {
+             for(int x=-radius; x<=radius; x++) {
+                 if(x*x+y*y <= radius*radius) {
+                     draw_pixel(renderer, x0+x, y0+y);
+                 }
+             }
+         }
+
+     } while (x < y);
 }
 
+//NEED TO FIX COLOURS
+void draw_circle(SDL_Renderer* renderer, float time) {
+    for(int i = 0; i<=360; i++) {
+        draw_pixel(SDL_Renderer* renderer, int x, int y)
+        draw_pixel(renderer, (200 + (100*cos(i))), (100 + (100*sin(i))));
+    }
+    for(int j = 0; j<=100; j++) {
+        draw_pixel(renderer, (200 + (j*cos(time))), (100 + (j*sin(time))));
+    }
+    Sleep(1000);
+}
 
 void draw_background(int32_t colour) {
     draw_rect(screenwidth / 2, screenheight / 2, screenwidth, screenheight, colour);
