@@ -9,7 +9,7 @@ main_objects = main.o controller.o game.o graphics.o levels.o palette.o
 .PHONY: clean
 
 main: $(main_objects)
-	$(CC) $(SDL_CFLAGS) $(CFLAGS) $(main_objects) -o main
+	$(CC) $(main_objects) $(SDL_CFLAGS) $(CFLAGS) -o main
 
 $(main_objects): includes.h
 

@@ -1,5 +1,4 @@
 #include "includes.h"
-#include <SDL2/SDL.h>
 
 // 'global' variables to store screen info
 char *fbp = NULL;
