@@ -14,7 +14,15 @@ char buffer[MAX_BUTTONS];
 
 void initialise_controller() {
     if ((keyboard_buffer = open("/dev/tty", O_NONBLOCK | O_RDWR)) < 0) {
-        fprintf(stderr, "Cannot open /dev/tty");
+        if((keyboard_buffer = open("/dev/port", O_NONBLOCK | O_RDWR)) < 0) { 
+            fprintf(stderr, "Cannot open /dev/tty or /dev/port");
+            exit(EXIT_FAILURE);
+        }
+    }
+    //run ssty -icanon
+    int status = system("stty -icanon");
+    if(status == 0 || status == -1) {
+        fprintf(stderr, "error on setting terminal status");
         exit(EXIT_FAILURE);
     }
 }
