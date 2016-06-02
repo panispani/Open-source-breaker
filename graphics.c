@@ -6,37 +6,6 @@
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include "includes.h"
-// default framebuffer palette
-typedef enum {
-    BLACK        =  0, /*   0,   0,   0 */
-    BLUE         =  1, /*   0,   0, 172 */
-    GREEN        =  2, /*   0, 172,   0 */
-    CYAN         =  3, /*   0, 172, 172 */
-    RED          =  4, /* 172,   0,   0 */
-    PURPLE       =  5, /* 172,   0, 172 */
-    ORANGE       =  6, /* 172,  84,   0 */
-    LTGREY       =  7, /* 172, 172, 172 */
-    GREY         =  8, /*  84,  84,  84 */
-    LIGHT_BLUE   =  9, /*  84,  84, 255 */
-    LIGHT_GREEN  = 10, /*  84, 255,  84 */
-    LIGHT_CYAN   = 11, /*  84, 255, 255 */
-    LIGHT_RED    = 12, /* 255,  84,  84 */
-    LIGHT_PURPLE = 13, /* 255,  84, 255 */
-    YELLOW       = 14, /* 255, 255,  84 */
-    WHITE        = 15  /* 255, 255, 255 */
-} COLOR_INDEX_T;
-
-/*
-static unsigned short def_r[] =
-    { 0,   0,   0,   0, 172, 172, 172, 168,
-     84,  84,  84,  84, 255, 255, 255, 255};
-static unsigned short def_g[] =
-    { 0,   0, 168, 168,   0,   0,  84, 168,
-     84,  84, 255, 255,  84,  84, 255, 255};
-static unsigned short def_b[] =
-    { 0, 172,   0, 168,   0, 172,   0, 168,
-     84, 255,  84, 255,  84, 255,  84, 255};
-*/
 
 // 'global' variables to store screen info
 char *fbp = 0;
@@ -46,6 +15,39 @@ int screenwidth;
 int screenheight;
 int gamewidth;
 int gameheight;
+
+/*
+ * Initialise screenwidth, height and open frame buffer device
+ */ 
+void initialise_graphics() {
+    int buffer_status = open("/dev/fb0", O_RDWR);
+    if(!buffer_status) {
+        fprintf(stderr, "Error cannot open framebuffer");
+        exit(EXIT_FAILURE);
+    }
+    if(ioctl(buffer_status, FBIOGET_FSCREENINFO, &finfo)) {       
+        printf("Error reading screen information");
+    }
+    screenwidth = vinfo.xres;  
+    screenheight = vinfo.yres;     
+    gamewidth = screenwidth / 2;
+    gameheight = screenheight;
+}
+
+/*
+ * Draw screen when winning the game
+ */ 
+void draw_win_screen() {
+
+}
+
+/*
+ * Draw the game over screen
+ */ 
+void draw_gameover_screen() {
+
+}
+
 
 /*
  * Color pixel (x, y) with color c 
@@ -114,6 +116,39 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
 
 
 /*******************************/
+
+// default framebuffer palette
+typedef enum {
+    BLACK        =  0, /*   0,   0,   0 */
+    BLUE         =  1, /*   0,   0, 172 */
+    GREEN        =  2, /*   0, 172,   0 */
+    CYAN         =  3, /*   0, 172, 172 */
+    RED          =  4, /* 172,   0,   0 */
+    PURPLE       =  5, /* 172,   0, 172 */
+    ORANGE       =  6, /* 172,  84,   0 */
+    LTGREY       =  7, /* 172, 172, 172 */
+    GREY         =  8, /*  84,  84,  84 */
+    LIGHT_BLUE   =  9, /*  84,  84, 255 */
+    LIGHT_GREEN  = 10, /*  84, 255,  84 */
+    LIGHT_CYAN   = 11, /*  84, 255, 255 */
+    LIGHT_RED    = 12, /* 255,  84,  84 */
+    LIGHT_PURPLE = 13, /* 255,  84, 255 */
+    YELLOW       = 14, /* 255, 255,  84 */
+    WHITE        = 15  /* 255, 255, 255 */
+} COLOR_INDEX_T;
+
+/*
+static unsigned short def_r[] =
+    { 0,   0,   0,   0, 172, 172, 172, 168,
+     84,  84,  84,  84, 255, 255, 255, 255};
+static unsigned short def_g[] =
+    { 0,   0, 168, 168,   0,   0,  84, 168,
+     84,  84, 255, 255,  84,  84, 255, 255};
+static unsigned short def_b[] =
+    { 0, 172,   0, 168,   0, 172,   0, 168,
+     84, 255,  84, 255,  84, 255,  84, 255};
+*/
+
 
 void draw_line(int x0, int y0, int x1, int y1, int colour) {
     int dx = x1 - x0;
@@ -193,7 +228,7 @@ void draw() {
     }
 }
 
-
+/*
 // application entry point
 int main(int argc, char* argv[])
 {
@@ -324,4 +359,4 @@ int main(int argc, char* argv[])
 
     return 0;
 
-}
+}*/
