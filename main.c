@@ -3,6 +3,7 @@
 int main(void) {
     game_state_t game_state = START_GAME;
     initialise_graphics();
+    char c; scanf("%c", &c);
     run(game_state);    
 }
 

@@ -8,7 +8,7 @@
 #include "includes.h"
 
 // 'global' variables to store screen info
-char *fbp = 0;
+char *fbp = NULL;
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 int screenwidth;
@@ -20,13 +20,25 @@ int gameheight;
  * Initialise screenwidth, height and open frame buffer device
  */ 
 void initialise_graphics() {
-    int buffer_status = open("/dev/fb0", O_RDWR);
-    if(!buffer_status) {
+    int fd = open("/dev/fb0", O_RDWR);
+    if(!fd) {
         fprintf(stderr, "Error cannot open framebuffer");
         exit(EXIT_FAILURE);
     }
-    if(ioctl(buffer_status, FBIOGET_FSCREENINFO, &finfo)) {       
+    if(ioctl(fd, FBIOGET_FSCREENINFO, &finfo)) {       
         printf("Error reading screen information");
+        exit(EXIT_FAILURE);
+    }
+    long int screensize = finfo.smem_len; //vinfo.xres * vinfo.yres;
+    fbp = (char*)mmap(0,
+              screensize,
+              PROT_READ | PROT_WRITE,
+              MAP_SHARED,
+              fd,
+              0);
+    if ((int) *fbp == -1) {
+        fprintf(stderr, "Failed to mmap.\n");
+        exit(EXIT_FAILURE);
     }
     screenwidth = vinfo.xres;  
     screenheight = vinfo.yres;     
