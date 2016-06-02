@@ -9,6 +9,7 @@
 #define DEF_BALL_DX 1
 #define DEF_BALL_DY 1
 #define BAR_SPEED_UP 3
+#define BAR_SLIDE_SLOWDOWN 1.15
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -50,7 +51,7 @@ void reset_ball(ball_t * ball) {
 void update_bar(bar_t *bar, int8_t controller_state) {
     int input = (controller_state & 0x1) - (controller_state & 0x2);
     if (!input) {
-        bar->direction.x /= 1.15;
+        bar->direction.x /= BAR_SLIDE_SLOWDOWN;
     } else {
         bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -MAX_BAR_SPEED, MAX_BAR_SPEED);
         bar->position.x = cram(bar->position.x + bar->direction.x, 0 + bar->width, gamewidth - bar->width);
@@ -74,9 +75,28 @@ double min(double a, double b) {
     return a > b ? b : a;
 }
 
-//TODO: peter pliz :)
-bool collision(ball_t *ball, vector2D_t center, double width, double height) {
-    return false;
+/*
+ * Check for collisions. Returns:
+ * 0: no collision
+ * 1: top or bottom collision
+ * 2: left or right collision
+ */
+int collision(ball_t *ball, vector2D_t center, double width, double height) {
+    double ball_left = ball->position.x - ball.radius;
+    double ball_right = ball->position.x + ball.radius;
+    double ball_top = ball->position.y - ball.radius;
+    double ball_bot = ball->position.y + ball.radius;
+
+    if (ball_left <= center.x + width &&
+            ball_right >= center.x - width &&
+            ball_top <= center.y + height &&
+            ball_bot >= center.y - height {
+        if (ball_top - ball.direction.y > center.y + height || ball_bot - ball->direction.y < center.y - height) {
+            return 1;
+        }
+        return 2;
+    }
+    return 0;
 }
 
 vector2D_t center_of_brick(int n) {
@@ -90,15 +110,27 @@ void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //update ball
     ball->position.x = cram(ball->position.x + ball->direction.x, 0 + ball->radius, gamewidth  - ball->radius);
     ball->position.y = cram(ball->position.y + ball->direction.y, 0 + ball->radius, gameheight - ball->radius);
+    if (ball->position.x + ball->radius == 0 || ball->position.x + ball->radius == gamewidth) {
+        ball->direction.x *= -1;
+    }
+    if (ball->position.y - ball->radius == 0 ) {
+        ball->direction.y *= -1;
+    }
 
     //check if lost
-    if(ball->position.y - ball->radius < bar->position.y + bar->height / 2) {
+    if(ball->position.y + ball->radius > bar->position.y + bar->height / 2) {
         *game_state = LOSE_GAME;
         return;
     }
     //check for collisions with the bar
-    if(collision(ball, bar->position, bar->width, bar->height)) {
-        //TODO: peter change ball direction        
+    switch(collision(ball, bar->position, bar->width, bar->height)) {
+        case VERTICAL:
+            ball.direction.y *= -1;
+            ball.direction.x += bar->direction.x / BAR_BOUNCE;
+            break;
+        case HORIZONTAL:
+            ball.direction.x *= -1;
+            break;
     }
 }
 
@@ -106,12 +138,18 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            if(collision(ball, center_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
+            int col = collision(ball, center_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
+            if(col) {
                 bricks[i] = 0x0;
-                //TODO: peter change ball direction 
+                switch(col) {
+                    case VERTICAL:
+                        ball.direction.y *= -1;
+                        break;
+                    case HORIZONTAL:
+                        ball.direction.x *= -1;
+                        break;
+                }
             }
         }
     }
-
-
 }

@@ -6,6 +6,10 @@ typedef enum game_state {
     LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME
 } game_state_t;
 
+typedef enum {
+    VERTICAL = 1, HORIZONTAL = 2;
+} orientation;
+
 typedef struct {
     double x;
     double y;
