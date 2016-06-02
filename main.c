@@ -41,6 +41,8 @@ void run(game_state_t game_state) {
             case WIN_GAME:
                 win_game(&bar, &ball, &game_state, bricks);
                 break;
+            case EXIT_GAME:
+                exit_game();
             default:
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);
@@ -119,4 +121,8 @@ void restart_on_keypress(game_state_t *game_state) {
         check_keys(&controller_state);    
     }
     *game_state = START_GAME;
+}
+
+void exit_game() {
+    destroy_graphics();
 }
