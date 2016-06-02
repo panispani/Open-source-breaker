@@ -18,7 +18,7 @@ typedef struct {
 typedef struct {
     vector2D_t position;
     vector2D_t direction;
-    double radius;
+    double diameter;
 } ball_t;
 
 typedef struct {

@@ -1,15 +1,17 @@
 #include "includes.h"
 #define START_LIVES 3
-#define MAX_BAR_SPEED 15
 #define DEF_BAR_WIDTH 50
 #define DEF_BAR_HEIGHT 5
+#define DEF_BAR_Y (15 * gameheight / 16);
 #define DEF_BALL_RADIUS 4
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
-#define DEF_BAR_Y (15 * gameheight / 16);
 #define DEF_BALL_DX 1
-#define DEF_BALL_DY 1
+#define DEF_BALL_DY 3
+#define BAR_MAX_SPEED 15
 #define BAR_SPEED_UP 3
 #define BAR_SLIDE_SLOWDOWN 1.15
+#define BAR_BOUNCE 0.75
+#define BALL_MAX_SPEED 6
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -41,7 +43,7 @@ void reset_ball(ball_t * ball) {
     ball->position.y = DEF_BALL_HEIGHT;
     ball->direction.x = DEF_BALL_DX;
     ball->direction.y = DEF_BALL_DY;
-    ball->radius = DEF_BALL_RADIUS;
+    ball->diameter = DEF_BALL_RADIUS;
 }
 
 /*
@@ -53,8 +55,8 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     if (!input) {
         bar->direction.x /= BAR_SLIDE_SLOWDOWN;
     } else {
-        bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -MAX_BAR_SPEED, MAX_BAR_SPEED);
-        bar->position.x = cram(bar->position.x + bar->direction.x, 0 + bar->width, gamewidth - bar->width);
+        bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -BAR_MAX_SPEED, BAR_MAX_SPEED);
+        bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
     }
 }
 
@@ -81,44 +83,41 @@ double min(double a, double b) {
  * 1: top or bottom collision
  * 2: left or right collision
  */
-int collision(ball_t *ball, vector2D_t center, double width, double height) {
-    double ball_left = ball->position.x - ball.radius;
-    double ball_right = ball->position.x + ball.radius;
-    double ball_top = ball->position.y - ball.radius;
-    double ball_bot = ball->position.y + ball.radius;
+int collision(ball_t *ball, vector2D_t other, double width, double height) {
 
-    if (ball_left <= center.x + width &&
-            ball_right >= center.x - width &&
-            ball_top <= center.y + height &&
-            ball_bot >= center.y - height {
-        if (ball_top - ball.direction.y > center.y + height || ball_bot - ball->direction.y < center.y - height) {
-            return 1;
+    if (ball->position.x <= other.x + width &&
+        ball->position.y <= other.y + height &&
+        ball->position.x + ball.diameter >= other.x &&
+        ball->position.y + ball.diameter >= other.y {
+        if (ball->position.y - ball->direction.y > other.y + height ||
+            ball->position.y - ball->direction.y + ball.diameter < other.y) {
+            return VERTICAL;
         }
-        return 2;
+        return HORIZONTAL;
     }
     return 0;
 }
 
-vector2D_t center_of_brick(int n) {
-    vector2D_t center;
-    center.y = n / BRICKS_PER_ROW + BRICK_WIDTH / 2 ;
-    center.x = n % BRICKS_PER_ROW + BRICK_HEIGHT / 2;
-    return center;
+vector2D_t brick_postition(int n) {
+    vector2D_t position;
+    position.y = n / BRICKS_PER_ROW;
+    position.x = n % BRICKS_PER_ROW;
+    return position;
 }
 
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //update ball
-    ball->position.x = cram(ball->position.x + ball->direction.x, 0 + ball->radius, gamewidth  - ball->radius);
-    ball->position.y = cram(ball->position.y + ball->direction.y, 0 + ball->radius, gameheight - ball->radius);
-    if (ball->position.x + ball->radius == 0 || ball->position.x + ball->radius == gamewidth) {
+    ball->position.x = cram(ball->position.x + ball->direction.x, 0, gamewidth  - ball->diameter);
+    ball->position.y = cram(ball->position.y + ball->direction.y, 0, gameheight - ball->diameter);
+    if (ball->position.x == 0 || ball->position.x + ball->diameter == gamewidth) {
         ball->direction.x *= -1;
     }
-    if (ball->position.y - ball->radius == 0 ) {
+    if (ball->position.y == 0 ) {
         ball->direction.y *= -1;
     }
 
     //check if lost
-    if(ball->position.y + ball->radius > bar->position.y + bar->height / 2) {
+    if(ball->position.y > bar->position.y + bar->height) {
         *game_state = LOSE_GAME;
         return;
     }
@@ -126,7 +125,7 @@ void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     switch(collision(ball, bar->position, bar->width, bar->height)) {
         case VERTICAL:
             ball.direction.y *= -1;
-            ball.direction.x += bar->direction.x / BAR_BOUNCE;
+            ball.direction.x = cram(ball->direction.x + bar->direction.x * BAR_BOUNCE, -BALL_MAX_SPEED, BALL_MAX_SPEED);
             break;
         case HORIZONTAL:
             ball.direction.x *= -1;
@@ -138,7 +137,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            int col = collision(ball, center_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
+            int col = collision(ball, brick_postition(i), BRICK_WIDTH, BRICK_HEIGHT);
             if(col) {
                 bricks[i] = 0x0;
                 switch(col) {
