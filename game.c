@@ -106,7 +106,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            if(collision(ball, center_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
+            if(collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
                 bricks[i] = 0x0;
                 //TODO: peter change ball direction 
             }
