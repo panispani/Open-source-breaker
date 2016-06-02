@@ -1,13 +1,16 @@
 #include "includes.h"
 
 // 'global' variables to store screen info
-char *fbp = NULL;
 int screenwidth;
 int screenheight;
 int gamewidth;
 int gameheight;
 SDL_Window *window;
 SDL_DisplayMode DM;
+SDL_Renderer *ball_renderer;
+SDL_Renderer *bar_renderer;
+SDL_Renderer *background_renderer;
+SDL_Renderer *brick_renderer;
 
 /*
  * Initialise screenwidth, height and open frame buffer device
@@ -27,12 +30,26 @@ void initialise_graphics() {
         fprintf(stderr, "Could not create window %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     } 
-
-    /*screenwidth = vinfo.xres;  
-    screenheight = vinfo.yres;     
-    gamewidth = screenwidth / 2;
-    gameheight = screenheight;
-    */
+    ball_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    
+    bar_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    background_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    brick_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    //TODO; is this safe?
+    if(ball_renderer == NULL || bar_renderer == NULL || background_renderer == NULL || brick_renderer == NULL) {
+        free(window);
+        free(ball_renderer);
+        free(bar_renderer);
+        free(background_renderer);
+        free(brick_renderer);
+        fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+    SDL_SetRenderDrawColor(ball_renderer, BALL_R, BALL_G, BALL_B, BALL_A);
+    SDL_SetRenderDrawColor(bar_renderer, BAR_R, BAR_G, BAR_B, BAR_A);
+    SDL_SetRenderDrawColor(background_renderer, BACK_R, BACK_G, BACK_B, BACK_A);
+    screenwidth = gamewidth = DM.w;
+    screenheight = gameheight = DM.h;
 }
 
 /*
