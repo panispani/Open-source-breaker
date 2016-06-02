@@ -29,6 +29,10 @@ void initialise_graphics() {
         printf("Error reading screen information");
         exit(EXIT_FAILURE);
     }
+    if (ioctl(fd, FBIOGET_VSCREENINFO, &vinfo)) {
+        printf("Error reading variable information.\n");
+        exit(EXIT_FAILURE);
+    }
     long int screensize = finfo.smem_len; //vinfo.xres * vinfo.yres;
     fbp = (char*)mmap(0,
               screensize,
