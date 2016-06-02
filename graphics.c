@@ -1,10 +1,3 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <linux/fb.h>
-#include <sys/mman.h>
 #include "includes.h"
 
 // 'global' variables to store screen info
@@ -38,7 +31,6 @@ void initialise_graphics() {
         exit(EXIT_FAILURE);
     } 
     ball_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    
     bar_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     background_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     brick_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -63,11 +55,11 @@ void initialise_graphics() {
  * Free any memory assocaited for graphics
  */
 void destroy_graphics() {
-    SDL_DestroyWindow(window);
     SDL_DestroyRenderer(ball_renderer);
     SDL_DestroyRenderer(bar_renderer);
     SDL_DestroyRenderer(background_renderer);
     SDL_DestroyRenderer(brick_renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 }
 
@@ -84,7 +76,6 @@ void draw_win_screen() {
 void draw_gameover_screen() {
 
 }
-
 
 /*
  * Color pixel (x, y) with color c
@@ -104,32 +95,12 @@ void draw_line(SDL_Renderer* renderer, int x0, int y0, int x1, int y1) {
         exit(EXIT_FAILURE);
     }
 }
-/*
- * x and y are the center coordinates of the rectangle
- */
-void draw_rect(int center_x, int center_y, int width, int height, uint32_t colour) {
-    SDL_Rect rectangle;
-    rectangle.x = center_x;
-    rectangle.y = center_y;
-    rectangle.w = width;
-    rectangle.h = height;
-    int red = ((EIGHTBIT_MASK << 16) && colour) >> 16;
-    int green = ((EIGHTBIT_MASK << 8) && colour) >> 8;
-    int blue = EIGHTBIT_MASK && colour;
-    SDL_SetRenderDrawColor(background_renderer, red, green, blue, 0);
-    int res = SDL_RenderFillRect(background_renderer, &rectangle);
-    if (res) {
-        perror("Error when drawing the rectangle\n");
-        exit(EXIT_FAILURE);
-    }
-}
 
 /*
  * Draw a filled circle using the
  * Midpoint circle algorithm
  */
-
- void draw_circle(int x0, int y0, int radius) {
+void draw_circle(int x0, int y0, int radius) {
      int x = 0, y = radius;
      int dp = 1 - radius;
      do {
@@ -177,32 +148,31 @@ void draw_background() {
     SDL_RenderDrawRect(background_renderer, NULL);
 }
 
-void draw_bar(int center_x, int center_y, int width, int height) {
+void draw_bar(int x, int y, int width, int height) {
     SDL_Rect bar;
-    bar.x = center_x - width / 2;
-    bar.y = center_y - height / 2;
+    bar.x = x;
+    bar.y = y;
     bar.w = width;
     bar.h = height;
     SDL_RenderDrawRect(bar_renderer, &bar);
 }
 
-void draw_brick(int center_x, int center_y, int width, int height, int32_t colour) {
+void draw_brick(int x, int y, int width, int height, int32_t colour) {
     SDL_Rect brick;
-    brick.x = center_x - width / 2;
-    brick.y = center_y - height / 2;
+    brick.x = x;
+    brick.y = y;
     brick.w = width;
     brick.h = height;
     //TODO set renderer COLOUR
     SDL_RenderDrawRect(brick_renderer, &brick);    
 }
 
-
 //TODO REMOVE ALLLLLLL CENTERS
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height); 
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
-        vector2D_t center = center_of_brick(i);
-        draw_brick(center.x, center.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
+        vector2D_t corner = corner_of_brick(i);
+        draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
     }
     draw_circle(ball->position.x, ball->position.y, ball->radius); // ball
 }

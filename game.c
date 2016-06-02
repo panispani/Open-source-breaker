@@ -79,11 +79,11 @@ bool collision(ball_t *ball, vector2D_t center, double width, double height) {
     return false;
 }
 
-vector2D_t center_of_brick(int n) {
-    vector2D_t center;
-    center.y = n / BRICKS_PER_ROW + BRICK_WIDTH / 2 ;
-    center.x = n % BRICKS_PER_ROW + BRICK_HEIGHT / 2;
-    return center;
+vector2D_t corner_of_brick(int n) {
+    vector2D_t corner;
+    corner.y = BRICK_HEIGHT * (n / BRICKS_PER_ROW);
+    corner.x = BRICK_WIDTH * (n % BRICKS_PER_ROW);
+    return corner;
 }
 
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
