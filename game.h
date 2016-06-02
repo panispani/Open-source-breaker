@@ -26,6 +26,9 @@ typedef struct {
     int8_t lives;
 } bar_t;
 
+extern int gamewidth;
+extern int gameheight;
+
 void init_bar(bar_t *bar);
 void reset_bar(bar_t *bar);
 void init_ball(ball_t * ball);

@@ -42,25 +42,27 @@ static unsigned short def_b[] =
 char *fbp = 0;
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
+int screenwidth;
+int screenheight;
+int gamewidth;
+int gameheight;
 
-// helper function to 'plot' a pixel in given color
-//TODO: TAKE IN ACCOUNT GAMEWIDTH
+/*
+ * Color pixel (x, y) with color c 
+ */ 
 void put_pixel(int x, int y, int c)
 {
-    int game_offset = (finfo.line_length - gamewidth) / 2;
-    // calculate the pixel's byte offset inside the buffe
-    unsigned int pixel_offset = game_offset + x + y * finfo.line_length;
-    // now this is about the same as 'fbp[pix_offset] = value'
+    unsigned int pixel_offset = x + y * finfo.line_length;
+    // fbp[pix_offset] = value
     *(fbp + pixel_offset) = c;
 }
 
-/*********************************************************/
 /*
  * x and y are the center coordinates of the rectangle
  */ 
 void draw_rect(int center_x, int center_y, int width, int height, int32_t colour) {
-    int x = center_x - gamewidth / 2;
-    int y = center_y - gameheight / 2; 
+    int x = center_x - width / 2; 
+    int y = center_y - height / 2;
     for(int i = 0; i < width; i++) {
         for(int j = 0; j < height; j++) {
             put_pixel(i + x, y + j, colour);
@@ -98,7 +100,7 @@ void draw_cirle(int x0, int y0, int radius) {
 }
 
 void draw_background(int32_t colour) {
-    draw_rect(gamewidth / 2, gameheight / 2, gamewidth, gameheight, colour);
+    draw_rect(screenwidth / 2, screenheight / 2, screenwidth, screenheight, colour);
 }
 
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
@@ -109,6 +111,7 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     }
     draw_cirle(ball->position.x, ball->position.y, ball->radius); // ball
 }
+
 
 /*******************************/
 
