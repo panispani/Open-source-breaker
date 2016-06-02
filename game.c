@@ -1,8 +1,8 @@
 #include "includes.h"
 #define START_LIVES 3
 #define DEF_BAR_WIDTH 50
-#define DEF_BAR_HEIGHT 5
 #define DEF_BAR_Y (15 * gameheight / 16);
+#define DEF_BAR_HEIGHT 6
 #define DEF_BALL_RADIUS 4
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
 #define DEF_BALL_DX 1
@@ -87,10 +87,10 @@ int collision(ball_t *ball, vector2D_t other, double width, double height) {
 
     if (ball->position.x <= other.x + width &&
         ball->position.y <= other.y + height &&
-        ball->position.x + ball.diameter >= other.x &&
-        ball->position.y + ball.diameter >= other.y {
+        ball->position.x + ball->diameter >= other.x &&
+        ball->position.y + ball->diameter >= other.y) {
         if (ball->position.y - ball->direction.y > other.y + height ||
-            ball->position.y - ball->direction.y + ball.diameter < other.y) {
+            ball->position.y - ball->direction.y + ball->diameter < other.y) {
             return VERTICAL;
         }
         return HORIZONTAL;
@@ -98,11 +98,11 @@ int collision(ball_t *ball, vector2D_t other, double width, double height) {
     return 0;
 }
 
-vector2D_t brick_postition(int n) {
-    vector2D_t position;
-    position.y = n / BRICKS_PER_ROW;
-    position.x = n % BRICKS_PER_ROW;
-    return position;
+vector2D_t corner_of_brick(int n) {
+    vector2D_t corner;
+    corner.y = BRICK_HEIGHT * (n / BRICKS_PER_ROW);
+    corner.x = BRICK_WIDTH * (n % BRICKS_PER_ROW);
+    return corner;
 }
 
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
@@ -124,11 +124,11 @@ void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //check for collisions with the bar
     switch(collision(ball, bar->position, bar->width, bar->height)) {
         case VERTICAL:
-            ball.direction.y *= -1;
-            ball.direction.x = cram(ball->direction.x + bar->direction.x * BAR_BOUNCE, -BALL_MAX_SPEED, BALL_MAX_SPEED);
+            ball->direction.y *= -1;
+            ball->direction.x = cram(ball->direction.x + bar->direction.x * BAR_BOUNCE, -BALL_MAX_SPEED, BALL_MAX_SPEED);
             break;
         case HORIZONTAL:
-            ball.direction.x *= -1;
+            ball->direction.x *= -1;
             break;
     }
 }
@@ -137,15 +137,15 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            int col = collision(ball, brick_postition(i), BRICK_WIDTH, BRICK_HEIGHT);
+            int col = collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
             if(col) {
                 bricks[i] = 0x0;
                 switch(col) {
                     case VERTICAL:
-                        ball.direction.y *= -1;
+                        ball->direction.y *= -1;
                         break;
                     case HORIZONTAL:
-                        ball.direction.x *= -1;
+                        ball->direction.x *= -1;
                         break;
                 }
             }

@@ -12,5 +12,6 @@ void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void restart_on_keypress(game_state_t *game_state);
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
+void exit_game();
 
 #endif

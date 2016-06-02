@@ -3,11 +3,11 @@
 
 typedef enum game_state {
     START_GAME, START_MENU, PLAY_GAME, PAUSE_SCREEN,
-    LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME
+    LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME, EXIT_GAME
 } game_state_t;
 
 typedef enum {
-    VERTICAL = 1, HORIZONTAL = 2;
+    VERTICAL = 1, HORIZONTAL = 2
 } orientation;
 
 typedef struct {
@@ -42,6 +42,6 @@ void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state);
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state);
 void lose_life(bar_t *bar, game_state_t *game_state);
 double cram(double x, double left, double right);
-vector2D_t center_of_brick(int n);
+vector2D_t corner_of_brick(int n);
 
 #endif // __GAME_H
