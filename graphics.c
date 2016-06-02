@@ -6,6 +6,8 @@
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include "includes.h"
+#include <stdlib.h>
+#include <SDL2/SDL.h>
 
 // 'global' variables to store screen info
 char *fbp = NULL;
@@ -18,14 +20,15 @@ int gameheight;
 
 /*
  * Initialise screenwidth, height and open frame buffer device
- */ 
-void initialise_graphics() {
+ */
+void initialise_graphics()
+
     int fd = open("/dev/fb0", O_RDWR);
     if(!fd) {
         fprintf(stderr, "Error cannot open framebuffer");
         exit(EXIT_FAILURE);
     }
-    if(ioctl(fd, FBIOGET_FSCREENINFO, &finfo)) {       
+    if(ioctl(fd, FBIOGET_FSCREENINFO, &finfo)) {
         printf("Error reading screen information");
         exit(EXIT_FAILURE);
     }
@@ -44,42 +47,40 @@ void initialise_graphics() {
         fprintf(stderr, "Failed to mmap.\n");
         exit(EXIT_FAILURE);
     }
-    screenwidth = vinfo.xres;  
-    screenheight = vinfo.yres;     
+    screenwidth = vinfo.xres;
+    screenheight = vinfo.yres;
     gamewidth = screenwidth / 2;
     gameheight = screenheight;
 }
 
 /*
  * Draw screen when winning the game
- */ 
+ */
 void draw_win_screen() {
 
 }
 
 /*
  * Draw the game over screen
- */ 
+ */
 void draw_gameover_screen() {
 
 }
 
 
 /*
- * Color pixel (x, y) with color c 
- */ 
-void put_pixel(int x, int y, int c)
-{
-    unsigned int pixel_offset = x + y * finfo.line_length;
-    // fbp[pix_offset] = value
-    *(fbp + pixel_offset) = c;
+ * Color pixel (x, y) with color c
+ */
+
+void draw_pixel(SDL_Renderer* renderer, int x, int y) {
+    SDL_RenderDrawPoint(renderer, x, y);
 }
 
 /*
  * x and y are the center coordinates of the rectangle
- */ 
+ */
 void draw_rect(int center_x, int center_y, int width, int height, int32_t colour) {
-    int x = center_x - width / 2; 
+    int x = center_x - width / 2;
     int y = center_y - height / 2;
     for(int i = 0; i < width; i++) {
         for(int j = 0; j < height; j++) {
@@ -89,9 +90,9 @@ void draw_rect(int center_x, int center_y, int width, int height, int32_t colour
 }
 
 /*
- * Draw a filled circle using the 
+ * Draw a filled circle using the
  * Midpoint circle algorithm
- */ 
+ */
 void draw_cirle(int x0, int y0, int radius) {
     int32_t colour = BALL_COLOUR;
     int x = 0, y = radius;
@@ -202,7 +203,7 @@ void draw_line(int x0, int y0, int x1, int y1, int colour) {
         }
     }
 }
-   
+
 
 // helper function for drawing
 void draw() {
@@ -327,7 +328,7 @@ int main(int argc, char* argv[])
     else {
         // DRAW HERE
         //put_pixel(vinfo.xres/2, vinfo.yres/2, 0xAA);
-        draw_line(vinfo.xres/2, vinfo.yres/2, 
+        draw_line(vinfo.xres/2, vinfo.yres/2,
             vinfo.xres/4, vinfo.yres/4, 0xAA);
         sleep(1);
 
