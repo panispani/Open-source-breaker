@@ -129,11 +129,7 @@ void draw_rect(int center_x, int center_y, int width, int height, uint32_t colou
  * Midpoint circle algorithm
  */
 
- void draw_circle(SDL_Renderer* renderer, int x0, int y0, int radius, int colour) {
-     int red = ((EIGHTBIT_MASK << 16) && colour) >> 16;
-     int green = ((EIGHTBIT_MASK << 8) && colour) >> 8;
-     int blue = EIGHTBIT_MASK && colour;
-     SDL_SetRenderDrawColor(renderer, red, green, blue, 0);
+ void draw_circle(int x0, int y0, int radius) {
      int x = 0, y = radius;
      int dp = 1 - radius;
      do {
@@ -142,52 +138,39 @@ void draw_rect(int center_x, int center_y, int width, int height, uint32_t colou
          } else {
              dp = dp + 2 * (++x) - 2 * (--y) + 5;
          }
-         draw_pixel(renderer, x0 + x, y0 + y);
-         draw_pixel(renderer, x0 - x, y0 + y);
-         draw_pixel(renderer, x0 + x, y0 - y);
-         draw_pixel(renderer, x0 - x, y0 - y);
-         draw_pixel(renderer, x0 + y, y0 + x);
-         draw_pixel(renderer, x0 - y, y0 + x);
-         draw_pixel(renderer, x0 + y, y0 - x);
-         draw_pixel(renderer, x0 - y, y0 - x);
+         draw_pixel(ball_renderer, x0 + x, y0 + y);
+         draw_pixel(ball_renderer, x0 - x, y0 + y);
+         draw_pixel(ball_renderer, x0 + x, y0 - y);
+         draw_pixel(ball_renderer, x0 - x, y0 - y);
+         draw_pixel(ball_renderer, x0 + y, y0 + x);
+         draw_pixel(ball_renderer, x0 - y, y0 + x);
+         draw_pixel(ball_renderer, x0 + y, y0 - x);
+         draw_pixel(ball_renderer, x0 - y, y0 - x);
      } while (x < y);
  }
 
- //NEED TO FIX COLOURS
-void draw_filled_circle(SDL_Renderer* renderer, int x0, int y0, int radius, int colour) {
-     int red = ((EIGHTBIT_MASK << 16) && colour) >> 16;
-     int green = ((EIGHTBIT_MASK << 8) && colour) >> 8;
-     int blue = EIGHTBIT_MASK && colour;
-     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+void draw_filled_circle(int x0, int y0, int radius, int colour) {
      int x = 0, y = radius;
-     int dp = 1 - radius;
+     int error = 1 - radius;
      do {
-         if (dp < 0) {
-             dp = dp + 2 * (++x) + 3;
+         if (error < 0) {
+             x++;
+             y++;
+             error = error + 2 * x + 3;
          } else {
-             dp = dp + 2 * (++x) - 2 * (--y) + 5;
+             x++;
+             y--;
+             error = error + 2 * x - 2 * y + 5;
          }
-         for(int y=-radius; y<=radius; y++) {
-             for(int x=-radius; x<=radius; x++) {
-                 if(x*x+y*y <= radius*radius) {
-                     draw_pixel(renderer, x0+x, y0+y);
+         for(int y = -radius; y <= radius; y++) {
+             for(int x = -radius; x <= radius; x++) {
+                 if(x * x+ y * y <= radius * radius) {
+                     draw_pixel(ball_renderer, x0 + x, y0 + y);
                  }
              }
          }
 
      } while (x < y);
-}
-
-//NEED TO FIX COLOURS
-void draw_circle(SDL_Renderer* renderer, float time) {
-    for(int i = 0; i<=360; i++) {
-        draw_pixel(SDL_Renderer* renderer, int x, int y)
-        draw_pixel(renderer, (200 + (100*cos(i))), (100 + (100*sin(i))));
-    }
-    for(int j = 0; j<=100; j++) {
-        draw_pixel(renderer, (200 + (j*cos(time))), (100 + (j*sin(time))));
-    }
-    Sleep(1000);
 }
 
 void draw_background() {
@@ -221,6 +204,6 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
         vector2D_t center = center_of_brick(i);
         draw_brick(center.x, center.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
     }
-    draw_cirle(ball->position.x, ball->position.y, ball->radius); // ball
+    draw_circle(ball->position.x, ball->position.y, ball->radius); // ball
 }
 
