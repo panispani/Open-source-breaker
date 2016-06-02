@@ -13,10 +13,9 @@
 #include <time.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <linux/fb.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 /*
  * Header files
@@ -30,7 +29,7 @@
 
 /*
  * Useful Macros and defines
- */ 
+ */
 #define MAX_BRICKS_PER_LEVEL 150
 #define BRICK_WIDTH 30.0
 #define BRICK_HEIGHT 10.0
