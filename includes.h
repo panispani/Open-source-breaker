@@ -9,13 +9,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <math.h>
-#include <time.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <linux/fb.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#include <SDL.h>
 
 /*
  * Header files
