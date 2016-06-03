@@ -42,10 +42,10 @@
 #define BALL_G 0x45
 #define BALL_B 0xB3
 #define BALL_A 0x00
-#define BACK_R 0x69
-#define BACK_G 0x45
+#define BACK_R 0x00
+#define BACK_G 0x00
 #define BACK_B 0x00
-#define BACK_A 0x00
+#define BACK_A 1
 #define EIGHTBIT_MASK 0xFF
 
 #endif //__INCLUDES_H

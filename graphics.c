@@ -38,9 +38,9 @@ void initialise_graphics() {
     }
     SDL_SetRenderDrawColor(renderer, 0x00, 0x0, 0x00, 1);
     SDL_RenderFillRect(renderer, NULL);
-    refresh_screen();
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
+    refresh_screen();
 }
 
 void refresh_screen() {
@@ -60,10 +60,11 @@ void destroy_graphics() {
  * Draw background of game, whole window associated
  * with renderer
  */
+/*
 void draw_background() {
     SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderDrawRect(renderer, NULL);
-}
+} */
 
 /*
  * Draw player bar
@@ -105,7 +106,7 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
  * Draw the initial game, used ONLY there
  */ 
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
-    draw_background();
+    //draw_background();
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); 
     for(int32_t i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         vector2D_t corner = corner_of_brick(i);

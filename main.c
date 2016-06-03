@@ -1,4 +1,7 @@
 #include "includes.h"
+#define A_FLAG 0x1
+#define D_FLAG 0x2
+#define SPACE_FLAG 0x4
 
 int main(void) {
     game_state_t game_state = START_GAME;
@@ -14,18 +17,23 @@ void run(game_state_t game_state) {
     ball_t ball;
     int32_t bricks[MAX_BRICKS_PER_LEVEL];
     SDL_Event event;
+    int32_t controller_state;
     int32_t running = 1;
     while (running) {
+        controller_state = 0;
         if (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
             } else if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
                     case SDLK_a:
+                        controller_state |= A_FLAG;
                         break;
                     case SDLK_d:
+                        controller_state |= D_FLAG;
                         break;
                     case SDLK_SPACE:
+                        controller_state |= SPACE_FLAG; 
                         break;
                     default:
                         break;
@@ -59,6 +67,7 @@ void run(game_state_t game_state) {
                 break;
             case EXIT_GAME:
                 exit_game();
+                break;
             default:
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);

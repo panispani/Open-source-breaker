@@ -3,7 +3,7 @@
 #define DEF_BAR_WIDTH 50
 #define DEF_BAR_Y (15 * gameheight / 16);
 #define DEF_BAR_HEIGHT 6
-#define DEF_BALL_RADIUS 4
+#define DEF_BALL_RADIUS 2 
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
 #define DEF_BALL_DX 1
 #define DEF_BALL_DY 3
@@ -46,7 +46,7 @@ void reset_ball(ball_t * ball) {
     ball->position.y = DEF_BALL_HEIGHT;
     ball->direction.x = DEF_BALL_DX;
     ball->direction.y = DEF_BALL_DY;
-    ball->diameter = DEF_BALL_RADIUS;
+    ball->diameter = 2 * DEF_BALL_RADIUS;
 }
 
 /*
