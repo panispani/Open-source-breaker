@@ -39,14 +39,22 @@ void initialise_graphics() {
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x0, 0x00, 1);
-    SDL_RenderFillRect(renderer, NULL);
+    // SDL_SetRenderDrawColor(renderer, 0x00, 0x0, 0x00, 1);
+    // SDL_RenderFillRect(renderer, NULL);
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
     refresh_screen();
 }
 
-void refresh_screen() {
+void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
+    SDL_RenderClear(renderer);
+
+    // background
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 1);
+    SDL_RenderFillRect(renderer, NULL);
+
+    draw_game(bar, ball, bricks);
+
     SDL_RenderPresent(renderer);
 }
 

@@ -56,10 +56,10 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     if (!input) {
         bar->direction.x /= BAR_SLIDE_SLOWDOWN;
     } else {
-        hide_old_bar(bar);
+        //hide_old_bar(bar);
         bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -BAR_MAX_SPEED, BAR_MAX_SPEED);
         bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
-        draw_new_bar(bar);
+        //draw_new_bar(bar);
     }
 }
 
@@ -109,7 +109,7 @@ vector2D_t corner_of_brick(int n) {
 }
 
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
-    hide_old_ball(ball);
+    //hide_old_ball(ball);
     ball->position.x = cram(ball->position.x + ball->direction.x, 0, gamewidth  - ball->diameter);
     ball->position.y = cram(ball->position.y + ball->direction.y, 0, gameheight - ball->diameter);
     if (ball->position.x == 0 || ball->position.x + ball->diameter == gamewidth) {
@@ -155,5 +155,5 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             }
         }
     }
-    draw_new_ball(ball);
+    //draw_new_ball(ball);
 }

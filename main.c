@@ -19,7 +19,7 @@ void run(game_state_t game_state) {
     int32_t running = 1;
     while (running) {
         reset_controller();
-        if (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
             } else if (event.type == SDL_KEYDOWN) {
@@ -70,8 +70,8 @@ void run(game_state_t game_state) {
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);
         }
-        refresh_screen();
-        SDL_Delay(50);
+        refresh_screen(&bar, &ball, bricks);
+        SDL_Delay(500);
     }
     exit_game();
 }
