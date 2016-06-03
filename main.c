@@ -32,7 +32,6 @@ void run(game_state_t game_state) {
                 }
             }
         }
-        printf("game state = %d\n", game_state);
         switch(game_state) {
             case START_GAME:
                 start_game(&bar, &ball, &game_state, bricks);
@@ -64,6 +63,7 @@ void run(game_state_t game_state) {
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);
         }
+        SDL_Delay(50);
     }
     exit_game();
 }

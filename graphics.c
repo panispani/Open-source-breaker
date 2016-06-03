@@ -50,7 +50,6 @@ void destroy_graphics() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    printf("Am I here?\n");
 }
 
 /*
