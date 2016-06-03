@@ -17,7 +17,7 @@ SDL_Renderer *renderer;
 
 /*
  * Initialise screenwidth, height and open frame buffer device
- */ 
+ */
 void initialise_graphics() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_GetCurrentDisplayMode(0, &DM);
@@ -43,7 +43,7 @@ void initialise_graphics() {
     // SDL_RenderFillRect(renderer, NULL);
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
-    refresh_screen();
+    //refresh_screen();
 }
 
 void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
@@ -69,7 +69,7 @@ void destroy_graphics() {
 
 /*
  * Get red green blue values to represent input colour
- */ 
+ */
 void get_rgba(uint32_t colour, uint8_t *red, uint8_t *green, uint8_t *blue, uint8_t* alpha) {
     *red = (colour & RED_FLAG) >> RED_POS;
     *green = (colour & GREEN_FLAG) >> GREEN_POS;
@@ -79,7 +79,7 @@ void get_rgba(uint32_t colour, uint8_t *red, uint8_t *green, uint8_t *blue, uint
 
 /*
  * Draw player bar
- */ 
+ */
 void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colour) {
     SDL_Rect bar;
     bar.x = x;
@@ -94,7 +94,7 @@ void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colo
 
 /*
  * Draw a brick at start or when destroyed
- */ 
+ */
 void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
     static int index = 0;
     index++;
@@ -107,27 +107,27 @@ void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t col
     uint8_t red, green, blue, alpha;
     get_rgba(colour, &red, &green, &blue, &alpha);
     SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
-    SDL_RenderDrawRect(renderer, &brick);  
+    SDL_RenderDrawRect(renderer, &brick);
 }
 
 /*
  * Draw the ball to the background color or to its new position
- */ 
+ */
 void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
     uint8_t red, green, blue, alpha;
     get_rgba(colour, &red, &green, &blue, &alpha);
     SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
     draw_filled_circle(x, y, radius);
 }
- 
+
 /*
  * Draw the initial game, used ONLY there
- */ 
+ */
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
-    draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); 
+    draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR);
     for(int32_t i = 0; i < BRICKS_PER_LEVEL; i++) {
         vector2D_t corner = corner_of_brick(i);
-        draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, 
+        draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT,
                 bricks_level[bar->level][i]);
     }
 
@@ -136,7 +136,7 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
 
 /*
  * Draw a filled circle with center (x0, y0) and the given radius
- */ 
+ */
 void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
     int32_t x = 0, y = radius;
     int32_t error = 1 - radius;
@@ -161,9 +161,9 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
 }
 
 /*
- * Draws bar in background colour to hide it and draw the 
+ * Draws bar in background colour to hide it and draw the
  * updated one later
- */ 
+ */
 void hide_old_bar(bar_t *bar) {
     draw_bar(bar->position.x, bar->position.y,
                 bar->width, bar->height, BACK_COLOUR);
@@ -171,7 +171,7 @@ void hide_old_bar(bar_t *bar) {
 
 /*
  * Redraw bar after update
- */        
+ */
 void draw_new_bar(bar_t *bar) {
     draw_bar(bar->position.x, bar->position.y,
                 bar->width, bar->height, BAR_COLOUR);
@@ -181,7 +181,7 @@ void draw_new_bar(bar_t *bar) {
  * Draw ball in background colour to redraw the updated later
  */
 void hide_old_ball(ball_t *ball) {
-    draw_ball(ball->position.x, ball->position.y, 
+    draw_ball(ball->position.x, ball->position.y,
                 ball->diameter / 2, BACK_COLOUR);
 }
 
@@ -189,17 +189,17 @@ void hide_old_ball(ball_t *ball) {
  * Redraw ball after update so it results above backgound
  */
 void draw_new_ball(ball_t *ball) {
-    draw_ball(ball->position.x, ball->position.y, 
+    draw_ball(ball->position.x, ball->position.y,
                 ball->diameter / 2, BALL_COLOUR);
 }
 
 /*
  * Hide brick after it has been destroyed
- */ 
+ */
 void hide_old_brick(int i) {
     vector2D_t corner = corner_of_brick(i);
-    draw_brick(corner.x, corner.y, BRICK_WIDTH, 
-                    BRICK_HEIGHT, BACK_COLOUR); 
+    draw_brick(corner.x, corner.y, BRICK_WIDTH,
+                    BRICK_HEIGHT, BACK_COLOUR);
 }
 
 
@@ -235,7 +235,7 @@ void draw_line(SDL_Renderer* renderer, int32_t x0, int32_t y0, int32_t x1, int32
         exit(EXIT_FAILURE);
     }
 }
- 
+
 /*
  * Draw a filled circle using the
  * Midpoint circle algorithm

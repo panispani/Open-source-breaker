@@ -71,7 +71,7 @@ void run(game_state_t game_state) {
                 exit(EXIT_FAILURE);
         }
         refresh_screen(&bar, &ball, bricks);
-        SDL_Delay(500);
+        SDL_Delay(50);
     }
     exit_game();
 }
@@ -100,7 +100,7 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 }
 
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    draw_ball(ball->position.x, ball->position.y, 
+    draw_ball(ball->position.x, ball->position.y,
             ball->diameter / 2, BACK_COLOUR); //on background colour
     draw_bar(bar->position.x, bar->position.y,
             bar->width, bar->height, BACK_COLOUR); //background colour
