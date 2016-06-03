@@ -48,6 +48,7 @@
 #define BACK_A 0x01
 #define BAR_COLOUR 0x12FAA4
 #define BALL_COLOUR 0x1145B3
+#define BACK_COLOUR 0x000000
 #define EIGHTBIT_MASK 0xFF
 
 #endif //__INCLUDES_H

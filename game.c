@@ -12,7 +12,6 @@
 #define BAR_SLIDE_SLOWDOWN 1.15
 #define BAR_BOUNCE 0.75
 #define BALL_MAX_SPEED 6
-#define BACK_COLOUR 0xF32433
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -113,7 +112,7 @@ vector2D_t corner_of_brick(int n) {
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     //update ball
     draw_ball(ball->position.x, ball->position.y, 
-            ball->diameter / 2, 0x000000); //on background colour
+            ball->diameter / 2, BACK_COLOUR); //on background colour
     ball->position.x = cram(ball->position.x + ball->direction.x, 0, gamewidth  - ball->diameter);
     ball->position.y = cram(ball->position.y + ball->direction.y, 0, gameheight - ball->diameter);
     if (ball->position.x == 0 || ball->position.x + ball->diameter == gamewidth) {
