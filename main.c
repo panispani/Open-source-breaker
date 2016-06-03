@@ -13,13 +13,32 @@ void run(game_state_t game_state) {
     bar_t bar;
     ball_t ball;
     int32_t bricks[MAX_BRICKS_PER_LEVEL];
-    while(1) {
+    SDL_Event event;
+    int running = 1;
+    while(running) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                running = 0;
+            } else if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                    case SDLK_a:
+                        break;
+                    case SDLK_d:
+                        break;
+                    case SDLK_SPACE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        printf("game state = %d\n", game_state);
         switch(game_state) {
             case START_GAME:
                 start_game(&bar, &ball, &game_state, bricks);
                 break;
             case START_MENU:
-                start_menu(&bar, &ball, &game_state,bricks);
+                start_menu(&bar, &ball, &game_state, bricks);
                 break;
             case PLAY_GAME:
                 play_game(&bar, &ball, &game_state, bricks);
@@ -46,6 +65,7 @@ void run(game_state_t game_state) {
                 exit(EXIT_FAILURE);
         }
     }
+    exit_game();
 }
 
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
@@ -94,10 +114,6 @@ void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_gameover_screen();
     restart_on_keypress(game_state);
-    int8_t controller_state = 0;
-    while(!controller_state) {
-        check_keys(&controller_state);    
-    }
     game_state = START_GAME;
 }
 
@@ -114,10 +130,6 @@ void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *brick
 }
 
 void restart_on_keypress(game_state_t *game_state) {
-    int8_t controller_state = 0;
-    while(!controller_state) {
-        check_keys(&controller_state);    
-    }
     *game_state = START_GAME;
 }
 

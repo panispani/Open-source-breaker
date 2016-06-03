@@ -29,13 +29,16 @@ void initialise_graphics() {
     if(window == NULL) {
         fprintf(stderr, "Could not create window %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    } 
+    }
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if(renderer == NULL) {
         free(window);
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderDrawRect(renderer, NULL);
+    SDL_RenderPresent(renderer);
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
 }
@@ -47,6 +50,7 @@ void destroy_graphics() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    printf("Am I here?\n");
 }
 
 /*
@@ -56,6 +60,7 @@ void destroy_graphics() {
 void draw_background() {
     SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderDrawRect(renderer, NULL);
+    SDL_RenderPresent(renderer);
 }
 
 /*
@@ -70,6 +75,7 @@ void draw_bar(int x, int y, int width, int height, int32_t colour) {
     //TODO: input colour
     SDL_SetRenderDrawColor(renderer, BAR_R, BAR_G, BAR_B, BAR_A);
     SDL_RenderDrawRect(renderer, &bar);
+    SDL_RenderPresent(renderer);
 }
 
 /*
@@ -82,7 +88,8 @@ void draw_brick(int x, int y, int width, int height, int32_t colour) {
     brick.w = width;
     brick.h = height;
     //TODO set renderer COLOUR
-    SDL_RenderDrawRect(renderer, &brick);    
+    SDL_RenderDrawRect(renderer, &brick);  
+    SDL_RenderPresent(renderer);  
 }
 
 /*
@@ -92,6 +99,7 @@ void draw_ball(int x, int y, int radius, int32_t colour) {
     //TODO: check colour
     SDL_SetRenderDrawColor(renderer, BALL_R, BALL_G, BALL_B, BALL_A);
     draw_filled_circle(x, y, radius);
+    SDL_RenderPresent(renderer);
 }
  
 /*
@@ -153,6 +161,7 @@ void draw_gameover_screen() {
  */
 void draw_pixel(SDL_Renderer* renderer, int x, int y) {
     SDL_RenderDrawPoint(renderer, x, y);
+    SDL_RenderPresent(renderer);
 }
 
 /*
