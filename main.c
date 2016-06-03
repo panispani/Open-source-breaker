@@ -1,12 +1,10 @@
 #include "includes.h"
-#define A_FLAG 0x1
-#define D_FLAG 0x2
-#define SPACE_FLAG 0x4
 
 int main(void) {
     game_state_t game_state = START_GAME;
     initialise_graphics();
     initialise_levels();
+    initialise_controller();
     run(game_state);
 }
 
@@ -18,23 +16,22 @@ void run(game_state_t game_state) {
     ball_t ball;
     int32_t bricks[BRICKS_PER_LEVEL];
     SDL_Event event;
-    int32_t controller_state;
     int32_t running = 1;
     while (running) {
-        controller_state = 0;
+        reset_controller();
         if (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
             } else if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
                     case SDLK_a:
-                        controller_state |= A_FLAG;
+                        set_controller(A_FLAG);
                         break;
                     case SDLK_d:
-                        controller_state |= D_FLAG;
+                        set_controller(D_FLAG);
                         break;
                     case SDLK_SPACE:
-                        controller_state |= SPACE_FLAG; 
+                        set_controller(SPACE_FLAG);
                         break;
                     default:
                         break;
@@ -90,17 +87,12 @@ void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 }
 
 /*
- * TODO: draw in update function
+ * TODO: draw here
  */
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    int8_t controller_state = 0;
-    check_keys(&controller_state);
-    update_bar(bar, controller_state);
+    update_bar(bar, get_controller_state());
     update_ball(ball, bar, game_state);
     update_bricks(ball, bricks, game_state);
-    if(*game_state == LOSE_GAME) {
-        return;
-    }
 }
 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
@@ -110,6 +102,8 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_ball(ball->position.x, ball->position.y, 
             ball->diameter / 2, BACK_COLOUR); //on background colour
+    draw_bar(bar->position.x, bar->position.y,
+            bar->width, bar->height, BACK_COLOUR); //background colour
     reset_bar(bar);
     reset_ball(ball);
     lose_life(bar, game_state);
