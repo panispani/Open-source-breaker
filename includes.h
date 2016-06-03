@@ -34,8 +34,6 @@
 #define BRICK_WIDTH 30.0
 #define BRICK_HEIGHT 10.0
 #define BRICKS_PER_ROW 10
-#define BAR_COLOUR 0x99
-#define BALL_COLOUR 0XFD
 #define BAR_R 0x12
 #define BAR_G 0xFA
 #define BAR_B 0xA4

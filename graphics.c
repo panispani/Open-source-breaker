@@ -1,4 +1,7 @@
 #include "includes.h"
+//TODO: remove
+#define BAR_COLOUR 0x2
+#define BALL_COLOUR 0x3
 
 // 'global' variables to store screen info
 int screenwidth;
@@ -58,12 +61,13 @@ void draw_background() {
 /*
  * Draw player bar
  */ 
-void draw_bar(int x, int y, int width, int height) {
+void draw_bar(int x, int y, int width, int height, int32_t colour) {
     SDL_Rect bar;
     bar.x = x;
     bar.y = y;
     bar.w = width;
     bar.h = height;
+    //TODO: input colour
     SDL_SetRenderDrawColor(renderer, BAR_R, BAR_G, BAR_B, BAR_A);
     SDL_RenderDrawRect(renderer, &bar);
 }
@@ -84,7 +88,8 @@ void draw_brick(int x, int y, int width, int height, int32_t colour) {
 /*
  * Draw the ball to the background color or to its new position
  */ 
-void draw_ball(int x, int y, int radius) {
+void draw_ball(int x, int y, int radius, int32_t colour) {
+    //TODO: check colour
     SDL_SetRenderDrawColor(renderer, BALL_R, BALL_G, BALL_B, BALL_A);
     draw_filled_circle(x, y, radius);
 }
@@ -93,13 +98,14 @@ void draw_ball(int x, int y, int radius) {
  * Draw the initial game, used ONLY there
  */ 
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
-    draw_bar(bar->position.x, bar->position.y, bar->width, bar->height); 
+    draw_background();
+    draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); 
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         vector2D_t corner = corner_of_brick(i);
         draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, 
                 bricks_level[bar->level][i]);
     }
-    draw_ball(ball->position.x, ball->position.y, ball->diameter / 2);
+    draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
 }
 
 /*
