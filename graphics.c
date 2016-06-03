@@ -88,9 +88,12 @@ void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colo
  * Draw a brick at start or when destroyed
  */ 
 void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
+    static int index = 0;
+    index++;
+    printf("%d (%d, %d)\n", index, x, y);
     SDL_Rect brick;
-    brick.x = x;
-    brick.y = y;
+    brick.x = x + 100;
+    brick.y = y + 100;
     brick.w = width;
     brick.h = height;
     uint8_t red, green, blue, alpha;
@@ -114,11 +117,15 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
  */ 
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); 
+    for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
+        printf("%d\n", bricks_level[0][i]);
+    }
     for(int32_t i = 0; i < BRICKS_PER_LEVEL; i++) {
         vector2D_t corner = corner_of_brick(i);
         draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, 
                 bricks_level[bar->level][i]);
     }
+
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
     refresh_screen();
 }

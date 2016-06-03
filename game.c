@@ -1,7 +1,8 @@
 #include "includes.h"
 #define START_LIVES 3
-#define DEF_BAR_WIDTH 50
-#define DEF_BAR_Y (15 * gameheight / 16);
+#define DEF_BAR_WIDTH 120
+#define DEF_BAR_Y (15 * gameheight / 16)
+#define DEF_BAR_X gamewidth / 2 + 20
 #define DEF_BAR_HEIGHT 6
 #define DEF_BALL_RADIUS 2 
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
@@ -27,7 +28,7 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
 }
 
 void reset_bar(bar_t *bar) {
-    bar->position.x = gamewidth / 2;
+    bar->position.x = DEF_BAR_X;
     bar->position.y = DEF_BAR_Y;
     bar->direction.x = 0;
     bar->width = DEF_BAR_WIDTH;
