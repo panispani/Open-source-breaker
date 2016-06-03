@@ -85,11 +85,8 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     int8_t controller_state = 0;
     check_keys(&controller_state);
     update_bar(bar, controller_state);
-    SDL_Delay(20);
     update_ball(ball, bar, game_state);
-    SDL_Delay(20);
     update_bricks(ball, bricks, game_state);
-    SDL_Delay(20);
     if(*game_state == LOSE_GAME) {
         return;
     }
