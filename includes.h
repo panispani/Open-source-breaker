@@ -46,6 +46,7 @@
 #define BACK_G 0x00
 #define BACK_B 0x00
 #define BACK_A 1
+#define BAR_COLOUR 0x12FAA4
 #define EIGHTBIT_MASK 0xFF
 
 #endif //__INCLUDES_H

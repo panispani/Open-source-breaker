@@ -1,7 +1,12 @@
 #include "includes.h"
 //TODO: remove
-#define BAR_COLOUR 0x2
 #define BALL_COLOUR 0x3
+#define RED_FLAG 0xFF0000
+#define GREEN_FLAG 0x00FF00
+#define BLUE_FLAG 0x0000FF
+#define RED_POS 16
+#define GREEN_POS 8
+#define BLUE_POS 0
 
 // 'global' variables to store screen info
 int32_t screenwidth;
@@ -57,6 +62,16 @@ void destroy_graphics() {
 }
 
 /*
+ * Get red green blue values to represent input colour
+ */ 
+void get_rgba(uint32_t colour, uint8_t *red, uint8_t *green, uint8_t *blue, uint8_t* alpha) {
+    *red = (colour & RED_FLAG) >> RED_POS;
+    *green = (colour & GREEN_FLAG) >> GREEN_POS;
+    *blue = (colour & BLUE_FLAG) >> BLUE_POS;
+    *alpha = SDL_ALPHA_OPAQUE;
+}
+
+/*
  * Draw background of game, whole window associated
  * with renderer
  */
@@ -69,16 +84,18 @@ void draw_background() {
 /*
  * Draw player bar
  */ 
-void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
+void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colour) {
     SDL_Rect bar;
     bar.x = x;
     bar.y = y;
     bar.w = width;
     bar.h = height;
-    //TODO: input colour
-    SDL_SetRenderDrawColor(renderer, BAR_R, BAR_G, BAR_B, BAR_A);
+    uint8_t red, green, blue, alpha;
+    get_rgba(colour, &red, &green, &blue, &alpha);
+    SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
     SDL_RenderDrawRect(renderer, &bar);
 }
+
 
 /*
  * Draw a brick at start or when destroyed
