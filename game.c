@@ -52,7 +52,7 @@ void reset_ball(ball_t * ball) {
  * TODO: fire from the bar
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
-    int input = (controller_state & 0x1) - (controller_state & 0x2);
+    int input = (controller_state & 0x2) - (controller_state & 0x1);
     if (!input) {
         bar->direction.x /= BAR_SLIDE_SLOWDOWN;
     } else {
