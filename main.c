@@ -14,7 +14,7 @@ void run(game_state_t game_state) {
     ball_t ball;
     int32_t bricks[MAX_BRICKS_PER_LEVEL];
     SDL_Event event;
-    int running = 1;
+    int32_t running = 1;
     while (running) {
         if (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {

@@ -30,8 +30,8 @@ typedef struct {
     int8_t lives;
 } bar_t;
 
-extern int gamewidth;
-extern int gameheight;
+extern int32_t gamewidth;
+extern int32_t gameheight;
 
 void init_bar(bar_t *bar);
 void reset_bar(bar_t *bar);

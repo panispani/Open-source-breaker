@@ -4,10 +4,10 @@
 #define BALL_COLOUR 0x3
 
 // 'global' variables to store screen info
-int screenwidth;
-int screenheight;
-int gamewidth;
-int gameheight;
+int32_t screenwidth;
+int32_t screenheight;
+int32_t gamewidth;
+int32_t gameheight;
 SDL_Window *window;
 SDL_DisplayMode DM;
 SDL_Renderer *renderer;
@@ -68,7 +68,7 @@ void draw_background() {
 /*
  * Draw player bar
  */ 
-void draw_bar(int x, int y, int width, int height, int32_t colour) {
+void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
     SDL_Rect bar;
     bar.x = x;
     bar.y = y;
@@ -82,7 +82,7 @@ void draw_bar(int x, int y, int width, int height, int32_t colour) {
 /*
  * Draw a brick at start or when destroyed
  */ 
-void draw_brick(int x, int y, int width, int height, int32_t colour) {
+void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
     SDL_Rect brick;
     brick.x = x;
     brick.y = y;
@@ -95,7 +95,7 @@ void draw_brick(int x, int y, int width, int height, int32_t colour) {
 /*
  * Draw the ball to the background color or to its new position
  */ 
-void draw_ball(int x, int y, int radius, int32_t colour) {
+void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
     //TODO: check colour
     SDL_SetRenderDrawColor(renderer, BALL_R, BALL_G, BALL_B, BALL_A);
     draw_filled_circle(x, y, radius);
@@ -107,7 +107,7 @@ void draw_ball(int x, int y, int radius, int32_t colour) {
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     draw_background();
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); 
-    for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
+    for(int32_t i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         vector2D_t corner = corner_of_brick(i);
         draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, 
                 bricks_level[bar->level][i]);
@@ -119,9 +119,9 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
 /*
  * Draw a filled circle with center (x0, y0) and the given radius
  */ 
-void draw_filled_circle(int x0, int y0, int radius) {
-    int x = 0, y = radius;
-    int error = 1 - radius;
+void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
+    int32_t x = 0, y = radius;
+    int32_t error = 1 - radius;
     do {
         if (error < 0) {
             x++;
@@ -132,8 +132,8 @@ void draw_filled_circle(int x0, int y0, int radius) {
             y--;
             error = error + 2 * x - 2 * y + 5;
         }
-        for(int y = -radius; y <= radius; y++) {
-           for(int x = -radius; x <= radius; x++) {
+        for(int32_t y = -radius; y <= radius; y++) {
+           for(int32_t x = -radius; x <= radius; x++) {
                 if(x * x+ y * y <= radius * radius) {
                     SDL_RenderDrawPoint(renderer,x0 + x,y0 + y);
                 }
@@ -159,15 +159,15 @@ void draw_gameover_screen() {
 /*
  * Color pixel (x, y) with color c
  */
-void draw_pixel(SDL_Renderer* renderer, int x, int y) {
+void draw_pixel(SDL_Renderer* renderer, int32_t x, int32_t y) {
     SDL_RenderDrawPoint(renderer, x, y);
 }
 
 /*
  * Draw a line from (x0, y0) to (y0, y1)
  */
-void draw_line(SDL_Renderer* renderer, int x0, int y0, int x1, int y1) {
-    int out = SDL_RenderDrawLine(renderer, x0, y0, x1, y1);
+void draw_line(SDL_Renderer* renderer, int32_t x0, int32_t y0, int32_t x1, int32_t y1) {
+    int32_t out = SDL_RenderDrawLine(renderer, x0, y0, x1, y1);
     if (out) {
         fprintf(stderr, "Error when drawing the line\n");
         destroy_graphics();
@@ -179,9 +179,9 @@ void draw_line(SDL_Renderer* renderer, int x0, int y0, int x1, int y1) {
  * Draw a filled circle using the
  * Midpoint circle algorithm
  */
-void draw_circle(int x0, int y0, int radius) {
-     int x = 0, y = radius;
-     int dp = 1 - radius;
+void draw_circle(int32_t x0, int32_t y0, int32_t radius) {
+     int32_t x = 0, y = radius;
+     int32_t dp = 1 - radius;
      do {
          if (dp < 0) {
              dp = dp + 2 * (++x) + 3;
