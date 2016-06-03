@@ -3,12 +3,12 @@
 int main(void) {
     game_state_t game_state = START_GAME;
     initialise_graphics();
-    run(game_state);    
+    run(game_state);
 }
 
 /*
  * Run one game tick, call corresponding function depending on the game_state
- */ 
+ */
 void run(game_state_t game_state) {
     bar_t bar;
     ball_t ball;
@@ -80,13 +80,16 @@ void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 
 /*
  * TODO: draw in update function
- */ 
+ */
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     int8_t controller_state = 0;
     check_keys(&controller_state);
     update_bar(bar, controller_state);
+    SDL_Delay(20);
     update_ball(ball, bar, game_state);
+    SDL_Delay(20);
     update_bricks(ball, bricks, game_state);
+    SDL_Delay(20);
     if(*game_state == LOSE_GAME) {
         return;
     }
@@ -107,7 +110,7 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     bricks = bricks_level[bar->level];
-    *game_state = PLAY_GAME;     
+    *game_state = PLAY_GAME;
     draw_game(bar, ball, bricks);
 }
 
