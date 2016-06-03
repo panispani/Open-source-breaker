@@ -144,14 +144,13 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            int col = collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
-            if(col) {
+            int is_colision = collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
+            if(is_colision) {
                 vector2D_t corner = corner_of_brick(i);
-                draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, 
-                BACK_COLOUR); //on background colour
- 
+                draw_brick(corner.x, corner.y, BRICK_WIDTH, 
+                        BRICK_HEIGHT, BACK_COLOUR); //on background colour
                 bricks[i] = 0x0;
-                switch(col) {
+                switch(is_colision) {
                     case VERTICAL:
                         ball->direction.y *= -1;
                         break;

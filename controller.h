@@ -1,13 +1,9 @@
 #ifndef __CONTROLLER_H
 #define __CONTROLLER_H
 
-/*
- * The controller state bits should be set as follows
- * The bottom 3 bits should show the state of the players buttons
- * 1 for pressed, 0 for not pressed. The bottom 3 bits represent
- * the left, right and fire button accordingly
- * (starting from the bottom bit)
- */ 
-void check_keys(int8_t *controller_state);
+void initialise_controller();
+void reset_controller();
+void set_controller(int16_t flag);
+int16_t get_controller_state();
 
 #endif

@@ -50,5 +50,10 @@
 #define BALL_COLOUR 0x1145B3
 #define BACK_COLOUR 0x000000
 #define EIGHTBIT_MASK 0xFF
+/* CONTROLLER FLAGS */
+#define A_FLAG 0x1
+#define D_FLAG 0x2
+#define SPACE_FLAG 0x4
+
 
 #endif //__INCLUDES_H
