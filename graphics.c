@@ -38,9 +38,13 @@ void initialise_graphics() {
     }
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderDrawRect(renderer, NULL);
-    SDL_RenderPresent(renderer);
+    refresh_screen();
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
+}
+
+void refresh_screen() {
+    SDL_RenderPresent(renderer);
 }
 
 /*
@@ -59,7 +63,6 @@ void destroy_graphics() {
 void draw_background() {
     SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderDrawRect(renderer, NULL);
-    SDL_RenderPresent(renderer);
 }
 
 /*
@@ -74,7 +77,6 @@ void draw_bar(int x, int y, int width, int height, int32_t colour) {
     //TODO: input colour
     SDL_SetRenderDrawColor(renderer, BAR_R, BAR_G, BAR_B, BAR_A);
     SDL_RenderDrawRect(renderer, &bar);
-    SDL_RenderPresent(renderer);
 }
 
 /*
@@ -88,7 +90,6 @@ void draw_brick(int x, int y, int width, int height, int32_t colour) {
     brick.h = height;
     //TODO set renderer COLOUR
     SDL_RenderDrawRect(renderer, &brick);  
-    SDL_RenderPresent(renderer);  
 }
 
 /*
@@ -98,7 +99,6 @@ void draw_ball(int x, int y, int radius, int32_t colour) {
     //TODO: check colour
     SDL_SetRenderDrawColor(renderer, BALL_R, BALL_G, BALL_B, BALL_A);
     draw_filled_circle(x, y, radius);
-    SDL_RenderPresent(renderer);
 }
  
 /*
@@ -113,6 +113,7 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
                 bricks_level[bar->level][i]);
     }
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
+    refresh_screen();
 }
 
 /*
@@ -160,7 +161,6 @@ void draw_gameover_screen() {
  */
 void draw_pixel(SDL_Renderer* renderer, int x, int y) {
     SDL_RenderDrawPoint(renderer, x, y);
-    SDL_RenderPresent(renderer);
 }
 
 /*

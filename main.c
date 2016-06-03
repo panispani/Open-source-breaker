@@ -63,6 +63,7 @@ void run(game_state_t game_state) {
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);
         }
+        refresh_screen();
         SDL_Delay(50);
     }
     exit_game();
