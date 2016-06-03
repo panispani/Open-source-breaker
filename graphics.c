@@ -1,6 +1,4 @@
 #include "includes.h"
-//TODO: remove
-#define BALL_COLOUR 0x3
 #define RED_FLAG 0xFF0000
 #define GREEN_FLAG 0x00FF00
 #define BLUE_FLAG 0x0000FF
@@ -72,16 +70,6 @@ void get_rgba(uint32_t colour, uint8_t *red, uint8_t *green, uint8_t *blue, uint
 }
 
 /*
- * Draw background of game, whole window associated
- * with renderer
- */
-/*
-void draw_background() {
-    SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
-    SDL_RenderDrawRect(renderer, NULL);
-} */
-
-/*
  * Draw player bar
  */ 
 void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colour) {
@@ -96,7 +84,6 @@ void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colo
     SDL_RenderDrawRect(renderer, &bar);
 }
 
-
 /*
  * Draw a brick at start or when destroyed
  */ 
@@ -106,7 +93,9 @@ void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t col
     brick.y = y;
     brick.w = width;
     brick.h = height;
-    //TODO set renderer COLOUR
+    uint8_t red, green, blue, alpha;
+    get_rgba(colour, &red, &green, &blue, &alpha);
+    SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
     SDL_RenderDrawRect(renderer, &brick);  
 }
 
@@ -114,8 +103,9 @@ void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t col
  * Draw the ball to the background color or to its new position
  */ 
 void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
-    //TODO: check colour
-    SDL_SetRenderDrawColor(renderer, BALL_R, BALL_G, BALL_B, BALL_A);
+    uint8_t red, green, blue, alpha;
+    get_rgba(colour, &red, &green, &blue, &alpha);
+    SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
     draw_filled_circle(x, y, radius);
 }
  
@@ -123,9 +113,8 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
  * Draw the initial game, used ONLY there
  */ 
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
-    //draw_background();
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); 
-    for(int32_t i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
+    for(int32_t i = 0; i < BRICKS_PER_LEVEL; i++) {
         vector2D_t corner = corner_of_brick(i);
         draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT, 
                 bricks_level[bar->level][i]);

@@ -6,6 +6,7 @@
 int main(void) {
     game_state_t game_state = START_GAME;
     initialise_graphics();
+    initialise_levels();
     run(game_state);
 }
 
@@ -15,7 +16,7 @@ int main(void) {
 void run(game_state_t game_state) {
     bar_t bar;
     ball_t ball;
-    int32_t bricks[MAX_BRICKS_PER_LEVEL];
+    int32_t bricks[BRICKS_PER_LEVEL];
     SDL_Event event;
     int32_t controller_state;
     int32_t running = 1;
