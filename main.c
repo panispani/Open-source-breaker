@@ -15,8 +15,8 @@ void run(game_state_t game_state) {
     int32_t bricks[MAX_BRICKS_PER_LEVEL];
     SDL_Event event;
     int running = 1;
-    while(running) {
-        while (SDL_PollEvent(&event)) {
+    while (running) {
+        if (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
             } else if (event.type == SDL_KEYDOWN) {
@@ -32,7 +32,7 @@ void run(game_state_t game_state) {
                 }
             }
         }
-        switch(game_state) {
+        switch (game_state) {
             case START_GAME:
                 start_game(&bar, &ball, &game_state, bricks);
                 break;

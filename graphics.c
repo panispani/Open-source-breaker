@@ -36,8 +36,8 @@ void initialise_graphics() {
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderDrawRect(renderer, NULL);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x0, 0x00, 1);
+    SDL_RenderFillRect(renderer, NULL);
     refresh_screen();
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
