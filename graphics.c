@@ -153,6 +153,49 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
 }
 
 /*
+ * Draws bar in background colour to hide it and draw the 
+ * updated one later
+ */ 
+void hide_old_bar(bar_t *bar) {
+    draw_bar(bar->position.x, bar->position.y,
+                bar->width, bar->height, BACK_COLOUR);
+}
+
+/*
+ * Redraw bar after update
+ */        
+void draw_new_bar(bar_t *bar) {
+    draw_bar(bar->position.x, bar->position.y,
+                bar->width, bar->height, BAR_COLOUR);
+}
+
+/*
+ * Draw ball in background colour to redraw the updated later
+ */
+void hide_old_ball(ball_t *ball) {
+    draw_ball(ball->position.x, ball->position.y, 
+                ball->diameter / 2, BACK_COLOUR);
+}
+
+/*
+ * Redraw ball after update so it results above backgound
+ */
+void draw_new_ball(ball_t *ball) {
+    draw_ball(ball->position.x, ball->position.y, 
+                ball->diameter / 2, BALL_COLOUR);
+}
+
+/*
+ * Hide brick after it has been destroyed
+ */ 
+void hide_old_brick(int i) {
+    vector2D_t corner = corner_of_brick(i);
+    draw_brick(corner.x, corner.y, BRICK_WIDTH, 
+                    BRICK_HEIGHT, BACK_COLOUR); 
+}
+
+
+/*
  * Draw screen when winning the game
  */
 void draw_win_screen() {

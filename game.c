@@ -56,12 +56,10 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     if (!input) {
         bar->direction.x /= BAR_SLIDE_SLOWDOWN;
     } else {
+        hide_old_bar(bar);
         bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -BAR_MAX_SPEED, BAR_MAX_SPEED);
-        draw_bar(bar->position.x, bar->position.y,
-                bar->width, bar->height, BACK_COLOUR); //draw on background colour
         bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
-        draw_bar(bar->position.x, bar->position.y,
-                bar->width, bar->height, BAR_COLOUR); //draw its new position
+        draw_new_bar(bar);
     }
 }
 
@@ -111,9 +109,7 @@ vector2D_t corner_of_brick(int n) {
 }
 
 void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
-    //update ball
-    draw_ball(ball->position.x, ball->position.y, 
-            ball->diameter / 2, BACK_COLOUR); //on background colour
+    hide_old_ball(ball);
     ball->position.x = cram(ball->position.x + ball->direction.x, 0, gamewidth  - ball->diameter);
     ball->position.y = cram(ball->position.y + ball->direction.y, 0, gameheight - ball->diameter);
     if (ball->position.x == 0 || ball->position.x + ball->diameter == gamewidth) {
@@ -146,9 +142,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
         if(bricks[i]) {
             int is_colision = collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
             if(is_colision) {
-                vector2D_t corner = corner_of_brick(i);
-                draw_brick(corner.x, corner.y, BRICK_WIDTH, 
-                        BRICK_HEIGHT, BACK_COLOUR); //on background colour
+                hide_old_brick(i);
                 bricks[i] = 0x0;
                 switch(is_colision) {
                     case VERTICAL:
@@ -161,6 +155,5 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             }
         }
     }
-    draw_ball(ball->position.x, ball->position.y, 
-            ball->diameter / 2, BALL_COLOUR); //on new position, so it results above the background
+    draw_new_ball(ball);
 }
