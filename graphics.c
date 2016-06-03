@@ -43,18 +43,14 @@ void initialise_graphics() {
     // SDL_RenderFillRect(renderer, NULL);
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
-    //refresh_screen();
 }
 
 void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
     SDL_RenderClear(renderer);
-
     // background
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 1);
     SDL_RenderFillRect(renderer, NULL);
-
     draw_game(bar, ball, bricks);
-
     SDL_RenderPresent(renderer);
 }
 
@@ -96,9 +92,6 @@ void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colo
  * Draw a brick at start or when destroyed
  */
 void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
-    static int index = 0;
-    index++;
-    printf("%d (%d, %d)\n", index, x, y);
     SDL_Rect brick;
     brick.x = x + 100;
     brick.y = y + 100;
@@ -159,49 +152,6 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
         }
     } while (x < y);
 }
-
-/*
- * Draws bar in background colour to hide it and draw the
- * updated one later
- */
-void hide_old_bar(bar_t *bar) {
-    draw_bar(bar->position.x, bar->position.y,
-                bar->width, bar->height, BACK_COLOUR);
-}
-
-/*
- * Redraw bar after update
- */
-void draw_new_bar(bar_t *bar) {
-    draw_bar(bar->position.x, bar->position.y,
-                bar->width, bar->height, BAR_COLOUR);
-}
-
-/*
- * Draw ball in background colour to redraw the updated later
- */
-void hide_old_ball(ball_t *ball) {
-    draw_ball(ball->position.x, ball->position.y,
-                ball->diameter / 2, BACK_COLOUR);
-}
-
-/*
- * Redraw ball after update so it results above backgound
- */
-void draw_new_ball(ball_t *ball) {
-    draw_ball(ball->position.x, ball->position.y,
-                ball->diameter / 2, BALL_COLOUR);
-}
-
-/*
- * Hide brick after it has been destroyed
- */
-void hide_old_brick(int i) {
-    vector2D_t corner = corner_of_brick(i);
-    draw_brick(corner.x, corner.y, BRICK_WIDTH,
-                    BRICK_HEIGHT, BACK_COLOUR);
-}
-
 
 /*
  * Draw screen when winning the game

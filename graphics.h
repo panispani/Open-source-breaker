@@ -14,10 +14,5 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius);
 void draw_win_screen();
 void draw_gameover_screen();
 void destroy_graphics();
-void hide_old_bar(bar_t *bar);
-void draw_new_bar(bar_t *bar);
-void hide_old_ball(ball_t *ball);
-void draw_new_ball(ball_t *ball);
-void hide_old_brick(int i);
 
 #endif //__GRAPHICS_H
