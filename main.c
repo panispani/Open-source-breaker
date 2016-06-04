@@ -113,7 +113,7 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    memcpy(bricks, bricks_level[bar->level], BRICKS_PER_LEVEL);
+    memcpy(bricks, bricks_level[bar->level], sizeof(int32_t) * BRICKS_PER_LEVEL);
     *game_state = PLAY_GAME;
     draw_game(bar, ball, bricks);
 }
@@ -136,6 +136,7 @@ void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *brick
     restart_on_keypress(game_state);
 }
 
+//TODO: CORRECT THIS
 void restart_on_keypress(game_state_t *game_state) {
     *game_state = START_GAME;
 }
