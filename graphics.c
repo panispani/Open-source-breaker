@@ -93,8 +93,8 @@ void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colo
  */
 void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
     SDL_Rect brick;
-    brick.x = x + 100;
-    brick.y = y + 100;
+    brick.x = x;
+    brick.y = y;
     brick.w = width;
     brick.h = height;
     uint8_t red, green, blue, alpha;

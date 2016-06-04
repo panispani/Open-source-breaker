@@ -12,7 +12,9 @@
 #define BAR_SPEED_UP 3
 #define BAR_SLIDE_SLOWDOWN 1.15
 #define BAR_BOUNCE 0.75
-#define BALL_MAX_SPEED 6
+#define BALL_MAX_SPEED 26
+#define BRICK_X_OFFSET gamewidth / 4 
+#define BRICK_Y_OFFSET gamewidth / 16
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -100,8 +102,8 @@ int collision(ball_t *ball, vector2D_t other, double width, double height) {
 
 vector2D_t corner_of_brick(int n) {
     vector2D_t corner;
-    corner.y = BRICK_HEIGHT * (n / BRICKS_PER_ROW);
-    corner.x = BRICK_WIDTH * (n % BRICKS_PER_ROW);
+    corner.y = BRICK_HEIGHT * (n / BRICKS_PER_ROW) + BRICK_Y_OFFSET;
+    corner.x = BRICK_WIDTH * (n % BRICKS_PER_ROW) + BRICK_X_OFFSET;
     return corner;
 }
 
