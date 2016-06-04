@@ -100,7 +100,7 @@ void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t col
     uint8_t red, green, blue, alpha;
     get_rgba(colour, &red, &green, &blue, &alpha);
     SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
-    SDL_RenderDrawRect(renderer, &brick);
+    SDL_RenderFillRect(renderer, &brick);
 }
 
 /*
@@ -119,11 +119,13 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR);
     for(int32_t i = 0; i < BRICKS_PER_LEVEL; i++) {
+        if(!bricks[i]) {
+            continue;
+        }
         vector2D_t corner = corner_of_brick(i);
         draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT,
-                bricks_level[bar->level][i]);
+                bricks[i]);
     }
-
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
 }
 

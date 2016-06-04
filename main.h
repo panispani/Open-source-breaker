@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-void run(game_state_t game_state);
+void run();
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);

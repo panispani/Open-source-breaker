@@ -85,7 +85,6 @@ double min(double a, double b) {
  * 2: left or right collision
  */
 int collision(ball_t *ball, vector2D_t other, double width, double height) {
-
     if (ball->position.x <= other.x + width &&
         ball->position.y <= other.y + height &&
         ball->position.x + ball->diameter >= other.x &&
