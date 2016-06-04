@@ -119,9 +119,11 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR);
     for(int32_t i = 0; i < BRICKS_PER_LEVEL; i++) {
-        vector2D_t corner = corner_of_brick(i);
-        draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT,
-                bricks_level[bar->level][i]);
+        if (bricks[i]) {
+            vector2D_t corner = corner_of_brick(i);
+            draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT,
+                bricks[i]);
+        }
     }
 
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
