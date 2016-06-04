@@ -6,13 +6,13 @@
 #define DEF_BAR_HEIGHT 6
 #define DEF_BALL_RADIUS 2
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
-#define DEF_BALL_DX 1
-#define DEF_BALL_DY 3
-#define BAR_MAX_SPEED 15
-#define BAR_SPEED_UP 3
+#define DEF_BALL_DX 3
+#define DEF_BALL_DY 9
+#define BAR_MAX_SPEED 20
+#define BAR_SPEED_UP 10
 #define BAR_SLIDE_SLOWDOWN 1.15
 #define BAR_BOUNCE 0.75
-#define BALL_MAX_SPEED 26
+#define BALL_MAX_SPEED 20
 #define BRICK_X_OFFSET gamewidth / 4 
 #define BRICK_Y_OFFSET gamewidth / 16
 
