@@ -4,7 +4,7 @@
 #define DEF_BAR_Y (15 * gameheight / 16)
 #define DEF_BAR_X gamewidth / 2 + 20
 #define DEF_BAR_HEIGHT 6
-#define DEF_BALL_RADIUS 2 
+#define DEF_BALL_RADIUS 2
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
 #define DEF_BALL_DX 1
 #define DEF_BALL_DY 3
@@ -52,7 +52,7 @@ void reset_ball(ball_t * ball) {
  * TODO: fire from the bar
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
-    int input = (controller_state & 0x2) - (controller_state & 0x1);
+    int input = (controller_state & 0x2)/2 - (controller_state & 0x1);
     if (!input) {
         bar->direction.x /= BAR_SLIDE_SLOWDOWN;
     } else {
