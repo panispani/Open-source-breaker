@@ -121,7 +121,7 @@ void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_gameover_screen();
     restart_on_keypress(game_state);
-    game_state = START_GAME;
+    *game_state = START_GAME;
 }
 
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
