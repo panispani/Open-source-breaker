@@ -60,7 +60,7 @@ void initialise_graphics() {
 }
 
 /*
- *
+ * Free any memory assocaited for graphics
  */
 void destroy_graphics() {
     SDL_DestroyWindow(window);
@@ -97,9 +97,10 @@ void draw_pixel(SDL_Renderer* renderer, int x, int y) {
  * Draw a line from (x0, y0) to (y0, y1)
  */
 void draw_line(SDL_Renderer* renderer, int x0, int y0, int x1, int y1) {
-    int out = SDL_RenderDrawLine(renderer,x0,y0,x1,y1);
+    int out = SDL_RenderDrawLine(renderer, x0, y0, x1, y1);
     if (out) {
-        perror("Error when drawing the line\n");
+        fprintf(stderr, "Error when drawing the line\n");
+        destroy_graphics();
         exit(EXIT_FAILURE);
     }
 }
@@ -153,15 +154,36 @@ void draw_cirle(int x0, int y0, int radius) {
 }
 
 
-void draw_background(int32_t colour) {
-    draw_rect(screenwidth / 2, screenheight / 2, screenwidth, screenheight, colour);
+void draw_background() {
+    SDL_RenderDrawRect(background_renderer, NULL);
 }
 
+void draw_bar(int center_x, int center_y, int width, int height) {
+    SDL_Rect bar;
+    bar.x = center_x - width / 2;
+    bar.y = center_y - height / 2;
+    bar.w = width;
+    bar.h = height;
+    SDL_RenderDrawRect(bar_renderer, &bar);
+}
+
+void draw_brick(int center_x, int center_y, int width, int height, int32_t colour) {
+    SDL_Rect brick;
+    brick.x = center_x - width / 2;
+    brick.y = center_y - height / 2;
+    brick.w = width;
+    brick.h = height;
+    //TODO set renderer COLOUR
+    SDL_RenderDrawRect(brick_renderer, &brick);    
+}
+
+
+//TODO REMOVE ALLLLLLL CENTERS
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
-    draw_rect(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR); //bar
+    draw_bar(bar->position.x, bar->position.y, bar->width, bar->height); 
     for(int i = 0; i < MAX_BRICKS_PER_LEVEL; i++) {
         vector2D_t center = center_of_brick(i);
-        draw_rect(center.x, center.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
+        draw_brick(center.x, center.y, BRICK_WIDTH, BRICK_HEIGHT, bricks_level[bar->level][i]);
     }
     draw_cirle(ball->position.x, ball->position.y, ball->radius); // ball
 }

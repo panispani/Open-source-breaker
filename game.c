@@ -2,7 +2,7 @@
 #define START_LIVES 3
 #define MAX_BAR_SPEED 15
 #define DEF_BAR_WIDTH 50
-#define DEF_BAR_HEIGHT 5
+#define DEF_BAR_HEIGHT 6
 #define DEF_BALL_RADIUS 4
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
 #define DEF_BAR_Y (15 * gameheight / 16);
