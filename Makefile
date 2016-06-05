@@ -2,6 +2,8 @@ CC           = gcc
 CFLAGS       = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -pedantic
 SDL_CFLAGS   = $(shell sdl2-config --libs --cflags)
 SDL_LDFLAGS  = $(shell sdl2-config --libs)
+SDL_MIXER_LDFLAGS = $(shell sdl-config --cflags)
+SDL_MIXER_CFLAGS = $(shell sdl-config --libs) 
 main_objects = main.o controller.o game.o graphics.o levels.o palette.o
 
 .SUFFIXES: .c .o
@@ -9,12 +11,12 @@ main_objects = main.o controller.o game.o graphics.o levels.o palette.o
 .PHONY: clean
 
 main: $(main_objects)
-	$(CC) $(main_objects) $(SDL_CFLAGS) $(CFLAGS) -o main
+	$(CC) $(main_objects) $(SDL_CFLAGS) $(CFLAGS) -o main $(SDL_MIXER_CFLAGS) 
 
 $(main_objects): includes.h
 
 .c.o:
-	$(CC) $(CFLAGS) $(SDL_LDFLAGS) -c $<
+	$(CC) $(CFLAGS) $(SDL_LDFLAGS) -c $(SDL_MIXER_LDFLAGS) $<
 
 
 clean:
