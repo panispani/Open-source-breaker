@@ -21,10 +21,10 @@
 /*
  * Header files
  */
+#include "sound.h"
 #include "levels.h"
 #include "palette.h"
 #include "controller.h"
-#include "sound.h"
 #include "game.h"
 #include "graphics.h"
 #include "main.h"

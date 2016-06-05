@@ -2,6 +2,7 @@
 
 int main(void) {
     initialise_graphics();
+    initialise_music();
     initialise_levels();
     initialise_controller();
     run();
@@ -90,9 +91,13 @@ void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
  * TODO: draw here
  */
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
+    int collision = 0;
     update_bar(bar, get_controller_state());
-    update_ball(ball, bar, game_state);
-    update_bricks(ball, bricks, game_state);
+    collision += update_ball(ball, bar, game_state);
+    collision += update_bricks(ball, bricks, game_state);
+    if(collision) {
+        play_collision_sound();
+    }
 }
 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {

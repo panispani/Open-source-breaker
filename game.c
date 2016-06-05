@@ -110,40 +110,54 @@ vector2D_t corner_of_brick(int n) {
     return corner;
 }
 
-void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
+/*
+ * Returns non-zero integer in case of collision of ball with bar or wall
+ */ 
+int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
+    int collisions = 0;
     ball->position.x = cram(ball->position.x + ball->direction.x, 0, gamewidth  - ball->diameter);
     ball->position.y = cram(ball->position.y + ball->direction.y, 0, gameheight - ball->diameter);
     if (ball->position.x == 0 || ball->position.x + ball->diameter == gamewidth) {
         ball->direction.x *= -1;
+        collisions++;
     }
     if (ball->position.y == 0 ) {
         ball->direction.y *= -1;
+        collisions++;
     }
 
     //check if lost
     if(gameheight - ball->position.y < LOSE_Y_LIMIT) {
         *game_state = LOSE_GAME;
-        return;
+        return 0;
     }
     //check for collisions with the bar
     switch(collision(ball, bar->position, bar->width, bar->height)) {
         case VERTICAL:
             ball->direction.y *= -1;
             ball->direction.x = cram(ball->direction.x + bar->direction.x * BAR_BOUNCE, -BALL_MAX_SPEED, BALL_MAX_SPEED);
+            collisions++;
             break;
         case HORIZONTAL:
             ball->direction.x *= -1;
+            collisions++;
             break;
     }
+    return collisions;
 }
 
-void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
+/*
+ * Returns non-zero integer in case of collision of ball with bricks
+ */ 
+int update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
+    int collisions = 0;
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
             int is_colision = collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
             if(is_colision) {
                 bricks[i] = 0x0;
+                collisions++;
                 printf("I collided with block %d\n", i + 1);
                 switch(is_colision) {
                     case VERTICAL:
@@ -156,4 +170,5 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             }
         }
     }
+    return collisions;
 }

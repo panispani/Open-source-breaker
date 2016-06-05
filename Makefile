@@ -4,14 +4,14 @@ SDL_CFLAGS   = $(shell sdl2-config --libs --cflags)
 SDL_LDFLAGS  = $(shell sdl2-config --libs)
 SDL_MIXER_LDFLAGS = $(shell sdl-config --cflags)
 SDL_MIXER_CFLAGS = $(shell sdl-config --libs) 
-main_objects = main.o controller.o game.o graphics.o levels.o palette.o
+main_objects = main.o controller.o game.o graphics.o levels.o palette.o sound.o
 
 .SUFFIXES: .c .o
 
 .PHONY: clean
 
 main: $(main_objects)
-	$(CC) $(main_objects) $(SDL_CFLAGS) $(CFLAGS) -o main $(SDL_MIXER_CFLAGS) 
+	$(CC) $(main_objects) $(SDL_CFLAGS) $(CFLAGS) -o main $(SDL_MIXER_CFLAGS) -lSDL_mixer 
 
 $(main_objects): includes.h
 

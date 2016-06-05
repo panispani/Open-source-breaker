@@ -5,7 +5,7 @@ Mix_Music *background_music = NULL;
 //sound effect
 Mix_Chunk *bounce_sound = NULL;
 
-void initialise_sound() {
+void initialise_music() {
    //SDL Mixel initialisation
     if(Mix_OpenAudio(SOUND_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         fprintf(stderr, "SDL_mixer could not initialize!");
@@ -32,4 +32,8 @@ void destroy_music() {
     background_music = NULL;
     //Quit SDL subsystem
     Mix_Quit();
+}
+
+void play_collision_sound() {
+    Mix_PlayChannel(-1, bounce_sound, 0);
 }
