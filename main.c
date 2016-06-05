@@ -100,16 +100,9 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 }
 
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    draw_ball(ball->position.x, ball->position.y,
-            ball->diameter / 2, BACK_COLOUR); //on background colour
-    draw_bar(bar->position.x, bar->position.y,
-            bar->width, bar->height, BACK_COLOUR); //background colour
     reset_bar(bar);
     reset_ball(ball);
     lose_life(bar, game_state);
-    if(*game_state != GAME_OVER) {
-        load_level(bar, ball, game_state, bricks);
-    }
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
