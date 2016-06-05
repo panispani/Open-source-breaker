@@ -26,6 +26,8 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
     bar->lives--;
     if(bar->lives == 0) {
         *game_state = GAME_OVER;
+    } else {
+        *game_state = PLAY_GAME;
     }
 }
 
@@ -58,10 +60,7 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     if (input == 0) {
         bar->direction.x /= 1.8;
     } else {
-        if(input > 0)
-        printf("press");
         bar->direction.x = cram(input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
-        printf("\n%lf\n", bar->direction.x);
         bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
     }
 }
@@ -158,7 +157,6 @@ int update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             if(is_colision) {
                 bricks[i] = 0x0;
                 collisions++;
-                printf("I collided with block %d\n", i + 1);
                 switch(is_colision) {
                     case VERTICAL:
                         ball->direction.y *= -1;
