@@ -2,7 +2,7 @@
 
 int main(void) {
     initialise_graphics();
-    initialise_music();
+    //initialise_music(); DOES NOT WORK FOR NOW
     initialise_levels();
     initialise_controller();
     run();
