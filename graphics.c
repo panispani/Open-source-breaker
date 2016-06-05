@@ -1,3 +1,10 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <linux/fb.h>
+#include <sys/mman.h>
 #include "includes.h"
 
 // 'global' variables to store screen info
@@ -53,11 +60,15 @@ void initialise_graphics() {
 }
 
 /*
- * Free any memory allocated for graphics
- */ 
+ *
+ */
 void destroy_graphics() {
     SDL_DestroyWindow(window);
-    SDL_Quit(); 
+    SDL_DestroyRenderer(ball_renderer);
+    SDL_DestroyRenderer(bar_renderer);
+    SDL_DestroyRenderer(background_renderer);
+    SDL_DestroyRenderer(brick_renderer);
+    SDL_Quit();
 }
 
 /*
@@ -78,21 +89,37 @@ void draw_gameover_screen() {
 /*
  * Color pixel (x, y) with color c
  */
-
 void draw_pixel(SDL_Renderer* renderer, int x, int y) {
     SDL_RenderDrawPoint(renderer, x, y);
 }
 
 /*
+ * Draw a line from (x0, y0) to (y0, y1)
+ */
+void draw_line(SDL_Renderer* renderer, int x0, int y0, int x1, int y1) {
+    int out = SDL_RenderDrawLine(renderer,x0,y0,x1,y1);
+    if (out) {
+        perror("Error when drawing the line\n");
+        exit(EXIT_FAILURE);
+    }
+}
+/*
  * x and y are the center coordinates of the rectangle
  */
-void draw_rect(int center_x, int center_y, int width, int height, int32_t colour) {
-    int x = center_x - width / 2;
-    int y = center_y - height / 2;
-    for(int i = 0; i < width; i++) {
-        for(int j = 0; j < height; j++) {
-            //put_pixel(i + x, y + j, colour);
-        }
+void draw_rect(int center_x, int center_y, int width, int height, uint32_t colour) {
+    SDL_Rect rectangle;
+    rectangle.x = center_x;
+    rectangle.y = center_y;
+    rectangle.w = width;
+    rectangle.h = height;
+    int red = ((EIGHTBIT_MASK << 16) && colour) >> 16;
+    int green = ((EIGHTBIT_MASK << 8) && colour) >> 8;
+    int blue = EIGHTBIT_MASK && colour;
+    SDL_SetRenderDrawColor(background_renderer, red, green, blue, 0);
+    int res = SDL_RenderFillRect(background_renderer, &rectangle);
+    if (res) {
+        perror("Error when drawing the rectangle\n");
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -102,7 +129,6 @@ void draw_rect(int center_x, int center_y, int width, int height, int32_t colour
  */
 
 void draw_cirle(int x0, int y0, int radius) {
-    int32_t colour = BALL_COLOUR;
     int x = 0, y = radius;
     int error = 1 - radius;
     while(x < y) {

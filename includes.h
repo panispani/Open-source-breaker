@@ -48,5 +48,6 @@
 #define BACK_G 0x45
 #define BACK_B 0x00
 #define BACK_A 0x00
+#define EIGHTBIT_MASK 0xFF
 
 #endif //__INCLUDES_H
