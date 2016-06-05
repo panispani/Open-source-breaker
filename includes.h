@@ -31,8 +31,8 @@
  * Useful Macros and defines
  */
 #define BRICKS_PER_LEVEL 221
-#define BRICK_WIDTH 18
-#define BRICK_HEIGHT 18
+#define BRICK_WIDTH 25
+#define BRICK_HEIGHT 25
 #define BRICKS_PER_ROW 13
 #define BAR_R 0x12
 #define BAR_G 0xFA

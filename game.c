@@ -12,8 +12,8 @@
 #define BAR_SPEED_UP 20
 #define BAR_BOUNCE 0.75
 #define BALL_MAX_SPEED 25
-#define BRICK_X_OFFSET gamewidth / 4 
-#define BRICK_Y_OFFSET gamewidth / 16
+#define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2 
+#define BRICK_Y_OFFSET gameheight / 14
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
