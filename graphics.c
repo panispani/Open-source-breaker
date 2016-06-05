@@ -48,7 +48,7 @@ void initialise_graphics() {
 void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
     SDL_RenderClear(renderer);
     // background
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 1);
+    SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderFillRect(renderer, NULL);
     draw_game(bar, ball, bricks);
     SDL_RenderPresent(renderer);
@@ -122,7 +122,7 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
         if (bricks[i]) {
             vector2D_t corner = corner_of_brick(i);
             draw_brick(corner.x, corner.y, BRICK_WIDTH, BRICK_HEIGHT,
-                bricks[i]);
+                palette[bricks[i]]);
         }
     }
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);

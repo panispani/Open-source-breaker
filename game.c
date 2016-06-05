@@ -6,13 +6,12 @@
 #define DEF_BAR_HEIGHT 6
 #define DEF_BALL_RADIUS 2
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
-#define DEF_BALL_DX 3
+#define DEF_BALL_DX 3 
 #define DEF_BALL_DY 9
 #define BAR_MAX_SPEED 20
-#define BAR_SPEED_UP 10
-#define BAR_SLIDE_SLOWDOWN 1.15
+#define BAR_SPEED_UP 20
 #define BAR_BOUNCE 0.75
-#define BALL_MAX_SPEED 20
+#define BALL_MAX_SPEED 25
 #define BRICK_X_OFFSET gamewidth / 4 
 #define BRICK_Y_OFFSET gamewidth / 16
 
@@ -54,11 +53,14 @@ void reset_ball(ball_t * ball) {
  * TODO: fire from the bar
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
-    int input = (controller_state & 0x2)/2 - (controller_state & 0x1);
-    if (!input) {
-        bar->direction.x /= BAR_SLIDE_SLOWDOWN;
+    int input = (controller_state & 0x2) - (controller_state & 0x1);
+    if (input == 0) {
+        bar->direction.x /= 1.8;
     } else {
-        bar->direction.x = cram(input * BAR_SPEED_UP + bar->direction.x, -BAR_MAX_SPEED, BAR_MAX_SPEED);
+        if(input > 0)
+        printf("press");
+        bar->direction.x = cram(input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
+        printf("\n%lf\n", bar->direction.x);
         bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
     }
 }
