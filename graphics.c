@@ -19,7 +19,10 @@ SDL_Renderer *renderer;
  * Initialise screenwidth, height and open frame buffer device
  */
 void initialise_graphics() {
-    SDL_Init(SDL_INIT_VIDEO);
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) { //audio for later
+        fprintf(stderr, "error in initialisation of sdl");
+        exit(EXIT_FAILURE);
+    }    
     SDL_GetCurrentDisplayMode(0, &DM);
     window = SDL_CreateWindow(
             "OPENSOURCE BREAKER",
