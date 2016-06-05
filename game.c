@@ -25,6 +25,8 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
     bar->lives--;
     if(bar->lives == 0) {
         *game_state = GAME_OVER;
+    } else {
+        *game_state = PLAY_GAME;
     }
 }
 
