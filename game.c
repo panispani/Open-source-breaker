@@ -14,6 +14,7 @@
 #define BALL_MAX_SPEED 25
 #define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2 
 #define BRICK_Y_OFFSET gameheight / 14
+#define LOSE_Y_LIMIT bar->height
 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
@@ -35,7 +36,7 @@ void reset_bar(bar_t *bar) {
     bar->width = DEF_BAR_WIDTH;
     bar->height = DEF_BAR_HEIGHT;
 }
-
+ 
 void init_ball(ball_t *ball) {
     reset_ball(ball);
 }
@@ -120,7 +121,7 @@ void update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     }
 
     //check if lost
-    if(ball->position.y > bar->position.y + bar->height) {
+    if(gameheight - ball->position.y < LOSE_Y_LIMIT) {
         *game_state = LOSE_GAME;
         return;
     }
