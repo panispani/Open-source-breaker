@@ -12,7 +12,7 @@ int main(void) {
  * Run one game tick, call corresponding function depending on the game_state
  */
 void run() {
-    game_state_t game_state = START_GAME;
+    game_state_t game_state = START_MENU;
     bar_t bar;
     ball_t ball;
     int32_t bricks[BRICKS_PER_LEVEL];
@@ -48,6 +48,7 @@ void run() {
                 break;
             case PLAY_GAME:
                 play_game(&bar, &ball, &game_state, bricks);
+                refresh_screen(&bar, &ball, bricks);
                 break;
             case PAUSE_SCREEN:
                 pause_screen(&bar, &ball, &game_state, bricks);
@@ -71,7 +72,6 @@ void run() {
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);
         }
-        refresh_screen(&bar, &ball, bricks);
         SDL_Delay(50);
     }
     exit_game();
@@ -84,7 +84,8 @@ void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 }
 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-
+    show_title_text();
+    *game_state = START_GAME;
 }
 
 /*

@@ -14,7 +14,8 @@ int32_t gameheight;
 SDL_Window *window;
 SDL_DisplayMode DM;
 SDL_Renderer *renderer;
-
+TTF_Font *font;
+SDL_Texture *texture;
 /*
  * Initialise screenwidth, height and open frame buffer device
  */
@@ -22,7 +23,11 @@ void initialise_graphics() {
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) { //audio for later
         fprintf(stderr, "error in initialisation of sdl");
         exit(EXIT_FAILURE);
-    }    
+    }
+    if (TTF_Init() == -1) {
+        fprintf(stderr, "error in initialisation of sdl_ttf");
+        exit(EXIT_FAILURE);
+    }
     SDL_GetCurrentDisplayMode(0, &DM);
     window = SDL_CreateWindow(
             "OPENSOURCE BREAKER",
@@ -213,3 +218,23 @@ void draw_circle(int32_t x0, int32_t y0, int32_t radius) {
          draw_pixel(renderer, x0 - y, y0 - x);
      } while (x < y);
  }
+
+void show_title_text() {
+    font = TTF_OpenFont("display.ttf", 30);
+    if (!font) {
+        fprintf(stderr, "Error loading the font");
+        exit(EXIT_FAILURE);
+    }
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Surface *text_surface = TTF_RenderText_Solid(font, "BRICKBREAKER", white);
+    texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+    SDL_FreeSurface(text_surface);
+    SDL_Rect main_title;
+    SDL_QueryTexture(texture, NULL, NULL, &main_title.w, &main_title.h);
+    main_title.x = 0;
+    main_title.y = 0;
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, &main_title);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(2000);
+}

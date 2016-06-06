@@ -15,8 +15,9 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include "SDL2/SDL.h"
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 /*
  * Header files
