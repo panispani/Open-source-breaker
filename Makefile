@@ -11,7 +11,7 @@ main_objects = main.o controller.o game.o graphics.o levels.o palette.o sound.o
 .PHONY: clean
 
 main: $(main_objects)
-	$(CC) $(main_objects) $(SDL_CFLAGS) $(CFLAGS) -o main $(SDL_MIXER_CFLAGS) -lSDL_mixer 
+	$(CC) -o main $(main_objects) $(SDL_CFLAGS) $(CFLAGS) $(SDL_MIXER_CFLAGS) -lSDL2_mixer -lSDL2_ttf
 
 $(main_objects): includes.h
 
