@@ -6,6 +6,8 @@ int main(void) {
     initialise_levels();
     initialise_controller();
     run();
+    destroy_graphics();
+    destroy_music();
 }
 
 /*
