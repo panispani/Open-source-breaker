@@ -34,6 +34,15 @@ void run() {
                     case SDLK_SPACE:
                         set_controller(SPACE_FLAG);
                         break;
+                    case SDLK_ESCAPE:
+                        if (game_state == PLAY_GAME) {
+                            game_state = PAUSE_SCREEN;
+                        }
+                        break;
+                    case SDLK_RETURN:
+                        if (game_state == PAUSE_SCREEN) {
+                            game_state = PLAY_GAME;
+                        }
                     default:
                         break;
                 }
@@ -103,7 +112,7 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 }
 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-
+    render_text("ENTER TO CONTINUE");
 }
 
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
