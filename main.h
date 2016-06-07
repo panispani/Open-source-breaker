@@ -10,7 +10,7 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
-void restart_on_keypress(game_state_t *game_state);
+void restart_on_keypress();
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void exit_game();
 

@@ -43,6 +43,9 @@ void run() {
                         if (game_state == PAUSE_SCREEN) {
                             game_state = PLAY_GAME;
                         }
+                        if (game_state == WAIT_FOR_RESTART) {
+                            game_state = START_GAME;
+                        }
                     default:
                         break;
                 }
@@ -76,6 +79,9 @@ void run() {
                 break;
             case EXIT_GAME:
                 exit_game();
+                break;
+            case WAIT_FOR_RESTART:
+                restart_on_keypress();
                 break;
             default:
                 perror("Error game state not found");
@@ -123,7 +129,6 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     sprintf(prompt, "%d LIVES LEFT", bar->lives);
     render_text(prompt);
     SDL_Delay(2000);
-
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
@@ -134,8 +139,7 @@ void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_gameover_screen();
-    restart_on_keypress(game_state);
-    *game_state = START_GAME;
+    *game_state = WAIT_FOR_RESTART;
 }
 
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
@@ -147,12 +151,12 @@ void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_win_screen();
-    restart_on_keypress(game_state);
+    *game_state = WAIT_FOR_RESTART;
 }
 
 //TODO: CORRECT THIS
-void restart_on_keypress(game_state_t *game_state) {
-    *game_state = START_GAME;
+void restart_on_keypress() {
+    render_text("RESTART?");
 }
 
 void exit_game() {

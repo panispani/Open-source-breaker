@@ -3,7 +3,7 @@
 
 typedef enum game_state {
     START_GAME, START_MENU, PLAY_GAME, PAUSE_SCREEN,
-    LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME, EXIT_GAME
+    LOSE_GAME, GAME_OVER, WIN_LEVEL, WIN_GAME, EXIT_GAME, WAIT_FOR_RESTART
 } game_state_t;
 
 typedef enum {
