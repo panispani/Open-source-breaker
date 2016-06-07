@@ -28,6 +28,7 @@
 #include "controller.h"
 #include "game.h"
 #include "graphics.h"
+#include "cheat.h"
 #include "main.h"
 
 /*
@@ -41,12 +42,6 @@
 #define BAR_G 0xFA
 #define BAR_B 0xA4
 #define BAR_A 0x00
-/*
-#define BALL_R 0x11
-#define BALL_G 0x45
-#define BALL_B 0xB3
-#define BALL_A 0x01
-*/
 #define BALL_R 0xEB
 #define BALL_G 0xC8
 #define BALL_B 0x57

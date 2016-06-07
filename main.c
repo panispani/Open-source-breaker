@@ -22,6 +22,7 @@ void run() {
     int32_t running = 1;
     while (running) {
         reset_controller();
+        reset_cheat();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
@@ -48,11 +49,21 @@ void run() {
                         if (game_state == WAIT_FOR_RESTART) {
                             game_state = START_GAME;
                         }
+                    case SDLK_1:
+                        set_cheat(1);
+                        break;
+                    case SDLK_2:
+                        set_cheat(2);
+                        break;
+                    case SDLK_3:
+                        break;
                     default:
+                        set_cheat(3);
                         break;
                 }
             }
         }
+        check_cheat();
         switch (game_state) {
             case START_GAME:
                 start_game(&bar, &ball, &game_state, bricks);
