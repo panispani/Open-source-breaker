@@ -85,6 +85,7 @@ void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text("BRICKBREAKER");
+    SDL_Delay(2000);
     *game_state = START_GAME;
 }
 
@@ -112,6 +113,8 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     char prompt[20];
     sprintf(prompt, "%d LIVES LEFT", bar->lives);
     render_text(prompt);
+    SDL_Delay(2000);
+
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {

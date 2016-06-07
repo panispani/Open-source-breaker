@@ -177,6 +177,7 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
  */
 void draw_win_screen() {
     render_text("YOU WIN!");
+    SDL_Delay(2000);
 }
 
 /*
@@ -184,6 +185,7 @@ void draw_win_screen() {
  */
 void draw_gameover_screen() {
     render_text("GAME OVER");
+    SDL_Delay(2000);
 }
 
 /*
@@ -242,5 +244,4 @@ void render_text(const char *text) {
     draw_background();
     SDL_RenderCopy(renderer, texture, NULL, &main_title);
     SDL_RenderPresent(renderer);
-    SDL_Delay(2000);
 }
