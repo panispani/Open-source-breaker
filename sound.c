@@ -11,7 +11,7 @@ void initialise_music() {
         fprintf(stderr, "SDL_mixer could not initialize!");
         exit(EXIT_FAILURE);
     }
-    background_music = Mix_LoadMUS("background.ogg");
+    background_music = Mix_LoadMUS("background.wav");
     if(background_music == NULL) {
         printf("%s\n", Mix_GetError());
         fprintf(stderr, "Failed to load background music");
