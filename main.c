@@ -56,14 +56,14 @@ void run() {
                         set_cheat(2);
                         break;
                     case SDLK_3:
+                        set_cheat(3);
                         break;
                     default:
-                        set_cheat(3);
                         break;
                 }
             }
         }
-        check_cheat();
+        check_cheat(&game_state);
         switch (game_state) {
             case START_GAME:
                 start_game(&bar, &ball, &game_state, bricks);
@@ -155,6 +155,8 @@ void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 }
 
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
+    render_text("LEVEL COMPLETE!");
+    SDL_Delay(2000);
     bar->level = bar->level + 1;
     reset_bar(bar);
     reset_ball(ball);

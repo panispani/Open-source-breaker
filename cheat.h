@@ -3,6 +3,6 @@
 
 void reset_cheat();
 void set_cheat();
-void check_cheat();
+void check_cheat(game_state_t *game_state);
 
 #endif //__CHEAT_H

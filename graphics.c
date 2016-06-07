@@ -135,6 +135,7 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
  * Draw the initial game, used ONLY there
  */
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
+    printf("2\n");
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR);
     for(int32_t i = 0; i < BRICKS_PER_LEVEL; i++) {
         if (bricks[i]) {
