@@ -14,6 +14,6 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius);
 void draw_win_screen();
 void draw_gameover_screen();
 void destroy_graphics();
-void show_title_text();
+void render_text(const char *text);
 void draw_background();
 #endif //__GRAPHICS_H

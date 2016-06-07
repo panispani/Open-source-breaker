@@ -229,14 +229,9 @@ void draw_circle(int32_t x0, int32_t y0, int32_t radius) {
      } while (x < y);
  }
 
-void show_title_text() {
-    font = TTF_OpenFont("display.ttf", 200);
-    if (!font) {
-        fprintf(stderr, "Error loading the font");
-        exit(EXIT_FAILURE);
-    }
+void render_text(const char *text) {
     SDL_Color white = {255, 255, 255, 255};
-    SDL_Surface *text_surface = TTF_RenderText_Solid(font, "BRICKBREAKER", white);
+    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text, white);
     texture = SDL_CreateTextureFromSurface(renderer, text_surface);
     SDL_FreeSurface(text_surface);
     SDL_Rect main_title;

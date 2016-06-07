@@ -84,7 +84,7 @@ void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 }
 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    show_title_text();
+    render_text("BRICKBREAKER");
     *game_state = START_GAME;
 }
 
