@@ -66,6 +66,7 @@ void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
  * Free any memory assocaited for graphics
  */
 void destroy_graphics() {
+    TTF_CloseFont(font);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -220,7 +221,7 @@ void draw_circle(int32_t x0, int32_t y0, int32_t radius) {
  }
 
 void show_title_text() {
-    font = TTF_OpenFont("display.ttf", 30);
+    font = TTF_OpenFont("display.ttf", 200);
     if (!font) {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
@@ -231,8 +232,8 @@ void show_title_text() {
     SDL_FreeSurface(text_surface);
     SDL_Rect main_title;
     SDL_QueryTexture(texture, NULL, NULL, &main_title.w, &main_title.h);
-    main_title.x = 0;
-    main_title.y = 0;
+    main_title.x = (screenwidth - main_title.w) / 2;
+    main_title.y = (screenheight - main_title.h) / 2;
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, &main_title);
     SDL_RenderPresent(renderer);
