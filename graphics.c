@@ -47,6 +47,11 @@ void initialise_graphics() {
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
+    font = TTF_OpenFont("display.ttf", 200);
+    if (!font) {
+        fprintf(stderr, "Error loading the font");
+        exit(EXIT_FAILURE);
+    }
     // SDL_SetRenderDrawColor(renderer, 0x00, 0x0, 0x00, 1);
     // SDL_RenderFillRect(renderer, NULL);
     screenwidth = gamewidth = DM.w;
