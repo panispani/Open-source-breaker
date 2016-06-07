@@ -15,4 +15,5 @@ void draw_win_screen();
 void draw_gameover_screen();
 void destroy_graphics();
 void show_title_text();
+void draw_background();
 #endif //__GRAPHICS_H

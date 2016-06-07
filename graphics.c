@@ -53,11 +53,15 @@ void initialise_graphics() {
     screenheight = gameheight = DM.h;
 }
 
-void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
-    SDL_RenderClear(renderer);
-    // background
+void draw_background() {
     SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderFillRect(renderer, NULL);
+}
+
+void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
+    SDL_RenderClear(renderer);
+    draw_background();
+    // background
     draw_game(bar, ball, bricks);
     SDL_RenderPresent(renderer);
 }
@@ -235,6 +239,7 @@ void show_title_text() {
     main_title.x = (screenwidth - main_title.w) / 2;
     main_title.y = (screenheight - main_title.h) / 2;
     SDL_RenderClear(renderer);
+    draw_background();
     SDL_RenderCopy(renderer, texture, NULL, &main_title);
     SDL_RenderPresent(renderer);
     SDL_Delay(2000);
