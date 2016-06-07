@@ -110,7 +110,7 @@ vector2D_t corner_of_brick(int n) {
 }
 
 /*
- * Returns non-zero integer in case of collision of ball with bar or wall
+ * Returns non-zero integer in case of collision of ball with bar
  */ 
 int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     int collisions = 0;
@@ -118,11 +118,9 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     ball->position.y = cram(ball->position.y + ball->direction.y, 0, gameheight - ball->diameter);
     if (ball->position.x == 0 || ball->position.x + ball->diameter == gamewidth) {
         ball->direction.x *= -1;
-        collisions++;
     }
     if (ball->position.y == 0 ) {
         ball->direction.y *= -1;
-        collisions++;
     }
 
     //check if lost
@@ -146,17 +144,15 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
 }
 
 /*
- * Returns non-zero integer in case of collision of ball with bricks
+ *
  */ 
-int update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
+void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
-    int collisions = 0;
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
             int is_colision = collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT);
             if(is_colision) {
                 bricks[i] = 0x0;
-                collisions++;
                 switch(is_colision) {
                     case VERTICAL:
                         ball->direction.y *= -1;
@@ -168,5 +164,4 @@ int update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             }
         }
     }
-    return collisions;
 }

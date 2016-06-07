@@ -12,12 +12,12 @@ void initialise_music() {
         exit(EXIT_FAILURE);
     }
     background_music = Mix_LoadMUS("b2.ogg");
-    if(background_music == NULL) {
+    /*if(background_music == NULL) {
         printf("%s\n", Mix_GetError());
         fprintf(stderr, "Failed to load background music");
         exit(EXIT_FAILURE);
     }
-    Mix_PlayMusic(background_music, -1); //play_music
+    Mix_PlayMusic(background_music, -1); //play_music*/
     bounce_sound = Mix_LoadWAV("bouncing.wav");
     if(bounce_sound == NULL) {
         fprintf(stderr, "Failed to load bounce sound");
