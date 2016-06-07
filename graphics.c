@@ -176,14 +176,14 @@ void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
  * Draw screen when winning the game
  */
 void draw_win_screen() {
-    //TODO:
+    render_text("YOU WIN!");
 }
 
 /*
  * Draw the game over screen
  */
 void draw_gameover_screen() {
-    //TODO
+    render_text("GAME OVER");
 }
 
 /*

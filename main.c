@@ -109,6 +109,9 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     reset_bar(bar);
     reset_ball(ball);
     lose_life(bar, game_state);
+    char prompt[20];
+    sprintf(prompt, "%d LIVES LEFT", bar->lives);
+    render_text(prompt);
 }
 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
