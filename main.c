@@ -102,7 +102,6 @@ void run() {
         }
         SDL_Delay(50);
     }
-    exit_game();
 }
 
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
