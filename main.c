@@ -41,6 +41,9 @@ void run() {
                         if (game_state == PLAY_GAME) {
                             game_state = PAUSE_SCREEN;
                         }
+                        if (game_state == PAUSE_SCREEN || game_state == WAIT_FOR_RESTART) {
+                            game_state = EXIT_GAME;
+                        }
                         break;
                     case SDLK_RETURN:
                         if (game_state == PAUSE_SCREEN) {
