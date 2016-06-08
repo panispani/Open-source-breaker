@@ -27,7 +27,7 @@
 /*
  * Useful Macros and defines
  */
-#define BRICKS_PER_LEVEL 468
+#define BRICKS_PER_LEVEL 572
 #define BRICK_WIDTH 25
 #define BRICK_HEIGHT 25
 #define BRICKS_PER_ROW 26
