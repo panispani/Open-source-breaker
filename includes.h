@@ -9,12 +9,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <math.h>
-#include <time.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
