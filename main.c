@@ -105,7 +105,7 @@ void run() {
                 perror("Error game state not found");
                 exit(EXIT_FAILURE);
         }
-        SDL_Delay(50);
+        SDL_Delay(16);
     }
 }
 
