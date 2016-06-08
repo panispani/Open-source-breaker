@@ -4,15 +4,15 @@
 #define DEF_BAR_Y (15 * gameheight / 16)
 #define DEF_BAR_X gamewidth / 2 + 20
 #define DEF_BAR_HEIGHT 6
-#define DEF_BALL_RADIUS 2
+#define DEF_BALL_RADIUS 10
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
-#define DEF_BALL_DX 3 
-#define DEF_BALL_DY 9
+#define DEF_BALL_DX 3
+#define DEF_BALL_DY 8
 #define BAR_MAX_SPEED 20
 #define BAR_SPEED_UP 20
-#define BAR_BOUNCE 0.75
-#define BALL_MAX_SPEED 25
-#define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2 
+#define BAR_BOUNCE 0.5
+#define BALL_MAX_SPEED 14
+#define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2
 #define BRICK_Y_OFFSET gameheight / 14
 #define LOSE_Y_LIMIT bar->height
 
@@ -38,7 +38,7 @@ void reset_bar(bar_t *bar) {
     bar->width = DEF_BAR_WIDTH;
     bar->height = DEF_BAR_HEIGHT;
 }
- 
+
 void init_ball(ball_t *ball) {
     reset_ball(ball);
 }
@@ -111,7 +111,7 @@ vector2D_t corner_of_brick(int n) {
 
 /*
  * Returns non-zero integer in case of collision of ball with bar
- */ 
+ */
 int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     int collisions = 0;
     ball->position.x = cram(ball->position.x + ball->direction.x, 0, gamewidth  - ball->diameter);
@@ -124,7 +124,7 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     }
 
     //check if lost
-    if(gameheight - ball->position.y < LOSE_Y_LIMIT) {
+    if(ball->position.y + ball->diameter == gameheight) {
         *game_state = LOSE_GAME;
         return 0;
     }
@@ -145,7 +145,7 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
 
 /*
  *
- */ 
+ */
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     //check for collisions with bricks
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
