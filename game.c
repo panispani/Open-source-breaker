@@ -4,14 +4,14 @@
 #define DEF_BAR_Y (15 * gameheight / 16)
 #define DEF_BAR_X gamewidth / 2 + 20
 #define DEF_BAR_HEIGHT 6
-#define DEF_BALL_RADIUS 10
+#define DEF_BALL_RADIUS 4
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
 #define DEF_BALL_DX 3
 #define DEF_BALL_DY 8
-#define BAR_MAX_SPEED 20
+#define BAR_MAX_SPEED 25
 #define BAR_SPEED_UP 20
 #define BAR_BOUNCE 0.5
-#define BALL_MAX_SPEED 14
+#define BALL_MAX_SPEED 10
 #define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2
 #define BRICK_Y_OFFSET gameheight / 14
 #define LOSE_Y_LIMIT bar->height
