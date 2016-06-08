@@ -164,6 +164,10 @@ void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     bar->level = bar->level + 1;
     reset_bar(bar);
     reset_ball(ball);
+    if (bar->level == LEVELS) {
+        *game_state = WIN_GAME;
+        return;
+    }
     load_level(bar, ball, game_state, bricks);
 }
 
