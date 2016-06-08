@@ -40,9 +40,11 @@ void run() {
                     case SDLK_ESCAPE:
                         if (game_state == PLAY_GAME) {
                             game_state = PAUSE_SCREEN;
+                            break;
                         }
                         if (game_state == PAUSE_SCREEN || game_state == WAIT_FOR_RESTART) {
                             game_state = EXIT_GAME;
+                            break;
                         }
                         break;
                     case SDLK_RETURN:
@@ -94,7 +96,7 @@ void run() {
                 win_game(&bar, &ball, &game_state, bricks);
                 break;
             case EXIT_GAME:
-                exit_game();
+                return;
                 break;
             case WAIT_FOR_RESTART:
                 restart_on_keypress();
@@ -173,8 +175,4 @@ void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *brick
 //TODO: CORRECT THIS
 void restart_on_keypress() {
     render_text("RESTART?");
-}
-
-void exit_game() {
-    destroy_graphics();
 }
