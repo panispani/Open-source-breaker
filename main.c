@@ -17,23 +17,19 @@ void run() {
     game_state_t game_state = START_MENU;
     bar_t bar;
     ball_t ball;
+    int32_t running = 1;
     int32_t bricks[BRICKS_PER_LEVEL];
     SDL_Event event;
-    int32_t running = 1;
+    uint8_t *keystate = SDL_GetKeyboardState(NULL);
     while (running) {
         reset_controller();
         reset_cheat();
+        
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
             } else if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
-                    case SDLK_a:
-                        set_controller(A_FLAG);
-                        break;
-                    case SDLK_d:
-                        set_controller(D_FLAG);
-                        break;
                     case SDLK_SPACE:
                         set_controller(SPACE_FLAG);
                         break;
@@ -54,21 +50,29 @@ void run() {
                         if (game_state == WAIT_FOR_RESTART) {
                             game_state = START_GAME;
                         }
-                    case SDLK_1:
-                        set_cheat(FLAG_1);
-                        break;
-                    case SDLK_2:
-                        set_cheat(FLAG_2);
-                        break;
-                    case SDLK_3:
-                        set_cheat(FLAG_3);
-                        break;
-                    default:
-                        break;
                 }
             }
         }
+
+        if (keystate[SDL_SCANCODE_A]) {
+            set_controller(A_FLAG);
+        }
+        if (keystate[SDL_SCANCODE_D]) {
+            set_controller(D_FLAG);
+        }
+
+        if (keystate[SDL_SCANCODE_I]) {
+            set_cheat(FLAG_1);
+        }
+        if (keystate[SDL_SCANCODE_O]) {
+            set_cheat(FLAG_2);
+        }
+        if (keystate[SDL_SCANCODE_P]) {
+            set_cheat(FLAG_3);
+        }
+        
         check_cheat(&game_state);
+
         switch (game_state) {
             case START_GAME:
                 start_game(&bar, &ball, &game_state, bricks);
