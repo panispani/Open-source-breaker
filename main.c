@@ -55,13 +55,13 @@ void run() {
                             game_state = START_GAME;
                         }
                     case SDLK_1:
-                        set_cheat(1);
+                        set_cheat(FLAG_1);
                         break;
                     case SDLK_2:
-                        set_cheat(2);
+                        set_cheat(FLAG_2);
                         break;
                     case SDLK_3:
-                        set_cheat(3);
+                        set_cheat(FLAG_3);
                         break;
                     default:
                         break;

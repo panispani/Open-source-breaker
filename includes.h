@@ -19,10 +19,9 @@
 #include "sound.h"
 #include "levels.h"
 #include "palette.h"
-#include "controller.h"
 #include "game.h"
+#include "controller.h"
 #include "graphics.h"
-#include "cheat.h"
 #include "main.h"
 
 /*
@@ -52,6 +51,8 @@
 #define A_FLAG 0x1
 #define D_FLAG 0x2
 #define SPACE_FLAG 0x4
-
+#define FLAG_1 0x1
+#define FLAG_2 0x2
+#define FLAG_3 0x4
 
 #endif //__INCLUDES_H
