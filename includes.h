@@ -27,10 +27,10 @@
 /*
  * Useful Macros and defines
  */
-#define BRICKS_PER_LEVEL 270
+#define BRICKS_PER_LEVEL 468
 #define BRICK_WIDTH 25
 #define BRICK_HEIGHT 25
-#define BRICKS_PER_ROW 15
+#define BRICKS_PER_ROW 26
 #define BAR_R 0x12
 #define BAR_G 0xFA
 #define BAR_B 0xA4
