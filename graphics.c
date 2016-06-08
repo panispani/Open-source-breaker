@@ -128,7 +128,7 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
     uint8_t red, green, blue, alpha;
     get_rgba(colour, &red, &green, &blue, &alpha);
     SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
-    draw_filled_circle(x, y, radius);
+    draw_filled_circle(x + radius, y + radius, radius);
 }
 
 /*
