@@ -12,6 +12,7 @@
 #define BAR_SPEED_UP 20
 #define BAR_BOUNCE 0.5
 #define BALL_MAX_SPEED 10
+#define BAR_SLOWDOWN 1.6
 #define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2
 #define BRICK_Y_OFFSET gameheight / 14
 #define LOSE_Y_LIMIT bar->height
