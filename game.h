@@ -7,8 +7,8 @@ typedef enum game_state {
 } game_state_t;
 
 typedef enum {
-    NONE = 0;,VERTICAL = 1, HORIZONTAL = 2
-} orientation;
+    NONE = 0, VERTICAL = 1, HORIZONTAL = 2
+} collision_orientation;
 
 typedef struct {
     double x;

@@ -126,6 +126,8 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
             ball->direction.x *= -1;
             collisions++;
             break;
+        default: 
+            break;
     }
     return collisions;
 }
@@ -165,6 +167,8 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
                 case HORIZONTAL:
                     bricks[i] = 0x0;
                     ball->direction.x *= -1;
+                    break;
+                default: 
                     break;
             }
         }
