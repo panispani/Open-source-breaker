@@ -7,7 +7,7 @@ typedef enum game_state {
 } game_state_t;
 
 typedef enum {
-    VERTICAL = 1, HORIZONTAL = 2
+    NONE = 0;,VERTICAL = 1, HORIZONTAL = 2
 } orientation;
 
 typedef struct {
