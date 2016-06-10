@@ -122,6 +122,8 @@ void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text("BRICKBREAKER");
     SDL_Delay(2000);
+    render_text("Press A D to move");
+    SDL_Delay(2000);
     *game_state = START_GAME;
 }
 
