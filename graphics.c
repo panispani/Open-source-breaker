@@ -47,7 +47,7 @@ void initialise_graphics() {
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    font = TTF_OpenFont("display.ttf", 200);
+    font = TTF_OpenFont("display.ttf", 180);
     if (!font) {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
