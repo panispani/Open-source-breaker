@@ -2,6 +2,7 @@
 #define __MAIN_H
 
 void run();
+void play_start_title(void);
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
@@ -10,7 +11,7 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
-void restart_on_keypress();
+void restart_on_keypress(void);
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks);
 
 #endif

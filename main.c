@@ -21,10 +21,10 @@ void run() {
     int32_t bricks[BRICKS_PER_LEVEL];
     SDL_Event event;
     const uint8_t *keystate = SDL_GetKeyboardState(NULL);
+    play_start_title();
     while (running) {
         reset_controller();
-        reset_cheat();
-        
+        reset_cheat(); 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
@@ -48,6 +48,9 @@ void run() {
                             game_state = PLAY_GAME;
                         }
                         if (game_state == WAIT_FOR_RESTART) {
+                            game_state = START_GAME;
+                        }
+                        if (game_state == START_MENU) {
                             game_state = START_GAME;
                         }
                 }
@@ -113,6 +116,10 @@ void run() {
     }
 }
 
+void play_start_title(void) {
+    render_text("BRICKBREAKER");
+    SDL_Delay(2000);
+}
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     init_bar(bar);
     init_ball(ball);
@@ -120,15 +127,11 @@ void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 }
 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    render_text("BRICKBREAKER");
-    SDL_Delay(2000);
-    render_text("Press A D to move");
-    SDL_Delay(2000);
-    *game_state = START_GAME;
+    render_text_two_lines("Move with A, D", "PRESS ENTER TO CONTINUE");
 }
 
 /*
- * TODO: draw here
+ * TODO: comments
  */
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     update_bar(bar, get_controller_state());
@@ -182,7 +185,6 @@ void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *brick
     *game_state = WAIT_FOR_RESTART;
 }
 
-//TODO: CORRECT THIS
-void restart_on_keypress() {
+void restart_on_keypress(void) {
     render_text_two_lines("RESTART?", "PRESS ENTER TO CONTINUE");
 }
