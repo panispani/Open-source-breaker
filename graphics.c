@@ -153,6 +153,7 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
 
 /*
  * Draw a filled circle with center (x0, y0) and the given radius
+ * Midpoint circle algorithm
  */
 void draw_filled_circle(int32_t x0, int32_t y0, int32_t radius) {
     int32_t x = 0, y = radius;
@@ -201,41 +202,8 @@ void draw_pixel(SDL_Renderer* renderer, int32_t x, int32_t y) {
 }
 
 /*
- * Draw a line from (x0, y0) to (y0, y1)
+ * Used to render input text on screen on one line
  */
-void draw_line(SDL_Renderer* renderer, int32_t x0, int32_t y0, int32_t x1, int32_t y1) {
-    int32_t out = SDL_RenderDrawLine(renderer, x0, y0, x1, y1);
-    if (out) {
-        fprintf(stderr, "Error when drawing the line\n");
-        destroy_graphics();
-        exit(EXIT_FAILURE);
-    }
-}
-
-/*
- * Draw a filled circle using the
- * Midpoint circle algorithm
- */
-void draw_circle(int32_t x0, int32_t y0, int32_t radius) {
-     int32_t x = 0, y = radius;
-     int32_t dp = 1 - radius;
-     do {
-         if (dp < 0) {
-             dp = dp + 2 * (++x) + 3;
-         } else {
-             dp = dp + 2 * (++x) - 2 * (--y) + 5;
-         }
-         draw_pixel(renderer, x0 + x, y0 + y);
-         draw_pixel(renderer, x0 - x, y0 + y);
-         draw_pixel(renderer, x0 + x, y0 - y);
-         draw_pixel(renderer, x0 - x, y0 - y);
-         draw_pixel(renderer, x0 + y, y0 + x);
-         draw_pixel(renderer, x0 - y, y0 + x);
-         draw_pixel(renderer, x0 + y, y0 - x);
-         draw_pixel(renderer, x0 - y, y0 - x);
-     } while (x < y);
- }
-
 void render_text(const char *text) {
     SDL_Texture *texture;
     SDL_Color white = {255, 255, 255, 255};
@@ -252,6 +220,9 @@ void render_text(const char *text) {
     SDL_RenderPresent(renderer);
 }
 
+/*
+ * Used to render input text on screen on two lines
+ */
 void render_text_two_lines(const char *text1, const char *text2) {
     SDL_Texture *texture;
     SDL_Color white = {255, 255, 255, 255};

@@ -17,4 +17,5 @@ void destroy_graphics();
 void render_text(const char *text);
 void draw_background();
 void render_text_two_lines(const char *text1, const char *text2);
+
 #endif //__GRAPHICS_H
