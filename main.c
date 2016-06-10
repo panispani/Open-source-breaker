@@ -20,7 +20,7 @@ void run() {
     int32_t running = 1;
     int32_t bricks[BRICKS_PER_LEVEL];
     SDL_Event event;
-    uint8_t *keystate = SDL_GetKeyboardState(NULL);
+    const uint8_t *keystate = SDL_GetKeyboardState(NULL);
     while (running) {
         reset_controller();
         reset_cheat();
