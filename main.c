@@ -138,7 +138,7 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 }
 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    render_text("ENTER TO CONTINUE");
+    render_text_two_lines("GAME PAUSED", "PRESS ENTER TO CONTINUE");
 }
 
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
@@ -182,5 +182,5 @@ void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *brick
 
 //TODO: CORRECT THIS
 void restart_on_keypress() {
-    render_text("RESTART?");
+    render_text_two_lines("RESTART?", "PRESS ENTER TO CONTINUE");
 }

@@ -15,7 +15,7 @@ SDL_Window *window;
 SDL_DisplayMode DM;
 SDL_Renderer *renderer;
 TTF_Font *font;
-SDL_Texture *texture;
+TTF_Font *font_small;
 /*
  * Initialise screenwidth, height and open frame buffer device
  */
@@ -49,6 +49,11 @@ void initialise_graphics() {
     }
     font = TTF_OpenFont("display.ttf", 200);
     if (!font) {
+        fprintf(stderr, "Error loading the font");
+        exit(EXIT_FAILURE);
+    }
+    font_small = TTF_OpenFont("display.ttf", 100);
+    if (!font_small) {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
     }
@@ -232,6 +237,7 @@ void draw_circle(int32_t x0, int32_t y0, int32_t radius) {
  }
 
 void render_text(const char *text) {
+    SDL_Texture *texture;
     SDL_Color white = {255, 255, 255, 255};
     SDL_Surface *text_surface = TTF_RenderText_Solid(font, text, white);
     texture = SDL_CreateTextureFromSurface(renderer, text_surface);
@@ -244,4 +250,29 @@ void render_text(const char *text) {
     draw_background();
     SDL_RenderCopy(renderer, texture, NULL, &main_title);
     SDL_RenderPresent(renderer);
+}
+
+void render_text_two_lines(const char *text1, const char *text2) {
+    SDL_Texture *texture;
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text1, white);
+    texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+    SDL_FreeSurface(text_surface);
+    SDL_Rect main_title;
+    SDL_QueryTexture(texture, NULL, NULL, &main_title.w, &main_title.h);
+    main_title.x = (screenwidth - main_title.w) / 2;
+    main_title.y = screenheight / 2 - main_title.h;
+    text_surface = TTF_RenderText_Solid(font_small, text2, white);
+    SDL_Texture *texture2;
+    texture2 = SDL_CreateTextureFromSurface(renderer, text_surface);
+    SDL_FreeSurface(text_surface);
+    SDL_Rect sub_title;
+    SDL_QueryTexture(texture2, NULL, NULL, &sub_title.w, &sub_title.h);
+    sub_title.x = (screenwidth - sub_title.w) / 2;
+    sub_title.y = screenheight / 2;
+    SDL_RenderClear(renderer);
+    draw_background();
+    SDL_RenderCopy(renderer, texture, NULL, &main_title);
+    SDL_RenderCopy(renderer, texture2, NULL, &sub_title);
+    SDL_RenderPresent(renderer);    
 }
