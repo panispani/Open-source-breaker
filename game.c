@@ -2,7 +2,7 @@
 #define START_LIVES 3
 #define DEF_BAR_WIDTH 120
 #define DEF_BAR_Y (15 * gameheight / 16)
-#define DEF_BAR_X gamewidth / 2 + 20
+#define DEF_BAR_X (gamewidth / 2 + 20)
 #define DEF_BAR_HEIGHT 6
 #define DEF_BALL_RADIUS 4
 #define DEF_BALL_HEIGHT (2 * gameheight / 3)
@@ -14,7 +14,7 @@
 #define BALL_MAX_SPEED 10
 #define BAR_SLOWDOWN 1.25
 #define BRICK_X_OFFSET (gamewidth - BRICKS_PER_ROW * BRICK_WIDTH) / 2
-#define BRICK_Y_OFFSET gameheight / 14
+#define BRICK_Y_OFFSET (gameheight / 14)
 #define LOSE_Y_LIMIT bar->height
 
 void init_bar(bar_t *bar) {
@@ -144,11 +144,11 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     bar->direction.x = cram(bar->direction.x + input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
     bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
 
-    input = cram((controller_state & 0x8) - (controller_state & 0x10), -1, 1);
+    // input = cram((controller_state & 0x8) - (controller_state & 0x10), -1, 1);
 
-    bar->direction.y /= BAR_SLOWDOWN;
-    bar->direction.y = cram(bar->direction.y + input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
-    bar->position.y = cram(bar->position.y + bar->direction.y, 0, gameheight - bar->height);
+    // bar->direction.y /= BAR_SLOWDOWN;
+    // bar->direction.y = cram(bar->direction.y + input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
+    // bar->position.y = cram(bar->position.y + bar->direction.y, 0, gameheight - bar->height);
 }
 
 /*
