@@ -86,6 +86,8 @@ void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
  */
 void destroy_graphics() {
     TTF_CloseFont(font);
+    TTF_CloseFont(font_small);
+    TTF_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
