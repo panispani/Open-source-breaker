@@ -17,12 +17,18 @@
 #define BRICK_Y_OFFSET (gameheight / 14)
 #define LOSE_Y_LIMIT bar->height
 
+/*
+ * Initialise bar at the start of the game
+ */ 
 void init_bar(bar_t *bar) {
     reset_bar(bar);
     bar->level = 0;
     bar->lives = START_LIVES;
 }
 
+/*
+ * Update player and gamestate when he loses a life
+ */ 
 void lose_life(bar_t *bar, game_state_t *game_state) {
     bar->lives--;
     if(bar->lives == 0) {
@@ -32,6 +38,9 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
     }
 }
 
+/*
+ * Resets bar at the start of a level or when the player lost
+ */ 
 void reset_bar(bar_t *bar) {
     bar->position.x = DEF_BAR_X;
     bar->position.y = DEF_BAR_Y;
@@ -40,10 +49,16 @@ void reset_bar(bar_t *bar) {
     bar->height = DEF_BAR_HEIGHT;
 }
 
+/*
+ * Initialises ball at the start of the game
+ */ 
 void init_ball(ball_t *ball) {
     reset_ball(ball);
 }
 
+/*
+ * Resets ball at the start of a level or when the player lost
+ */ 
 void reset_ball(ball_t * ball) {
     ball->position.x = gamewidth / 2;
     ball->position.y = DEF_BALL_HEIGHT;
@@ -52,10 +67,10 @@ void reset_ball(ball_t * ball) {
     ball->diameter = 2 * DEF_BALL_RADIUS;
 }
 
-
 /*
- * Given left and right limits make sure x is not out of bounds,
- * if this is the case place it on the nearest bound
+ * Given left and right limits make sure the given x is 
+ * not out of bounds, if this is the case 
+ * place it on the nearest bound
  */
 double cram(double x, double left, double right) {
     if (left > right) {
@@ -66,6 +81,9 @@ double cram(double x, double left, double right) {
     return x < left ? left : (x > right ? right : x);
 }
 
+/*
+ * Returns minimum of the two input double numbers
+ */ 
 double min(double a, double b) {
     return a > b ? b : a;
 }
@@ -120,7 +138,8 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     switch(collision(ball, bar->position, bar->width, bar->height)) {
         case VERTICAL:
             ball->direction.y *= -1;
-            ball->direction.x = cram(ball->direction.x + bar->direction.x * BAR_BOUNCE, -BALL_MAX_SPEED, BALL_MAX_SPEED);
+            ball->direction.x = cram(ball->direction.x + bar->direction.x * BAR_BOUNCE,
+                    -BALL_MAX_SPEED, BALL_MAX_SPEED);
             collisions++;
             break;
         case HORIZONTAL:
@@ -135,7 +154,6 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
 
 /*
  * Update the bar position according to the buttons pressed
- * TODO: fire from the bar
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
     int input = cram((controller_state & 0x2) - (controller_state & 0x1), -1, 1);
@@ -143,19 +161,13 @@ void update_bar(bar_t *bar, int8_t controller_state) {
     bar->direction.x /= BAR_SLOWDOWN;
     bar->direction.x = cram(bar->direction.x + input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
     bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
-
-    // input = cram((controller_state & 0x8) - (controller_state & 0x10), -1, 1);
-
-    // bar->direction.y /= BAR_SLOWDOWN;
-    // bar->direction.y = cram(bar->direction.y + input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
-    // bar->position.y = cram(bar->position.y + bar->direction.y, 0, gameheight - bar->height);
 }
 
 /*
- *
+ * Updates bricks by checking for collisions with the ball
+ * The input ball should be already updated
  */
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
-    //check for collisions with bricks
     bool win_level = true;
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {

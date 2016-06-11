@@ -8,6 +8,7 @@
  * (starting from the bottom bit)
  */
 static int16_t controller;
+
 /*
  * cheat register that has the current keybinding pressed
  * used for finding possible cheat usage

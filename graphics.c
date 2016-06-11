@@ -6,18 +6,20 @@
 #define GREEN_POS 8
 #define BLUE_POS 0
 
-// 'global' variables to store screen info
-int32_t screenwidth;
-int32_t screenheight;
 int32_t gamewidth;
 int32_t gameheight;
-SDL_Window *window;
-SDL_DisplayMode DM;
-SDL_Renderer *renderer;
-TTF_Font *font;
-TTF_Font *font_small;
+static int32_t screenwidth;
+static int32_t screenheight;
+static SDL_Window *window;
+static SDL_DisplayMode DM;
+static SDL_Renderer *renderer;
+static TTF_Font *font;
+static TTF_Font *font_small;
+
 /*
- * Initialise screenwidth, height and open frame buffer device
+ * Initialise SDL for graphics and audio(for later use)
+ * also initialises sdl for text rendering
+ * Creates a window for tha game and a renderer
  */
 void initialise_graphics() {
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) { //audio for later
@@ -57,21 +59,24 @@ void initialise_graphics() {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
     }
-    // SDL_SetRenderDrawColor(renderer, 0x00, 0x0, 0x00, 1);
-    // SDL_RenderFillRect(renderer, NULL);
     screenwidth = gamewidth = DM.w;
     screenheight = gameheight = DM.h;
 }
 
+/*
+ * Draws background of game
+ */ 
 void draw_background() {
     SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderFillRect(renderer, NULL);
 }
 
+/*
+ * Refreshes the screen after a game second
+ */ 
 void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
     SDL_RenderClear(renderer);
     draw_background();
-    // background
     draw_game(bar, ball, bricks);
     SDL_RenderPresent(renderer);
 }
@@ -87,7 +92,7 @@ void destroy_graphics() {
 }
 
 /*
- * Get red green blue values to represent input colour
+ * Get red green blue values to represent input uint32_t colour
  */
 void get_rgba(uint32_t colour, uint8_t *red, uint8_t *green, uint8_t *blue, uint8_t* alpha) {
     *red = (colour & RED_FLAG) >> RED_POS;
@@ -112,7 +117,7 @@ void draw_bar(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t colo
 }
 
 /*
- * Draw a brick at start or when destroyed
+ * Draw a brick to the given position
  */
 void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t colour) {
     SDL_Rect brick;
@@ -127,7 +132,7 @@ void draw_brick(int32_t x, int32_t y, int32_t width, int32_t height, int32_t col
 }
 
 /*
- * Draw the ball to the background color or to its new position
+ * Draw the ball to the given position
  */
 void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
     uint8_t red, green, blue, alpha;
@@ -137,7 +142,7 @@ void draw_ball(int32_t x, int32_t y, int32_t radius, int32_t colour) {
 }
 
 /*
- * Draw the initial game, used ONLY there
+ * Draw the game, used at each game second
  */
 void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     draw_bar(bar->position.x, bar->position.y, bar->width, bar->height, BAR_COLOUR);

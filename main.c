@@ -1,5 +1,10 @@
 #include "includes.h"
 
+/*
+ * Initialisation of graphics, music, controller, levels
+ * and call to the function that runs the game. 
+ * Destroys game resources on exit
+ */ 
 int main(void) {
     initialise_graphics();
     initialise_music();
@@ -11,7 +16,9 @@ int main(void) {
 }
 
 /*
- * Run one game tick, call corresponding function depending on the game_state
+ * Run one game tick, 
+ * call corresponding function depending on the game_state
+ * Game Loop that repeats until player exits the game
  */
 void run() {
     game_state_t game_state = START_MENU;
@@ -117,22 +124,34 @@ void run() {
     }
 }
 
+/*
+ * Draws the start title
+ */ 
 void play_start_title(void) {
     render_text("BRICKBREAKER");
     SDL_Delay(2000);
 }
+
+/*
+ * Called to initialise tha bar, ball, bricks and draw the game
+ */ 
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     init_bar(bar);
     init_ball(ball);
     load_level(bar, ball, game_state, bricks);
 }
 
+/*
+ * Draws starting menu that explains the player controls
+ */ 
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text_two_lines("Move with A, D", "PRESS ENTER TO CONTINUE");
 }
 
 /*
- * TODO: comments
+ * Called to simulate a game second
+ * Updates ball, bar, bricks and calls appropriate functions
+ * to handle possible collisions
  */
 void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     update_bar(bar, get_controller_state());
@@ -143,10 +162,17 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     }
 }
 
+/*
+ * Paused screen
+ */ 
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text_two_lines("GAME PAUSED", "PRESS ENTER TO CONTINUE");
 }
 
+/* 
+ * Updates the player when he loses a life
+ * and displays to him the lives he has left
+ */ 
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     reset_bar(bar);
     reset_ball(ball);
@@ -161,17 +187,19 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     SDL_Delay(2000);
 }
 
+/*
+ * Loads bricks of level and calls function to draw the game
+ */ 
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     memcpy(bricks, bricks_level[bar->level], sizeof(int32_t) * BRICKS_PER_LEVEL);
     *game_state = PLAY_GAME;
     draw_game(bar, ball, bricks);
 }
 
-void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
-    draw_gameover_screen();
-    *game_state = WAIT_FOR_RESTART;
-}
-
+/*
+ * Displays the win level message and updates the bar, ball, bricks 
+ * for the next level
+ */ 
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text("LEVEL COMPLETE!");
     SDL_Delay(2000);
@@ -185,11 +213,25 @@ void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     load_level(bar, ball, game_state, bricks);
 }
 
+/*
+ * Displays the "win game" message
+ */ 
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_win_screen();
     *game_state = WAIT_FOR_RESTART;
 }
 
+/*
+ * Displays "game over" message and option to restart
+ */ 
+void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
+    draw_gameover_screen();
+    *game_state = WAIT_FOR_RESTART;
+}
+
+/*
+ * Displays message restart on keypress
+ */
 void restart_on_keypress(void) {
     render_text_two_lines("RESTART?", "PRESS ENTER TO CONTINUE");
 }
