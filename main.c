@@ -24,7 +24,8 @@ void run() {
     play_start_title();
     while (running) {
         reset_controller();
-        reset_cheat(); 
+        reset_cheat();
+
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0;
@@ -73,7 +74,7 @@ void run() {
         if (keystate[SDL_SCANCODE_P]) {
             set_cheat(FLAG_3);
         }
-        
+
         check_cheat(&game_state);
 
         switch (game_state) {
@@ -151,7 +152,11 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     reset_ball(ball);
     lose_life(bar, game_state);
     char prompt[20];
-    sprintf(prompt, "%d LIVES LEFT", bar->lives);
+    if (bar->lives != 1) {
+        sprintf(prompt, "%d LIVES LEFT", bar->lives);
+    } else {
+        sprintf(prompt, "1 LIFE LEFT");
+    }
     render_text(prompt);
     SDL_Delay(2000);
 }
