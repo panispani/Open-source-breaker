@@ -130,7 +130,7 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
     }
 
     //check if lost
-    if(ball->position.y + ball->diameter == gameheight) {
+    if(ball->position.y + ball->diameter >= gameheight) {
         *game_state = LOSE_GAME;
         return 0;
     }
@@ -169,7 +169,6 @@ void update_bar(bar_t *bar, int8_t controller_state) {
  */
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     bool win_level = true;
-    uint8_t powerup_type = 0;
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
             win_level = false;           

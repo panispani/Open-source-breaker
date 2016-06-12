@@ -43,5 +43,6 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state);
 void lose_life(bar_t *bar, game_state_t *game_state);
 double cram(double x, double left, double right);
 vector2D_t corner_of_brick(int n);
+collision_orientation collision(ball_t *ball, vector2D_t other, double width, double height);
 
 #endif // __GAME_H

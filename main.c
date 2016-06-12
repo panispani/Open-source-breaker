@@ -157,7 +157,7 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     update_bar(bar, get_controller_state());
     int collision = update_ball(ball, bar, game_state);
     update_bricks(ball, bricks, game_state);
-    update_powerups(bar);
+    update_powerups(bar, ball);
     if(collision) {
         play_collision_sound();
     }
