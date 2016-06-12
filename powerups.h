@@ -2,7 +2,7 @@
 #define __POWERUPS_H
 
 extern ball_t powerup;
-extern uint8_t powerup_colour;
+extern uint32_t powerup_colour;
 
 void update_powerups(bar_t *bar, ball_t *ball);
 void ask_for_powerup(vector2D_t point);

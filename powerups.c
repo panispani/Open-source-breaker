@@ -18,7 +18,7 @@
  * Powerup defaults
  */ 
 #define DEF_POWERUP_DY 3
-#define DEF_POWERUP_DIAMETER 3
+#define DEF_POWERUP_DIAMETER 6
 /*
  * POWERUP GAINS
  */ 
@@ -40,7 +40,7 @@ static uint8_t current_powerup = NO_POWERUP;
  * current powerup and it's colour
  */ 
 ball_t powerup;
-uint8_t powerup_colour;
+uint32_t powerup_colour;
 
 /*
  * Initialise powerup on start of game
