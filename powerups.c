@@ -59,12 +59,12 @@ void gain_powerup(bar_t *bar, ball_t *ball) {
             bar->width += BAR_GAIN;
             break;
         case SLOWER_BALL:
-            ball->direction.x = BALL_MIN_SPEED;
-            ball->direction.y = BALL_MIN_SPEED;
+            ball->direction.x /= 2; 
+            ball->direction.y /= 2; 
             break;
         case FASTER_BALL:
-            ball->direction.x = BALL_MAX_SPEED;
-            ball->direction.y = BALL_MAX_SPEED;
+            ball->direction.x *= 2;
+            ball->direction.y *= 2;
             break;
         case BIGGER_BALL:
             ball->diameter = 2 * ball->diameter;
