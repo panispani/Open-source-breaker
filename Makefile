@@ -2,7 +2,7 @@ CC           = gcc
 CFLAGS       = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -pedantic
 SDL_CFLAGS   = $(shell sdl2-config --libs --cflags)
 SDL_LDFLAGS  = $(shell sdl2-config --libs)
-main_objects = main.o controller.o game.o graphics.o levels.o palette.o sound.o
+main_objects = main.o controller.o game.o powerups.o graphics.o levels.o palette.o sound.o
 
 .SUFFIXES: .c .o
 

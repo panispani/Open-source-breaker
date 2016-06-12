@@ -22,6 +22,7 @@
 #include "game.h"
 #include "controller.h"
 #include "graphics.h"
+#include "powerups.h"
 #include "main.h"
 
 /*

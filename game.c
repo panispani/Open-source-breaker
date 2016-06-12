@@ -169,16 +169,19 @@ void update_bar(bar_t *bar, int8_t controller_state) {
  */
 void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     bool win_level = true;
+    uint8_t powerup_type = 0;
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
             win_level = false;           
             switch(collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
                 case VERTICAL:
                     bricks[i] = 0x0;
+                    ask_for_powerup(); 
                     ball->direction.y *= -1;
                     break;
                 case HORIZONTAL:
                     bricks[i] = 0x0;
+                    ask_for_powerup();
                     ball->direction.x *= -1;
                     break;
                 default: 
@@ -186,6 +189,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             }
         }
     }
+    give_any_powerup();
     if (win_level) {
         *game_state = WIN_LEVEL;
     }
