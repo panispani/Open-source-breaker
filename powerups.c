@@ -29,7 +29,7 @@
 /*
  * powerup to be inserted in game
  */ 
-static uint8_t powerup_type = NO_POWERUP;
+static uint8_t next_powerup = NO_POWERUP;
 
 /*
  * Powerup type currently in the game
@@ -54,7 +54,7 @@ void init_powerup(void) {
  * Update player bar, ball according to powerup
  */ 
 void gain_powerup(bar_t *bar, ball_t *ball) {
-    switch(powerup_type) {
+    switch(current_powerup) {
         case BIGGER_BAR:
             bar->width += BAR_GAIN;
             break;
@@ -84,7 +84,7 @@ void update_powerups(bar_t *bar, ball_t *ball) {
     powerup.position.y += powerup.direction.y;
     if(collision(&powerup, bar->position, bar->width, bar->height)) {
         gain_powerup(bar, ball);
-        //current_powerup = NO_POWERUP;
+        current_powerup = NO_POWERUP;
     } else if(powerup.position.y + powerup.diameter >= gameheight) {
         current_powerup = NO_POWERUP;
     }
@@ -99,8 +99,8 @@ void ask_for_powerup(vector2D_t point) {
      if(current_powerup != NO_POWERUP) {
         return;
     }
-    powerup_type = rand() % POWERUPS;
-    switch(powerup_type) {
+    next_powerup = rand() % POWERUPS;
+    switch(next_powerup) {
         case BIGGER_BAR:
         case SLOWER_BALL:
         case FASTER_BALL:
@@ -119,7 +119,7 @@ void ask_for_powerup(vector2D_t point) {
  * Create a powerup if it was gained before
  */
 void give_any_powerup(void) {
-    switch(powerup_type) {
+    switch(next_powerup) {
         case BIGGER_BAR:
             powerup_colour = palette[RED];
             current_powerup = BIGGER_BAR;
@@ -141,7 +141,7 @@ void give_any_powerup(void) {
             current_powerup = SMALLER_BALL;
             break;
     }
-    powerup_type = NO_POWERUP;
+    next_powerup = NO_POWERUP;
 }
 
 /*
@@ -156,5 +156,5 @@ bool is_powerup(void) {
  */ 
 void reset_powerup(void) {
     current_powerup = NO_POWERUP;
-    powerup_type = NO_POWERUP;   
+    next_powerup = NO_POWERUP;   
 }
