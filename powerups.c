@@ -15,9 +15,10 @@
 #define BIGGER_BALL 12
 #define SMALLER_BALL 14
 /*
- * Powerup speeds
+ * Powerup defaults
  */ 
-#define POWERUP_DY 3
+#define DEF_POWERUP_DY 3
+#define DEF_POWERUP_DIAMETER 3
 /*
  * POWERUP GAINS
  */ 
@@ -31,15 +32,15 @@
 static uint8_t powerup_type = NO_POWERUP;
 
 /*
- * Powerup currently in the game
+ * Powerup type currently in the game
  */ 
 static uint8_t current_powerup = NO_POWERUP;
 
 /*
- * Powerups represented by a ball
+ * current powerup and it's colour
  */ 
-static ball_t powerup;
-
+ball_t powerup;
+uint8_t powerup_colour;
 
 /*
  * Update player bar, ball according to powerup
@@ -84,29 +85,60 @@ void update_powerups(bar_t *bar, ball_t *ball) {
 /*
  * Randomly assigns a powerup. 10 / 15 powerups are dummy
  * so there is a 1 / 3 chance of getting a powerup
+ * Given point is the point of creation
  */ 
-void ask_for_powerup() {
+void ask_for_powerup(vector2D_t point) {
     powerup_type = rand() % POWERUPS;
+    switch(powerup_type) {
+        case BIGGER_BAR:
+        case SLOWER_BALL:
+        case FASTER_BALL:
+        case BIGGER_BALL:
+        case SMALLER_BALL:
+            powerup.position.x = point.x;
+            powerup.position.y = point.y;
+            powerup.direction.x = 0;
+            powerup.direction.y = DEF_POWERUP_DY;
+            powerup.diameter = 2 * DEF_POWERUP_DIAMETER;
+            break;
+    }
 }
 
-//TODO:
+/*
+ * Create a powerup if it was gained before
+ */
 void give_any_powerup() {
     if(current_powerup != NO_POWERUP) {
         return;
     }
     switch(powerup_type) {
         case BIGGER_BAR:
+            powerup_colour = palette[3];
+            current_powerup = BIGGER_BAR;
             break;
         case SLOWER_BALL:
+            powerup_colour = palette[4];
+            current_powerup = SLOWER_BALL;
             break;
         case FASTER_BALL:
+            powerup_colour = palette[5];
+            current_powerup = FASTER_BALL;
             break;
         case BIGGER_BALL:
+            powerup_colour = palette[6];
+            current_powerup = BIGGER_BALL;
             break;
         case SMALLER_BALL:
+            powerup_colour = palette[7];
+            current_powerup = SMALLER_BALL;
             break;
     }
     powerup_type = NO_POWERUP;
 }
 
-//TODO draw powerups
+/*
+ * Returns true if there is a powerup
+ */ 
+bool is_powerup() {
+    return current_powerup != NO_POWERUP;
+}

@@ -2,9 +2,9 @@
 
 /*
  * Initialisation of graphics, music, controller, levels
- * and call to the function that runs the game. 
+ * and call to the function that runs the game.
  * Destroys game resources on exit
- */ 
+ */
 int main(void) {
     initialise_graphics();
     initialise_music();
@@ -16,7 +16,7 @@ int main(void) {
 }
 
 /*
- * Run one game tick, 
+ * Run one game tick,
  * call corresponding function depending on the game_state
  * Game Loop that repeats until player exits the game
  */
@@ -126,7 +126,7 @@ void run() {
 
 /*
  * Draws the start title
- */ 
+ */
 void play_start_title(void) {
     render_text("BRICKBREAKER");
     SDL_Delay(2000);
@@ -134,7 +134,7 @@ void play_start_title(void) {
 
 /*
  * Called to initialise tha bar, ball, bricks and draw the game
- */ 
+ */
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     init_bar(bar);
     init_ball(ball);
@@ -143,7 +143,7 @@ void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 
 /*
  * Draws starting menu that explains the player controls
- */ 
+ */
 void start_menu(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text_two_lines("Move with A, D", "PRESS ENTER TO CONTINUE");
 }
@@ -165,15 +165,15 @@ void play_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 
 /*
  * Paused screen
- */ 
+ */
 void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text_two_lines("GAME PAUSED", "PRESS ENTER TO CONTINUE");
 }
 
-/* 
+/*
  * Updates the player when he loses a life
  * and displays to him the lives he has left
- */ 
+ */
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     reset_bar(bar);
     reset_ball(ball);
@@ -190,7 +190,7 @@ void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 
 /*
  * Loads bricks of level and calls function to draw the game
- */ 
+ */
 void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     memcpy(bricks, bricks_level[bar->level], sizeof(int32_t) * BRICKS_PER_LEVEL);
     *game_state = PLAY_GAME;
@@ -198,9 +198,9 @@ void load_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bri
 }
 
 /*
- * Displays the win level message and updates the bar, ball, bricks 
+ * Displays the win level message and updates the bar, ball, bricks
  * for the next level
- */ 
+ */
 void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     render_text("LEVEL COMPLETE!");
     SDL_Delay(2000);
@@ -216,7 +216,7 @@ void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
 
 /*
  * Displays the "win game" message
- */ 
+ */
 void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_win_screen();
     *game_state = WAIT_FOR_RESTART;
@@ -224,7 +224,7 @@ void win_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *brick
 
 /*
  * Displays "game over" message and option to restart
- */ 
+ */
 void game_over(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     draw_gameover_screen();
     *game_state = WAIT_FOR_RESTART;

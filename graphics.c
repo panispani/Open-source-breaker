@@ -155,6 +155,10 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
                 palette[bricks[i]]);
         }
     }
+    if(is_powerup()) {
+        //draw powerup
+        draw_ball(powerup.position.x, powerup.position.y, powerup.diameter / 2, powerup_colour); 
+    }
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
 }
 

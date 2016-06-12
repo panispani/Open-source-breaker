@@ -175,12 +175,12 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
             switch(collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
                 case VERTICAL:
                     bricks[i] = 0x0;
-                    ask_for_powerup(); 
+                    ask_for_powerup(corner_of_brick(i)); 
                     ball->direction.y *= -1;
                     break;
                 case HORIZONTAL:
                     bricks[i] = 0x0;
-                    ask_for_powerup();
+                    ask_for_powerup(corner_of_brick(i));
                     ball->direction.x *= -1;
                     break;
                 default: 
