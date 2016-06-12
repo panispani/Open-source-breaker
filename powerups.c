@@ -96,6 +96,9 @@ void update_powerups(bar_t *bar, ball_t *ball) {
  * Given point is the point of creation
  */ 
 void ask_for_powerup(vector2D_t point) {
+     if(current_powerup != NO_POWERUP) {
+        return;
+    }
     powerup_type = rand() % POWERUPS;
     switch(powerup_type) {
         case BIGGER_BAR:
@@ -116,9 +119,6 @@ void ask_for_powerup(vector2D_t point) {
  * Create a powerup if it was gained before
  */
 void give_any_powerup(void) {
-    if(current_powerup != NO_POWERUP) {
-        return;
-    }
     switch(powerup_type) {
         case BIGGER_BAR:
             powerup_colour = palette[RED];
