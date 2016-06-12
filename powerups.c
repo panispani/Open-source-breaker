@@ -142,3 +142,11 @@ void give_any_powerup() {
 bool is_powerup() {
     return current_powerup != NO_POWERUP;
 }
+
+/*
+ * Resets powerup for start of a level
+ */ 
+void reset_powerup(void) {
+    current_powerup = NO_POWERUP;
+    powerup_type = NO_POWERUP;   
+}

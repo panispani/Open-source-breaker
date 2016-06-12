@@ -177,6 +177,7 @@ void pause_screen(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *b
 void lose_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     reset_bar(bar);
     reset_ball(ball);
+    reset_powerup();
     lose_life(bar, game_state);
     char prompt[20];
     if (bar->lives != 1) {
