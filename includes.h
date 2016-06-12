@@ -12,6 +12,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+#include <time.h>
 
 /*
  * Header files
@@ -55,5 +56,11 @@
 #define FLAG_1 0x1
 #define FLAG_2 0x2
 #define FLAG_3 0x4
+/* PALETTE INDICES */
+#define RED 11 
+#define BLUE 13
+#define YELLOW 14
+#define GREEN 12
+#define PURPLE 15
 
 #endif //__INCLUDES_H

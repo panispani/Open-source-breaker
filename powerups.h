@@ -9,5 +9,6 @@ void ask_for_powerup(vector2D_t point);
 void give_any_powerup(void);
 bool is_powerup(void);
 void reset_powerup(void);
+void init_powerup(void);
 
 #endif // __POWERUPS_H

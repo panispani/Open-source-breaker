@@ -43,6 +43,14 @@ ball_t powerup;
 uint8_t powerup_colour;
 
 /*
+ * Initialise powerup on start of game
+ */  
+void init_powerup(void) {
+    srand(time(NULL));
+    reset_powerup();
+}
+
+/*
  * Update player bar, ball according to powerup
  */ 
 void gain_powerup(bar_t *bar, ball_t *ball) {
@@ -76,7 +84,7 @@ void update_powerups(bar_t *bar, ball_t *ball) {
     powerup.position.y += powerup.direction.y;
     if(collision(&powerup, bar->position, bar->width, bar->height)) {
         gain_powerup(bar, ball);
-        current_powerup = NO_POWERUP;
+        //current_powerup = NO_POWERUP;
     } else if(powerup.position.y + powerup.diameter >= gameheight) {
         current_powerup = NO_POWERUP;
     }
@@ -107,29 +115,29 @@ void ask_for_powerup(vector2D_t point) {
 /*
  * Create a powerup if it was gained before
  */
-void give_any_powerup() {
+void give_any_powerup(void) {
     if(current_powerup != NO_POWERUP) {
         return;
     }
     switch(powerup_type) {
         case BIGGER_BAR:
-            powerup_colour = palette[3];
+            powerup_colour = palette[RED];
             current_powerup = BIGGER_BAR;
             break;
         case SLOWER_BALL:
-            powerup_colour = palette[4];
+            powerup_colour = palette[BLUE];
             current_powerup = SLOWER_BALL;
             break;
         case FASTER_BALL:
-            powerup_colour = palette[5];
+            powerup_colour = palette[YELLOW];
             current_powerup = FASTER_BALL;
             break;
         case BIGGER_BALL:
-            powerup_colour = palette[6];
+            powerup_colour = palette[GREEN];
             current_powerup = BIGGER_BALL;
             break;
         case SMALLER_BALL:
-            powerup_colour = palette[7];
+            powerup_colour = palette[PURPLE];
             current_powerup = SMALLER_BALL;
             break;
     }
@@ -139,7 +147,7 @@ void give_any_powerup() {
 /*
  * Returns true if there is a powerup
  */ 
-bool is_powerup() {
+bool is_powerup(void) {
     return current_powerup != NO_POWERUP;
 }
 

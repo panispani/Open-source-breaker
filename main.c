@@ -138,6 +138,7 @@ void play_start_title(void) {
 void start_game(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bricks) {
     init_bar(bar);
     init_ball(ball);
+    init_powerup();
     load_level(bar, ball, game_state, bricks);
 }
 
