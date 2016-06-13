@@ -29,6 +29,7 @@
 /*
  * Useful Macros and defines
  */
+#define START_LIVES 3
 #define BRICKS_PER_LEVEL 572
 #define BRICK_WIDTH 25
 #define BRICK_HEIGHT 25

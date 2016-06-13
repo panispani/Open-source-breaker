@@ -208,6 +208,7 @@ void win_level(bar_t *bar, ball_t *ball, game_state_t *game_state, int32_t *bric
     SDL_Delay(2000);
     bar->level = bar->level + 1;
     reset_bar(bar);
+    bar->lives = START_LIVES;
     reset_ball(ball);
     if (bar->level == LEVELS) {
         *game_state = WIN_GAME;

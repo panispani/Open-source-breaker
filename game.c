@@ -1,5 +1,4 @@
 #include "includes.h"
-#define START_LIVES 3
 #define DEF_BAR_WIDTH 120
 #define DEF_BAR_Y (15 * gameheight / 16)
 #define DEF_BAR_X (gamewidth / 2 + 20)
