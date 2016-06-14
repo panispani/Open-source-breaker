@@ -36,11 +36,9 @@ void initialise_graphics() {
         exit(EXIT_FAILURE);
     }
     SDL_GetCurrentDisplayMode(0, &DM);
-    screenwidth = DM.w;
-    screenheight = DM.h;
-    gamewidth = is_pi ? PI_W : DM.w;
-    gameheight = is_pi ? PI_H : DM.h;
-    brickwidth = is_pi ? 18 : 25;
+    screenwidth = gamewidth = is_pi ? PI_W : DM.w;
+    screenheight = gameheight = is_pi ? PI_H : DM.h;
+    brickwidth = is_pi ? 10 : 25;
     brickheight = brickwidth;
     uint32_t window_flags = is_pi ? 
         SDL_WINDOW_OPENGL : (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS);
