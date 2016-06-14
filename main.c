@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
     is_pi = argc > 1 && !strcmp(argv[1], "pi");
 
     initialise_graphics();
-    initialise_music();
+    //initialise_music();
     initialise_levels();
     initialise_controller();
     run();

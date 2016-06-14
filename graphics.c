@@ -38,8 +38,8 @@ void initialise_graphics() {
     screenheight = DM.h;
     gamewidth = is_pi ? PI_W : DM.w;
     gameheight = is_pi ? PI_H : DM.h;
-    int8_t window_flags = is_pi ? 
-        SDL_WINDOW_OPENGL : SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS;
+    uint32_t window_flags = is_pi ? 
+        SDL_WINDOW_OPENGL : (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS);
     window = SDL_CreateWindow(
             "OPENSOURCE BREAKER",
             SDL_WINDOWPOS_CENTERED,
@@ -58,13 +58,13 @@ void initialise_graphics() {
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    int8_t font_size = is_pi ? 30 : 180;
+    uint32_t font_size = is_pi ? 30 : 180;
     font = TTF_OpenFont("display.ttf", font_size);
     if (!font) {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
     }
-    int8_t font_small_size = is_pi ? 20 : 100;
+    uint32_t font_small_size = is_pi ? 20 : 100;
     font_small = TTF_OpenFont("display.ttf", font_small_size);
     if (!font_small) {
         fprintf(stderr, "Error loading the font");
