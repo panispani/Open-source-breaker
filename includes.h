@@ -29,10 +29,12 @@
 /*
  * Useful Macros and defines
  */
+#define START_LIVES 3
 #define BRICKS_PER_LEVEL 572
 #define BRICK_WIDTH 25
 #define BRICK_HEIGHT 25
 #define BRICKS_PER_ROW 26
+#define DEF_BALL_RADIUS 4
 #define BAR_R 0x12
 #define BAR_G 0xFA
 #define BAR_B 0xA4

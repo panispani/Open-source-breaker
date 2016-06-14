@@ -19,12 +19,8 @@
  */ 
 #define DEF_POWERUP_DY 3
 #define DEF_POWERUP_DIAMETER 6
-/*
- * POWERUP GAINS
- */ 
-#define BAR_GAIN 5
-#define BALL_MAX_SPEED 10
-#define BALL_MIN_SPEED 2
+#define MAX_BALL_DIAMETER 2 * (2 * DEF_BALL_RADIUS)
+#define MIN_BALL_DIAMETER (2 * DEF_BALL_RADIUS) / 2
 
 /*
  * powerup to be inserted in game
@@ -56,21 +52,31 @@ void init_powerup(void) {
 void gain_powerup(bar_t *bar, ball_t *ball) {
     switch(current_powerup) {
         case BIGGER_BAR:
-            bar->width += BAR_GAIN;
+            if(4 * bar->width < gamewidth) {
+                bar->width *= 2;
+            }
             break;
         case SLOWER_BALL:
-            ball->direction.x /= 2; 
-            ball->direction.y /= 2; 
+            if(ball->direction.x > 2 && ball->direction.y > 2) {
+                ball->direction.x /= 2; 
+                ball->direction.y /= 2; 
+            }
             break;
         case FASTER_BALL:
-            ball->direction.x *= 2;
-            ball->direction.y *= 2;
+            if(ball->direction.x <= 10 && ball->direction.y <= 10) {
+                ball->direction.x *= 2;
+                ball->direction.y *= 2;
+            }
             break;
         case BIGGER_BALL:
-            ball->diameter = 2 * ball->diameter;
+            if(ball->diameter <= MAX_BALL_DIAMETER) {
+                ball->diameter = 2 * ball->diameter;
+            }
             break;
         case SMALLER_BALL:
-            ball->diameter = ball->diameter / 2;
+            if(ball->diameter >= MIN_BALL_DIAMETER) {
+                ball->diameter = ball->diameter / 2;
+            }
             break;
     }
 }
