@@ -11,6 +11,8 @@
 int8_t is_pi;
 int32_t gamewidth;
 int32_t gameheight;
+int32_t brickwidth;
+int32_t brickheight;
 static int32_t screenwidth;
 static int32_t screenheight;
 static SDL_Window *window;
@@ -38,6 +40,8 @@ void initialise_graphics() {
     screenheight = DM.h;
     gamewidth = is_pi ? PI_W : DM.w;
     gameheight = is_pi ? PI_H : DM.h;
+    brickwidth = is_pi ? 18 : 25;
+    brickheight = brickwidth;
     uint32_t window_flags = is_pi ? 
         SDL_WINDOW_OPENGL : (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS);
     window = SDL_CreateWindow(

@@ -3,6 +3,8 @@
 
 extern int32_t gamewidth;
 extern int32_t gameheight;
+extern int32_t brickwidth;
+extern int32_t brickheight;
 extern int8_t is_pi;
 
 void initialise_graphics();
