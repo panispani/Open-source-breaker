@@ -3,6 +3,7 @@
 
 extern int32_t gamewidth;
 extern int32_t gameheight;
+extern int8_t is_pi;
 
 void initialise_graphics();
 void refresh_screen();

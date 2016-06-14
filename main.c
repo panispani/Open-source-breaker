@@ -5,7 +5,10 @@
  * and call to the function that runs the game.
  * Destroys game resources on exit
  */
-int main(void) {
+int main(int argc, char **argv) {
+    // command line argument pi, to run on pi
+    is_pi = argc > 1 && !strcmp(argv[1], "pi");
+
     initialise_graphics();
     initialise_music();
     initialise_levels();

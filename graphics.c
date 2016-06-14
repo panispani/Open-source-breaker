@@ -5,7 +5,10 @@
 #define RED_POS 16
 #define GREEN_POS 8
 #define BLUE_POS 0
+#define PI_W 320 
+#define PI_H 240
 
+int8_t is_pi;
 int32_t gamewidth;
 int32_t gameheight;
 static int32_t screenwidth;
@@ -31,13 +34,19 @@ void initialise_graphics() {
         exit(EXIT_FAILURE);
     }
     SDL_GetCurrentDisplayMode(0, &DM);
+    screenwidth = DM.w;
+    screenheight = DM.h;
+    gamewidth = is_pi ? PI_W : DM.w;
+    gameheight = is_pi ? PI_H : DM.h;
+    int8_t window_flags = is_pi ? 
+        SDL_WINDOW_OPENGL : SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS;
     window = SDL_CreateWindow(
             "OPENSOURCE BREAKER",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            DM.w,
-            DM.h,
-            SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS
+            gamewidth,
+            gameheight,
+            window_flags
     );
     if(window == NULL) {
         fprintf(stderr, "Could not create window %s\n", SDL_GetError());
@@ -49,18 +58,18 @@ void initialise_graphics() {
         fprintf(stderr, "Error in creating renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    font = TTF_OpenFont("display.ttf", 180);
+    int8_t font_size = is_pi ? 30 : 180;
+    font = TTF_OpenFont("display.ttf", font_size);
     if (!font) {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
     }
-    font_small = TTF_OpenFont("display.ttf", 100);
+    int8_t font_small_size = is_pi ? 20 : 100;
+    font_small = TTF_OpenFont("display.ttf", font_small_size);
     if (!font_small) {
         fprintf(stderr, "Error loading the font");
         exit(EXIT_FAILURE);
     }
-    screenwidth = gamewidth = DM.w;
-    screenheight = gameheight = DM.h;
 }
 
 /*
