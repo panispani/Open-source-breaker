@@ -134,5 +134,5 @@ void initialise_levels() {
     memcpy(bricks_level[1], level2, sizeof(int32_t) * BRICKS_PER_LEVEL);
     memcpy(bricks_level[2], level3, sizeof(int32_t) * BRICKS_PER_LEVEL);
     memcpy(bricks_level[3], level4, sizeof(int32_t) * BRICKS_PER_LEVEL);
-    memcpy(bricks_level[4], level5, sizeof(int32_t) * BRICKS_PER_LEVEL);
+    //memcpy(bricks_level[4], level5, sizeof(int32_t) * BRICKS_PER_LEVEL);
 }
