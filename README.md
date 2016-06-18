@@ -25,11 +25,17 @@ Fangyi Zhou
 - Github [@thomasfangyi](https://github.com/thomasfangyi)
 
 Mihai Vanea
-- Github [@](https://github.com/)
+- Github [@mihaivanea](https://github.com/mihaivanea)
  
 Peter Kovary
-- Github [@](https://github.com/)
+- Github [@faboor](https://github.com/faboor)
 
 ### Credits
-The background music used in the game was found in freemusicarchive.org   
-The song name is Mister Drey - First date.
+The background music used in the game was found in [freemusicarchive.org](https://freemusicarchive.org)   
+The song name is Mister Drey - First date
+
+### Screenshots
+![alt text](https://raw.githubusercontent.com/panpan2/Open-source-breaker/master/images/level1.png)
+![alt text](https://raw.githubusercontent.com/panpan2/Open-source-breaker/master/images/level2.png)
+![alt text](https://raw.githubusercontent.com/panpan2/Open-source-breaker/master/images/level3.png)
+![alt text](https://raw.githubusercontent.com/panpan2/Open-source-breaker/master/images/level4.png)
