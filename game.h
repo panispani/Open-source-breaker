@@ -19,6 +19,7 @@ typedef struct {
     vector2D_t position;
     vector2D_t direction;
     double diameter;
+    bool is_wrecking_ball;
 } ball_t;
 
 typedef struct {

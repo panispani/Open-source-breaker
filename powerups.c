@@ -11,6 +11,7 @@
 #define NO_POWERUP 0
 #define BIGGER_BAR 3
 #define SLOWER_BALL 6
+#define WRECKING_BALL 7
 #define FASTER_BALL 9
 #define BIGGER_BALL 12
 #define SMALLER_BALL 14
@@ -78,6 +79,8 @@ void gain_powerup(bar_t *bar, ball_t *ball) {
                 ball->diameter = ball->diameter / 2;
             }
             break;
+        case WRECKING_BALL:
+            ball->is_wrecking_ball = true;
     }
 }
 
@@ -112,6 +115,7 @@ void ask_for_powerup(vector2D_t point) {
         case FASTER_BALL:
         case BIGGER_BALL:
         case SMALLER_BALL:
+        case WRECKING_BALL:
             powerup.position.x = point.x;
             powerup.position.y = point.y;
             powerup.direction.x = 0;

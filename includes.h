@@ -64,5 +64,6 @@
 #define YELLOW 14
 #define GREEN 12
 #define PURPLE 15
+#define WHITE 7
 
 #endif //__INCLUDES_H
