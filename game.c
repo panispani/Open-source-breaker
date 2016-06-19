@@ -18,7 +18,7 @@
 
 /*
  * Initialise bar at the start of the game
- */ 
+ */
 void init_bar(bar_t *bar) {
     reset_bar(bar);
     bar->level = 0;
@@ -27,7 +27,7 @@ void init_bar(bar_t *bar) {
 
 /*
  * Update player and gamestate when he loses a life
- */ 
+ */
 void lose_life(bar_t *bar, game_state_t *game_state) {
     bar->lives--;
     if(bar->lives == 0) {
@@ -39,7 +39,7 @@ void lose_life(bar_t *bar, game_state_t *game_state) {
 
 /*
  * Resets bar at the start of a level or when the player lost
- */ 
+ */
 void reset_bar(bar_t *bar) {
     bar->position.x = DEF_BAR_X;
     bar->position.y = DEF_BAR_Y;
@@ -50,14 +50,14 @@ void reset_bar(bar_t *bar) {
 
 /*
  * Initialises ball at the start of the game
- */ 
+ */
 void init_ball(ball_t *ball) {
     reset_ball(ball);
 }
 
 /*
  * Resets ball at the start of a level or when the player lost
- */ 
+ */
 void reset_ball(ball_t * ball) {
     ball->position.x = gamewidth / 2;
     ball->position.y = DEF_BALL_HEIGHT;
@@ -68,8 +68,8 @@ void reset_ball(ball_t * ball) {
 }
 
 /*
- * Given left and right limits make sure the given x is 
- * not out of bounds, if this is the case 
+ * Given left and right limits make sure the given x is
+ * not out of bounds, if this is the case
  * place it on the nearest bound
  */
 double cram(double x, double left, double right) {
@@ -83,7 +83,7 @@ double cram(double x, double left, double right) {
 
 /*
  * Returns minimum of the two input double numbers
- */ 
+ */
 double min(double a, double b) {
     return a > b ? b : a;
 }
@@ -146,7 +146,7 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
             ball->direction.x *= -1;
             collisions++;
             break;
-        default: 
+        default:
             break;
     }
     return collisions;
@@ -157,7 +157,7 @@ int update_ball(ball_t *ball, bar_t *bar, game_state_t *game_state) {
  */
 void update_bar(bar_t *bar, int8_t controller_state) {
     int input = cram((controller_state & 0x2) - (controller_state & 0x1), -1, 1);
-    
+
     bar->direction.x /= BAR_SLOWDOWN;
     bar->direction.x = cram(bar->direction.x + input * BAR_SPEED_UP, -BAR_MAX_SPEED, BAR_MAX_SPEED);
     bar->position.x = cram(bar->position.x + bar->direction.x, 0, gamewidth - bar->width);
@@ -171,11 +171,11 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
     bool win_level = true;
     for(int i = 0; i < BRICKS_PER_LEVEL; i++) {
         if(bricks[i]) {
-            win_level = false;           
+            win_level = false;
             switch(collision(ball, corner_of_brick(i), BRICK_WIDTH, BRICK_HEIGHT)) {
                 case VERTICAL:
                     bricks[i] = 0x0;
-                    ask_for_powerup(corner_of_brick(i)); 
+                    ask_for_powerup(corner_of_brick(i));
                     if (!ball->is_wrecking_ball) {
                         ball->direction.y *= -1;
                     }
@@ -187,7 +187,7 @@ void update_bricks(ball_t *ball, int32_t *bricks, game_state_t *game_state) {
                         ball->direction.x *= -1;
                     }
                     break;
-                default: 
+                default:
                     break;
             }
         }

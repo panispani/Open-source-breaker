@@ -6,10 +6,10 @@ static Mix_Music *background_music = NULL;
 static Mix_Chunk *bounce_sound = NULL;
 
 /*
- * Initialises the Mixer and loads the background music 
+ * Initialises the Mixer and loads the background music
  * and bouncing sound
  * Prints appropriate messages in case of error
- */ 
+ */
 void initialise_music() {
     if(Mix_OpenAudio(SOUND_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         fprintf(stderr, "SDL_mixer could not initialize!");
@@ -26,16 +26,16 @@ void initialise_music() {
     if(bounce_sound == NULL) {
         fprintf(stderr, "Failed to load bounce sound");
         exit(EXIT_FAILURE);
-    } 
+    }
 }
 
 /*
  * Frees any memory associated for the music
- */ 
+ */
 void destroy_music() {
     //Free sound effects
     Mix_FreeChunk(bounce_sound);
-    bounce_sound = NULL; 
+    bounce_sound = NULL;
     //Free music
     Mix_FreeMusic(background_music);
     background_music = NULL;
@@ -45,7 +45,7 @@ void destroy_music() {
 
 /*
  * Plays the collision bouncing sound
- */ 
+ */
 void play_collision_sound() {
     Mix_PlayChannel(-1, bounce_sound, 0);
 }

@@ -5,7 +5,7 @@
 #define RED_POS 16
 #define GREEN_POS 8
 #define BLUE_POS 0
-#define PI_W 320 
+#define PI_W 320
 #define PI_H 240
 
 int8_t is_pi;
@@ -40,7 +40,7 @@ void initialise_graphics() {
     screenheight = gameheight = is_pi ? PI_H : DM.h;
     brickwidth = is_pi ? 10 : 25;
     brickheight = brickwidth;
-    uint32_t window_flags = is_pi ? 
+    uint32_t window_flags = is_pi ?
         SDL_WINDOW_OPENGL : (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS);
     window = SDL_CreateWindow(
             "OPENSOURCE BREAKER",
@@ -76,7 +76,7 @@ void initialise_graphics() {
 
 /*
  * Draws background of game
- */ 
+ */
 void draw_background() {
     SDL_SetRenderDrawColor(renderer, BACK_R, BACK_G, BACK_B, BACK_A);
     SDL_RenderFillRect(renderer, NULL);
@@ -84,7 +84,7 @@ void draw_background() {
 
 /*
  * Refreshes the screen after a game second
- */ 
+ */
 void refresh_screen(bar_t *bar, ball_t *ball, int32_t *bricks) {
     SDL_RenderClear(renderer);
     draw_background();
@@ -168,7 +168,7 @@ void draw_game(bar_t *bar, ball_t *ball, int32_t *bricks) {
     }
     if(is_powerup()) {
         //draw powerup
-        draw_ball(powerup.position.x, powerup.position.y, powerup.diameter / 2, powerup_colour); 
+        draw_ball(powerup.position.x, powerup.position.y, powerup.diameter / 2, powerup_colour);
     }
     draw_ball(ball->position.x, ball->position.y, ball->diameter / 2, BALL_COLOUR);
 }
@@ -267,5 +267,5 @@ void render_text_two_lines(const char *text1, const char *text2) {
     draw_background();
     SDL_RenderCopy(renderer, texture, NULL, &main_title);
     SDL_RenderCopy(renderer, texture2, NULL, &sub_title);
-    SDL_RenderPresent(renderer);    
+    SDL_RenderPresent(renderer);
 }
