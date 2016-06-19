@@ -13,6 +13,8 @@ main: $(main_objects)
 
 $(main_objects): includes.h
 
+includes.h: main.h controller.h game.h powerups.h graphics.h levels.h palette.h sound.h
+
 .c.o:
 	$(CC) $(CFLAGS)  -c $<
 
