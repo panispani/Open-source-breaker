@@ -100,12 +100,23 @@ void update_powerups(bar_t *bar, ball_t *ball) {
 }
 
 /*
+ * Creates a powerup at the given point
+ */
+void create_powerup(vector2D_t point) {
+    powerup.position.x = point.x;
+    powerup.position.y = point.y;
+    powerup.direction.x = 0;
+    powerup.direction.y = DEF_POWERUP_DY;
+    powerup.diameter = 2 * DEF_POWERUP_DIAMETER;
+}
+
+/*
  * Randomly assigns a powerup. 10 / 15 powerups are dummy
  * so there is a 1 / 3 chance of getting a powerup
  * Given point is the point of creation
  */
 void ask_for_powerup(vector2D_t point) {
-     if(current_powerup != NO_POWERUP) {
+    if(current_powerup != NO_POWERUP) {
         return;
     }
     next_powerup = rand() % POWERUPS;
@@ -115,13 +126,18 @@ void ask_for_powerup(vector2D_t point) {
         case FASTER_BALL:
         case BIGGER_BALL:
         case SMALLER_BALL:
-        case WRECKING_BALL:
-            powerup.position.x = point.x;
-            powerup.position.y = point.y;
-            powerup.direction.x = 0;
-            powerup.direction.y = DEF_POWERUP_DY;
-            powerup.diameter = 2 * DEF_POWERUP_DIAMETER;
+            create_powerup(point);
             break;
+        case WRECKING_BALL:
+            if (rand() % 3 != 1) {
+                next_powerup = rand() % POWERUPS;
+                if(next_powerup == WRECKING_BALL) {
+                    next_powerup++; //avoid infinite loop
+                } 
+                ask_for_powerup(point);
+            } else {
+                create_powerup(point);
+            }
     }
 }
 
