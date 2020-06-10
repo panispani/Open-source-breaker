@@ -22,7 +22,7 @@ Panayiotis Panayiotou
 - Github [@panpan2](https://github.com/panpan2)
 
 Fangyi Zhou
-- Github [@thomasfangyi](https://github.com/thomasfangyi)
+- Github [@fangyi-zhou](https://github.com/fangyi-zhou)
 
 Mihai Vanea
 - Github [@mihaivanea](https://github.com/mihaivanea)
